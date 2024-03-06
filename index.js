@@ -1,3 +1,11 @@
-console.log("KlimPI is online!");
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync('certificates/key.pem', 'utf8');
+var certificate = fs.readFileSync('certificates/cert.pem', 'utf8');
 
-while(true){}
+var credentials = {key: privateKey, cert: certificate};
+var express = require('express');
+var app = express();
+
+console.log("KlimPI is online!");
