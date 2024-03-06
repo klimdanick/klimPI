@@ -31,7 +31,7 @@ app.get('/quote', (req, res) => {
 });
 
 app.get('/quoteBoek', (req, res) => {
-	res.send("<h1>quoteboek</h1>");
+	res.sendFile(path.join(__dirname, '/index.html'));
 });
 
 function writeJsonFile(file, content) {
