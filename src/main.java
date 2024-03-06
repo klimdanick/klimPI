@@ -2,7 +2,7 @@
 public class main {
 
 	public static void main(String[] args) {
-		System.out.println("KlimPI");
+		System.out.println("KlimPI is working");
 	}
 
 }
