@@ -1,14 +1,26 @@
-var fs = require('fs');
-var http = require('http');
+const express = require('express')
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json()
+const app = express()
+const port = 443
+const exec = require('child_process').exec;
+const execFile = require('child_process').execFile;
+
+app.post('/post', jsonParser, (req, res) => {
+	console.log(req.body);
+}) 
+
+app.get('/', (req, res) => {
+	res.send("Hello World!");
+});
+
 var https = require('https');
-var privateKey  = fs.readFileSync('certificates/key.pem', 'utf8');
-var certificate = fs.readFileSync('certificates/cert.pem', 'utf8');
+var fs = require('fs');
 
-var credentials = {key: privateKey, cert: certificate};
-var express = require('express');
-var app = express();
-const port = 8080;
+var https_options = {
+	key: fs.readFileSync("/certs/private.key"),
+	cert: fs.readFileSync("/certs/certificate.crt"),
+	ca: [fs.readFileSync('/certs/ca_bundle.crt')] 
+};
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.listen(port, () => console.log(`KlimPI is online! \n at http://localhost:${port}`))
+https.createServer(https_options, app).listen(port)
