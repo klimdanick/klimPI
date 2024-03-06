@@ -8,6 +8,7 @@ const execFile = require('child_process').execFile;
 var https = require('https');
 var fs = require('fs');
 var quotes = readJsonFile("quotes.json")["quotes"];
+const path = require('path');
 
 var https_options = {
 	key: fs.readFileSync("/certs/private.key"),
