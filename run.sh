@@ -1,5 +1,5 @@
 git reset --hard
-git pull
+git pull origin main
 echo "ready to build!"
 npm i
 npm start
