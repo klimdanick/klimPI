@@ -8,6 +8,7 @@ const execFile = require('child_process').execFile;
 
 app.post('/quote', jsonParser, (req, res) => {
 	console.log(req.body);
+	res.send("");
 }) 
 
 app.get('/quote', (req, res) => {
