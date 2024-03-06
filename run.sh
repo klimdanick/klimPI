@@ -1,4 +1,4 @@
-git fetch
+git reset --hard
 git pull
 echo "ready to build!"
 npm i
