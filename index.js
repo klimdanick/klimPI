@@ -5,11 +5,9 @@ const app = express()
 const port = 443
 const exec = require('child_process').exec;
 const execFile = require('child_process').execFile;
-
-var quotes = readJsonFile("quotes.json")["quotes"];
-
 var https = require('https');
 var fs = require('fs');
+var quotes = readJsonFile("quotes.json")["quotes"];
 
 var https_options = {
 	key: fs.readFileSync("/certs/private.key"),
