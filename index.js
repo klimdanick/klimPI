@@ -24,3 +24,5 @@ var https_options = {
 };
 
 https.createServer(https_options, app).listen(port)
+
+console.log("KlimPI is online!");
