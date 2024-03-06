@@ -10,7 +10,7 @@ var quotes = readJsonFile("quotes.json")["quotes"];
 app.post('/quote', jsonParser, (req, res) => {
 	console.log(req.body.auteur + ": " + req.body.quote);
 	quotes.push(req.body);
-	writeJsonFile("quotes.json", {"quotes": quotes);
+	writeJsonFile("quotes.json", {"quotes": quotes});
 	res.send("");
 }) 
 
