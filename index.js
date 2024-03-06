@@ -5,7 +5,21 @@ const app = express()
 const port = 443
 const exec = require('child_process').exec;
 const execFile = require('child_process').execFile;
+
 var quotes = readJsonFile("quotes.json")["quotes"];
+
+var https = require('https');
+var fs = require('fs');
+
+var https_options = {
+	key: fs.readFileSync("/certs/private.key"),
+	cert: fs.readFileSync("/certs/certificate.crt"),
+	ca: [fs.readFileSync('/certs/ca_bundle.crt')] 
+};
+
+https.createServer(https_options, app).listen(port)
+
+console.log("KlimPI is online!");
 
 app.post('/quote', jsonParser, (req, res) => {
 	console.log(req.body.auteur + ": " + req.body.quote);
@@ -33,16 +47,3 @@ function readJsonFile(file) {
     let data = JSON.parse(stData)
     return data
 }
-
-var https = require('https');
-var fs = require('fs');
-
-var https_options = {
-	key: fs.readFileSync("/certs/private.key"),
-	cert: fs.readFileSync("/certs/certificate.crt"),
-	ca: [fs.readFileSync('/certs/ca_bundle.crt')] 
-};
-
-https.createServer(https_options, app).listen(port)
-
-console.log("KlimPI is online!");
