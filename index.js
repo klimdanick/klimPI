@@ -6,12 +6,16 @@ const port = 443
 const exec = require('child_process').exec;
 const execFile = require('child_process').execFile;
 
-app.post('/post', jsonParser, (req, res) => {
+app.post('/quote', jsonParser, (req, res) => {
 	console.log(req.body);
 }) 
 
-app.get('/', (req, res) => {
-	res.send("Hello World!");
+app.get('/quote', (req, res) => {
+	res.send("quote");
+});
+
+app.get('/quoteBoek', (req, res) => {
+	res.send("<h1>quoteboek</h1>");
 });
 
 var https = require('https');
