@@ -2,6 +2,7 @@ const express = require('express')
 var bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
 const app = express()
+require("dotenv").config()
 const port = process.env.PORT
 const exec = require('child_process').exec;
 const execFile = require('child_process').execFile;
@@ -50,7 +51,6 @@ function readJsonFile(file) {
 
 const Discord = require("discord.js")
 const client = new Discord.Client()
-require("dotenv").config()
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`)
