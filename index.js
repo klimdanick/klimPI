@@ -2,7 +2,7 @@ const express = require('express')
 var bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
 const app = express()
-const port = 443
+const port = process.env.PORT
 const exec = require('child_process').exec;
 const execFile = require('child_process').execFile;
 var https = require('https');
@@ -46,3 +46,20 @@ function readJsonFile(file) {
     let data = JSON.parse(stData)
     return data
 }
+
+
+const Discord = require("discord.js")
+const client = new Discord.Client()
+require("dotenv").config()
+
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}!`)
+})
+
+client.on("message", msg => {
+  if (msg.content === "ping") {
+    msg.reply("pong");
+  }
+})
+
+client.login(process.env.TOKEN)
