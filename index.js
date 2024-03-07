@@ -49,17 +49,22 @@ function readJsonFile(file) {
 }
 
 
-const Discord = require("discord.js")
-const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.Guilds, Discord.GatewayIntentBits.GuildMessages]});
+const { Client, Intents } = require('discord.js');
 
-client.on("ready", () => {
-  console.log(`Logged in as ${client.user.tag}!`)
-})
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
-client.on("message", msg => {
-  if (msg.content === "ping") {
-    msg.reply("pong");
-  }
-})
+client.once('ready', () => {
+    console.log('Bot is ready!');
+});
+
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
+
+    const { commandName } = interaction;
+
+    if (commandName === 'test') {
+        interaction.reply('Test successful!');
+    }
+});
 
 client.login(process.env.TOKEN)
