@@ -51,7 +51,7 @@ function readJsonFile(file) {
 
 const { Client, GatewayIntentBits } = require('discord.js');
 
-const client = new Client({ intents: [GatewayIntentBits.FLAGS.GUILDS, GatewayIntentBits.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [GatewayIntentBits.GUILDS, GatewayIntentBits.GUILD_MESSAGES] });
 
 client.once('ready', () => {
     console.log('Bot is ready!');
