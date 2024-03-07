@@ -1,4 +1,2 @@
-print("mila is dom")
-
 while True:
-    pass
+    print("mila is dom")
