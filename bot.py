@@ -4,29 +4,38 @@ config.read('config.cfg')
 token = config['bot']['token']
 import discord
 from discord.ext import commands
+import datetime as dt
+import random
 
-intents = discord.Intents.default()
-intents.messages = True
+last_accessed_date = None
+current_string = None
+bot = commands.Bot(command_prefix='$', intents=discord.Intents.all())
+bot.intents.message_content = True
 
-bot = commands.Bot(command_prefix='$', intents=intents)
 
 @bot.event
 async def on_ready():
     await bot.tree.sync()
-    print(f'We have logged in as {bot.user}')
-    
-
+    print(f'Logged on as {bot.user}!')
 
 @bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
+async def on_message(message: discord.message.Message):
+    if message.content.startswith("/") and not message.author == bot.user:
+        await message.channel.send(daily_quote())
+          
 
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
+def daily_quote():
+    global last_accessed_date, current_string
 
-@bot.tree.command(name="test",description="test")
-async def slash_command(interaction:discord.Interaction):
-    await interaction.response.send_message("Hello World!")
+    # vervang door json shit
+    quote_list = ["Soep is vlees thee", "Hoort zeeland bij nederland?", "Mag je neet?", "Een zomer maakt nog geen zwaluw"]
+    current_date = dt.datetime.now().date()
+
+    if last_accessed_date is None or last_accessed_date < current_date:
+        current_string = random.choice(quote_list)
+        last_accessed_date = current_date
+    
+    return current_string
+
 
 bot.run(token)
