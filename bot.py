@@ -37,5 +37,5 @@ def daily_quote():
     
     return current_string
 
-
+print(f'Starting bot!')
 bot.run(token)
