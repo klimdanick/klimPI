@@ -6,6 +6,10 @@ npm i
 lsof -ti:443 | xargs kill
 pkill python3
 
+timestamp=$(date +%s)
+
+mv nohup.out '$timestamp.out'
+
 nohup npm start &
 nohup python3 bot.py &
 
