@@ -33,7 +33,7 @@ def daily_quote():
     result = json.loads(x.text)
     
     # vervang door json shit
-    quote_list = ["Soep is vlees thee", "Hoort zeeland bij nederland?", "Mag je neet?", "Een zomer maakt nog geen zwaluw"]
+    quote_list = []
     
     for quote_obj in result:
         quote_list.append(quote_obj["quote"])
