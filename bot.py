@@ -7,6 +7,8 @@ from discord.ext import commands
 import datetime as dt
 import random
 
+import requests
+
 last_accessed_date = None
 current_string = None
 bot = commands.Bot(command_prefix='$', intents=discord.Intents.all())
@@ -26,7 +28,8 @@ async def on_message(message: discord.message.Message):
 
 def daily_quote():
     global last_accessed_date, current_string
-
+    x = requests.get('https://vps.klimdanick.nl/quote')
+    print(x.status_code)
     # vervang door json shit
     quote_list = ["Soep is vlees thee", "Hoort zeeland bij nederland?", "Mag je neet?", "Een zomer maakt nog geen zwaluw"]
     current_date = dt.datetime.now().date()
