@@ -24,14 +24,22 @@ async def on_ready():
 async def on_message(message: discord.message.Message):
     if message.content.startswith("/") and not message.author == bot.user:
         await message.channel.send(daily_quote())
-          
+    
+import json    
 
 def daily_quote():
     global last_accessed_date, current_string
     x = requests.get('https://vps.klimdanick.nl/quote')
-    print(x.status_code)
+    result = json.loads(x.text)
+    
     # vervang door json shit
     quote_list = ["Soep is vlees thee", "Hoort zeeland bij nederland?", "Mag je neet?", "Een zomer maakt nog geen zwaluw"]
+    
+    for quote_obj in result:
+        quote_list.append(quote_obj["quote"])
+    
+    print(quote_list)
+    
     current_date = dt.datetime.now().date()
 
     if last_accessed_date is None or last_accessed_date < current_date:
