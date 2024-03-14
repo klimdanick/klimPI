@@ -49,8 +49,8 @@ async def quote(interaction):
 async def addQuote(interaction, quote: str, auteur: str):
     print(quote)
     print(auteur)
-    pload = {'quote':quote, 'auteur':auteur}
-    requests.post('https://vps.klimdanick.nl/quote', data=pload)
+    pload = {"quote":quote, "auteur":auteur}
+    requests.post('https://vps.klimdanick.nl/quote', json=pload)
     await interaction.response.send_message("added quote!")
     
 @client.event
