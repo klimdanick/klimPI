@@ -41,7 +41,7 @@ app.get('/quote', (req, res) => {
 		metadata["currentQuote"] = currentQuote;
 		writeJsonFile("quotes.json", {"quotes": quotes, "metadata": metadata});
 	}
-	res.send(currentQuote);
+	res.send(metadata["currentQuote"]);
 });
 
 function writeJsonFile(file, content) {
