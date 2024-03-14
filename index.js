@@ -9,6 +9,7 @@ const execFile = require('child_process').execFile;
 var https = require('https');
 var fs = require('fs');
 var quotes = readJsonFile("quotes.json")["quotes"];
+var metadata = readJsonFile("quotes.json")["metadata"];
 const path = require('path');
 
 var https_options = {
@@ -24,16 +25,23 @@ console.log("KlimPI is online!");
 app.post('/quote', jsonParser, (req, res) => {
 	console.log(req.body.auteur + ": " + req.body.quote);
 	quotes.push(req.body);
-	writeJsonFile("quotes.json", {"quotes": quotes});
+	writeJsonFile("quotes.json", {"quotes": quotes, "metadata": metadata});
 	res.send("");
 }) 
 
 app.get('/quote', (req, res) => {
-	res.send(quotes);
-});
-
-app.get('/quoteBoek', (req, res) => {
-	res.sendFile(path.join(__dirname, '/index.html'));
+	let date = new Date();
+	let dateString = date.getYear() + "-" + date.getMonth() + "-" + date.getDate();
+	if (metadata["dateString"] != dateString) {
+		metadata["dateString"] = dateString;
+		let currentQuote;
+		do {
+			currentQuote = quotes[Math.floor(Math.random() * quotes.length)];
+		} while(currentQuote == metadata["currentQuote"]);
+		metadata["currentQuote"] = currentQuote;
+		writeJsonFile("quotes.json", {"quotes": quotes, "metadata": metadata});
+	}
+	res.send(currentQuote);
 });
 
 function writeJsonFile(file, content) {
