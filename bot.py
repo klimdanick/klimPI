@@ -27,8 +27,7 @@ def daily_quote():
     global last_accessed_date, current_string
     x = requests.get('https://vps.klimdanick.nl/quote')
     result = json.loads(x.text)
-    print(x.text)
-    return x.text
+    return result["quote"] + " -" + result["auteur"]
 
 # Add the guild ids in which the slash command will appear.
 # If it should be in all, remove the argument, but note that
