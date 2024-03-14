@@ -49,7 +49,9 @@ async def quote(interaction):
 async def addQuote(interaction, quote: str, auteur: str):
     print(quote)
     print(auteur)
-    await interaction.response.send_message(daily_quote())
+    pload = {'quote':quote, 'auteur':auteur}
+r = requests.post('https://vps.klimdanick.nl/quote', data=pload)
+    await interaction.response.send_message("added quote!")
     
 @client.event
 async def on_ready():
