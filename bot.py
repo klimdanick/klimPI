@@ -27,22 +27,8 @@ def daily_quote():
     global last_accessed_date, current_string
     x = requests.get('https://vps.klimdanick.nl/quote')
     result = json.loads(x.text)
-    
-    # vervang door json shit
-    quote_list = []
-    
-    for quote_obj in result:
-        quote_list.append(quote_obj["quote"])
-    
-    print(quote_list)
-    
-    current_date = dt.datetime.now().date()
-
-    if last_accessed_date is None or last_accessed_date < current_date:
-        current_string = random.choice(quote_list)
-        last_accessed_date = current_date
-    
-    return current_string
+    print(x.text)
+    return x.text
 
 # Add the guild ids in which the slash command will appear.
 # If it should be in all, remove the argument, but note that
