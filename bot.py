@@ -3,6 +3,7 @@ from configparser import ConfigParser
 config = ConfigParser()
 config.read('config.cfg')
 token = config['bot']['token']
+guildId = config['bot']['guildId']
 
 
 # imports
@@ -36,7 +37,7 @@ def daily_quote():
 @tree.command(
     name="quote",
     description="The daily quote!",
-    guild=discord.Object(id=585546274816917552)
+    guild=discord.Object(id=guildId)
 )
 async def quote(interaction):
     await interaction.response.send_message(daily_quote())
@@ -44,7 +45,7 @@ async def quote(interaction):
 @tree.command(
     name="add_quote",
     description="Add a new quote",
-    guild=discord.Object(id=585546274816917552)
+    guild=discord.Object(id=guildId)
 )
 async def addQuote(interaction, quote: str, auteur: str):
     print(quote)
@@ -55,7 +56,7 @@ async def addQuote(interaction, quote: str, auteur: str):
     
 @client.event
 async def on_ready():
-    await tree.sync(guild=discord.Object(id="585546274816917552"))
+    await tree.sync(guild=discord.Object(id=guildId))
     print("Ready!")
 
 # run the bot
