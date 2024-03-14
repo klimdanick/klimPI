@@ -26,7 +26,7 @@ app.post('/quote', jsonParser, (req, res) => {
 	console.log(req.body.auteur + ": " + req.body.quote);
 	quotes.push(req.body);
 	writeJsonFile("quotes.json", {"quotes": quotes, "metadata": metadata});
-	res.send("");
+	res.send("done!");
 }) 
 
 app.get('/quote', (req, res) => {
