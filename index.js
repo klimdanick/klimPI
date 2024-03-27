@@ -30,8 +30,9 @@ app.post('/quote', jsonParser, (req, res) => {
 }) 
 
 app.get('/quote', (req, res) => {
-	let date = new Date();
-	let dateString = date.getYear() + "-" + date.getMonth() + "-" + date.getDate();
+	const dateString = new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' }).slice(0, 10);
+//	let dateString = date.toISOString().slice(0,10);
+	console.log(dateString);
 	if (metadata["dateString"] != dateString) {
 		metadata["dateString"] = dateString;
 		let currentQuote;
