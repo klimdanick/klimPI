@@ -56,3 +56,18 @@ function readJsonFile(file) {
     let data = JSON.parse(stData)
     return data
 }
+
+
+const { exec } = require("child_process");
+exec("python3 bot.py", (error, data, getter) => {
+	if(error){
+		console.log("error",error.message);
+		return;
+	}
+	if(getter){
+		console.log("data",data);
+		return;
+	}
+	console.log("data",data);
+
+});
