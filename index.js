@@ -57,8 +57,6 @@ function readJsonFile(file) {
     return data
 }
 
-
-const { exec } = require("child_process");
 exec("python3 bot.py", (error, data, getter) => {
 	if(error){
 		console.log("error",error.message);

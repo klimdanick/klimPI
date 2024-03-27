@@ -10,6 +10,6 @@ timestamp=$(date +%s)
 
 mv nohup.out '$timestamp.out'
 
-nohup npm start & python3 bot.py &
+nohup npm start &
 
 tail -f nohup.out
