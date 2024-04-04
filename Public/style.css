@@ -88,3 +88,40 @@ h1 {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+
+.process-list {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height : 80%;
+	bottom: 0;
+	width: 100%;
+}
+
+.process{
+	background-color: 050A0F;
+	width: 20em;
+	height: 15em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 10% 10%;
+}
+
+.process-title {
+	font-weight: bold;
+}
+
+.process-status {
+	color: #05d993;
+}
+
+.process-toggle {
+	color: white;
+	background-color: #d0b747;
+	padding: 8px;
+	line-height: 0.7em;
+	border-radius: 8px;
+}
