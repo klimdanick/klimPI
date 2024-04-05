@@ -92,36 +92,43 @@ h1 {
 
 .process-list {
 	position: absolute;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-columns: 33% 33% 33%;
+	grid-template-rows: 50% 50%;
 	height : 80%;
 	bottom: 0;
 	width: 100%;
+	place-items: center;
 }
 
 .process{
-	background-color: 050A0F;
+	background-color: #152a3d;
 	width: 20em;
 	height: 15em;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	border-radius: 10% 10%;
+	margin: 1%;
 }
 
 .process-title {
 	font-weight: bold;
 }
 
-.process-status {
-	color: #05d993;
-}
-
 .process-toggle {
 	color: white;
-	background-color: #d0b747;
 	padding: 8px;
 	line-height: 0.7em;
 	border-radius: 8px;
+}
+
+.Running {
+	background-color: #c40f43;
+}
+
+.Stopped {
+	background-color: #05d993;
 }
