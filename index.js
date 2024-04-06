@@ -2,6 +2,8 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 
+const { exec } = require('child_process');
+
 const https = require('https');
 const app = express();
 const options = {
@@ -12,9 +14,22 @@ const options = {
 const server = https.createServer(options, app);
 server.listen(443, () => {
   console.log('HTTPS server running on port 443');
+  exec('ls', {cwd: "/home/steam/assetto/"}, (error, stdout, stderr) => {
+		if (error) {
+		console.error(`error: ${error.message}`);
+		return;
+	  }
+
+	  if (stderr) {
+		console.error(`stderr: ${stderr}`);
+		return;
+	  }
+
+	  console.log(`stdout:\n${stdout}`);
+	});
 });
 
-app.use(express.static(path.join(__dirname, 'Public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.get("/server", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/server.html'));
 })
