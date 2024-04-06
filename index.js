@@ -14,7 +14,7 @@ server.listen(443, () => {
   console.log('HTTPS server running on port 443');
 });
 
-app.use(express.static(path.join(__dirname, 'Public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.get("/server", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/server.html'));
 })
