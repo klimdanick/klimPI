@@ -14,19 +14,6 @@ const options = {
 const server = https.createServer(options, app);
 server.listen(443, () => {
   console.log('HTTPS server running on port 443');
-  exec('ls', {cwd: "/home/steam/assetto/"}, (error, stdout, stderr) => {
-		if (error) {
-		console.error(`error: ${error.message}`);
-		return;
-	  }
-
-	  if (stderr) {
-		console.error(`stderr: ${stderr}`);
-		return;
-	  }
-
-	  console.log(`stdout:\n${stdout}`);
-	});
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,3 +23,17 @@ app.get("/server", function (req, res, next) {
 app.get("*", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/404.html'));
 })
+
+exec('./acServer', {cwd: "/home/steam/assetto/"}, (error, stdout, stderr) => {
+	if (error) {
+		console.error(`error: ${error.message}`);
+		return;
+	}
+
+	if (stderr) {
+		console.error(`stderr: ${stderr}`);
+		return;
+	}
+
+	console.log(`stdout:\n${stdout}`);
+});
