@@ -24,14 +24,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get("/server", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/server.html'));
 })
-app.get("/start:Id", function (req, res, next) {
+app.get("/start/:Id", function (req, res, next) {
 	P[req.params.Id].Run();
 	res.send("started");
 })
-app.get("/getStatus:Id", function (req, res, next) {
+app.get("/getStatus/:Id", function (req, res, next) {
 	res.send(P[req.params.Id].Status);
 })
-app.get("/stop:Id", function (req, res, next) {
+app.get("/stop/:Id", function (req, res, next) {
 	P[req.params.Id].Stop();
 	res.send("stopped");
 })/*

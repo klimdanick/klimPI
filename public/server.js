@@ -7,7 +7,7 @@ class Process {
 	
 	async update() {
 		
-		let response = await fetch("https://vps.klimdanick.nl/getStatus?Id="+this.Id);
+		let response = await fetch("https://vps.klimdanick.nl/getStatus/"+this.Id);
 		this.Status = await response.text();
 		//this.Status = Status;
 		this.Element = document.createElement("div");
@@ -50,10 +50,10 @@ class Process {
 	
 	async toggle() {
 		if (this.Status == "Running") {
-			let response = await fetch("https://vps.klimdanick.nl/stop?Id="+this.Id);
+			let response = await fetch("https://vps.klimdanick.nl/stop/"+this.Id);
 			console.log(response);
 		} else {
-			let response = await fetch("https://vps.klimdanick.nl/start?Id="+this.Id);
+			let response = await fetch("https://vps.klimdanick.nl/start/"+this.Id);
 			console.log(response);
 		}
 		update();
