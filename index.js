@@ -1,3 +1,6 @@
+// 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
+
+
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
@@ -57,7 +60,7 @@ class Process{
 		
 	}
 	
-	function Run() {
+	Run() {
 		this.pros = exec.spawn(this.Command, [], {cwd: this.Directory});
 	}
 }
