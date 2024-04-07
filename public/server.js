@@ -1,7 +1,15 @@
 class Process {
-	constructor(Name, Status) {
+	constructor(Name, Id) {
 		this.Name = Name;
-		this.Status = Status;
+		this.Id= Id;
+		this.update();
+	}
+	
+	update() {
+		
+		await fetch("https://vps.klimdanick.nl/getStatus").then(response => {this.Status = response}).catch(error => {});
+		
+		//this.Status = Status;
 		this.Element = document.createElement("div");
 		this.Element.classList.add("process");
 		let title = document.createElement("div");
@@ -42,9 +50,17 @@ class Process {
 
 let Processes = [];
 window.onload = function() {
-  Processes.push(new Process("Assetto Corsa Server", "Running"));
+  Processes.push(new Process("Assetto Corsa Server", 0));
+  /*
   Processes.push(new Process("QuoteBot", "Stopped"));
   Processes.push(new Process("Viking Server", "Stopped"));
   Processes.push(new Process("QuoteApi", "Stopped"));
   Processes.push(new Process("E2 Bot", "Stopped"));
+  */
 };
+
+function update() {
+	Processes.forEach((item, index)=>{
+		item.update();
+	})
+}

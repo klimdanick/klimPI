@@ -64,6 +64,7 @@ class Process{
 		this.Command = Command;
 		this.out = "";
 		P[Id] = this;
+		this.Status = "Stopped";
 	}
 	
 	Run() {
