@@ -45,6 +45,7 @@ class Process {
 			Button.classList.add("Stopped");
 		}
 		this.Element.appendChild(Button);
+		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
 	}
 }
 
@@ -60,6 +61,7 @@ window.onload = function() {
 };
 
 function update() {
+	document.documentElement.getElementsByClassName("process-list")[0].innerHTML = "";
 	Processes.forEach((item, index)=>{
 		item.update();
 	})
