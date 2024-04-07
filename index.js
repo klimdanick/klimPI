@@ -20,10 +20,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get("/server", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/server.html'));
 })
+app.get("/startP", function (req, res, next) {
+	//res.sendFile(path.join(__dirname + '/public/404.html'));
+	P.push(new Process("Assetto", 0, "/home/steam/assetto/", './acServer'));
+	P.Run();
+	res.send("started");
+})
 app.get("*", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/404.html'));
 })
 
+/*
 exec('./acServer', {cwd: "/home/steam/assetto/"}, (error, stdout, stderr) => {
 	if (error) {
 		console.error(`error: ${error.message}`);
@@ -37,3 +44,22 @@ exec('./acServer', {cwd: "/home/steam/assetto/"}, (error, stdout, stderr) => {
 
 	console.log(`stdout:\n${stdout}`);
 });
+*/
+
+
+class Process{
+	constructor(Name, Id, Directory, Command) {
+		this.Name = Name;
+		this.Id = Id;
+		this.Directory = Directory;
+		this.Command = Command;
+		this.out = "";
+		
+	}
+	
+	function Run() {
+		this.pros = exec.spawn(this.Command, [], {cwd: this.Directory});
+	}
+}
+
+let P = [];
