@@ -7,7 +7,7 @@ class Process {
 	
 	update() {
 		
-		await fetch("https://vps.klimdanick.nl/getStatus").then(response => {this.Status = response}).catch(error => {});
+		fetch("https://vps.klimdanick.nl/getStatus").then(response => {this.Status = response}).catch(error => {});
 		
 		//this.Status = Status;
 		this.Element = document.createElement("div");
