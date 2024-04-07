@@ -43,8 +43,19 @@ class Process {
 			Button.innerText = "start";
 			Button.classList.add("Stopped");
 		}
+		Button.setAttribute("onclick", "toggleProcess("+this.Id+")");
 		this.Element.appendChild(Button);
 		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
+	}
+	
+	toggle() {
+		if (this.Status == "Running") {
+			let response = await fetch("https://vps.klimdanick.nl/stop");
+			console.log(response);
+		} else {
+			let response = await fetch("https://vps.klimdanick.nl/start");
+			console.log(response);
+		}
 	}
 }
 
@@ -63,5 +74,12 @@ function update() {
 	document.documentElement.getElementsByClassName("process-list")[0].innerHTML = "";
 	Processes.forEach((item, index)=>{
 		item.update();
+	})
+}
+
+function toggleProcess(Id) {
+	document.documentElement.getElementsByClassName("process-list")[0].innerHTML = "";
+	Processes.forEach((item, index)=>{
+		if (item.Id == Id) item.toggle();
 	})
 }
