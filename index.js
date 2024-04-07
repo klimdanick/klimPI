@@ -34,10 +34,10 @@ app.get("/getStatus:Id", function (req, res, next) {
 app.get("/stop:Id", function (req, res, next) {
 	P[req.params.Id].Stop();
 	res.send("stopped");
-})
+})/*
 app.get("*", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/404.html'));
-})
+})*/
 
 /*
 exec('./acServer', {cwd: "/home/steam/assetto/"}, (error, stdout, stderr) => {
