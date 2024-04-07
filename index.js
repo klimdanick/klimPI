@@ -68,6 +68,7 @@ class Process{
 	}
 	
 	Run() {
+		console.log(this.Directory);
 		this.proc = spawn(this.Command, [], {cwd: this.Directory});
 		this.Status = "Running";
 		this.proc.stdout.on('data', (data) => {
