@@ -25,18 +25,15 @@ app.get("/server", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/server.html'));
 })
 app.get("/start", function (req, res, next) {
-	//res.sendFile(path.join(__dirname + '/public/404.html'));
-	let p = new Process("Assetto", 0, "/home/steam/assetto/", './acServer') 
-	p.Run();
+	P[0].Run();
 	res.send("started");
 })
 app.get("/getStatus", function (req, res, next) {
-	//res.sendFile(path.join(__dirname + '/public/404.html'));
 	res.send(P[0].Status);
 })
 app.get("/stop", function (req, res, next) {
-	//res.sendFile(path.join(__dirname + '/public/404.html'));
-	P[0].stop();
+	P[0].Stop();
+	res.send("stopped");
 })
 app.get("*", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/404.html'));
@@ -94,3 +91,5 @@ class Process{
 }
 
 let P = [];
+new Process("Assetto", 0, "/home/steam/assetto/", './acServer');
+console.log(P);
