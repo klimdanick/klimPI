@@ -6,6 +6,7 @@ var path = require('path');
 var fs = require('fs');
 
 const { spawn } = require('child_process');
+const terminate = require('terminate')
 
 const https = require('https');
 const app = express();
@@ -23,13 +24,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get("/server", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/server.html'));
 })
-app.get("/startP", function (req, res, next) {
+app.get("/start", function (req, res, next) {
 	//res.sendFile(path.join(__dirname + '/public/404.html'));
 	let p = new Process("Assetto", 0, "/home/steam/assetto/", './acServer') 
-	P = [];
-	P.push(p);
 	p.Run();
 	res.send("started");
+})
+app.get("/getStatus", function (req, res, next) {
+	//res.sendFile(path.join(__dirname + '/public/404.html'));
+	res.send(P[0].Status);
+})
+app.get("/stop", function (req, res, next) {
+	//res.sendFile(path.join(__dirname + '/public/404.html'));
+	P[0].stop();
 })
 app.get("*", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/404.html'));
@@ -59,23 +66,30 @@ class Process{
 		this.Directory = Directory;
 		this.Command = Command;
 		this.out = "";
-		
+		P[Id] = this;
 	}
 	
 	Run() {
 		this.pros = spawn(this.Command, [], {cwd: this.Directory});
-		
+		this.Status = Running;
 		this.pros.stdout.on('data', (data) => {
-		  console.log(`stdout: ${data}`);
+			console.log(`stdout: ${data}`);
+			this.out += data;
 		});
 
 		this.pros.stderr.on('data', (data) => {
-		  console.error(`stderr: ${data}`);
+			console.log(`stderr: ${data}`);
+			this.out += "[ERROR]: " + data;
 		});
 
 		this.pros.on('close', (code) => {
 		  console.log(`child process exited with code ${code}`);
+		  this.Status = Stopped;
 		}); 
+	}
+	
+	Stop() {
+		terminate(this.pros.pid, err => console.log(err));
 	}
 }
 
