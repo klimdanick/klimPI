@@ -88,7 +88,7 @@ class Process{
 	
 	Stop() {
 		//terminate(this.pros.pid, err => console.log(err));
-		proc.kill('SIGINT');
+		this.proc.kill('SIGINT');
 	}
 }
 
