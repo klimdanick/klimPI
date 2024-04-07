@@ -56,6 +56,7 @@ class Process {
 			let response = await fetch("https://vps.klimdanick.nl/start");
 			console.log(response);
 		}
+		update();
 	}
 }
 
