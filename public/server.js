@@ -3,6 +3,7 @@ class Process {
 		this.Name = Name;
 		this.Id= Id;
 		this.update();
+		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
 	}
 	
 	update() {
@@ -32,7 +33,6 @@ class Process {
 			statusSpan2.style.color = "#05d993";
 		}
 		this.Element.appendChild(statusSpan);
-		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
 		//<span onclick="toggleProcess('Assetto Corsa')" class="process-toggle">Stop</span>
 		let Button = document.createElement("span");
 		Button.classList.add("process-toggle");
