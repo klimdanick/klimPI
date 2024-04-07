@@ -94,5 +94,5 @@ class Process{
 
 let P = [];
 new Process("Assetto", 0, "/home/steam/assetto/", './acServer');
-new Process("QuoteBot", 1, "./QuoteBot/", 'python3 bot.py');
+new Process("QuoteBot", 1, "~/klimPI/QuoteBot/", 'python3 bot.py');
 console.log(P);
