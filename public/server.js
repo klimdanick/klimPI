@@ -48,7 +48,7 @@ class Process {
 		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
 	}
 	
-	toggle() {
+	async toggle() {
 		if (this.Status == "Running") {
 			let response = await fetch("https://vps.klimdanick.nl/stop");
 			console.log(response);
