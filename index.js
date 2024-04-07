@@ -89,7 +89,7 @@ class Process{
 	
 	Stop() {
 		console.log("STOPPING: " + this.Name);
-		terminate(this.pros.pid, err => console.log(err));
+		terminate(this.proc.pid, err => console.log(err));
 	}
 }
 
