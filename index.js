@@ -64,6 +64,7 @@ class Process{
 		this.Command = Command;
 		this.out = "";
 		P[Id] = this;
+		console.log(this.pros);
 	}
 	
 	Run() {
