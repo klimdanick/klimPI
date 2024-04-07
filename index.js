@@ -25,8 +25,10 @@ app.get("/server", function (req, res, next) {
 })
 app.get("/startP", function (req, res, next) {
 	//res.sendFile(path.join(__dirname + '/public/404.html'));
-	P.push(new Process("Assetto", 0, "/home/steam/assetto/", './acServer'));
-	P.Run();
+	let p = new Process("Assetto", 0, "/home/steam/assetto/", './acServer') 
+	P = [];
+	P.push(p);
+	p.Run();
 	res.send("started");
 })
 app.get("*", function (req, res, next) {
