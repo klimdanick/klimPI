@@ -3,7 +3,6 @@ class Process {
 		this.Name = Name;
 		this.Id= Id;
 		this.update();
-		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
 	}
 	
 	async update() {
