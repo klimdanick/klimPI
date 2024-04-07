@@ -79,7 +79,7 @@ function update() {
 }
 
 function toggleProcess(Id) {
-	document.documentElement.getElementsByClassName("process-list")[0].innerHTML = "";
+	//document.documentElement.getElementsByClassName("process-list")[0].innerHTML = "";
 	Processes.forEach((item, index)=>{
 		if (item.Id == Id) item.toggle();
 	})
