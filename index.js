@@ -69,7 +69,7 @@ class Process{
 	
 	Run() {
 		this.pros = spawn(this.Command, [], {cwd: this.Directory});
-		this.Status = Running;
+		this.Status = "Running";
 		this.pros.stdout.on('data', (data) => {
 			console.log(`stdout: ${data}`);
 			this.out += data;
@@ -82,12 +82,13 @@ class Process{
 
 		this.pros.on('close', (code) => {
 		  console.log(`child process exited with code ${code}`);
-		  this.Status = Stopped;
+		  this.Status = "Stopped";
 		}); 
 	}
 	
 	Stop() {
-		terminate(this.pros.pid, err => console.log(err));
+		//terminate(this.pros.pid, err => console.log(err));
+		proc.kill('SIGINT');
 	}
 }
 
