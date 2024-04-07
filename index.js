@@ -64,6 +64,18 @@ class Process{
 	
 	Run() {
 		this.pros = spawn(this.Command, [], {cwd: this.Directory});
+		
+		this.pros.stdout.on('data', (data) => {
+		  console.log(`stdout: ${data}`);
+		});
+
+		this.pros.stderr.on('data', (data) => {
+		  console.error(`stderr: ${data}`);
+		});
+
+		this.pros.on('close', (code) => {
+		  console.log(`child process exited with code ${code}`);
+		}); 
 	}
 }
 
