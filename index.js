@@ -5,7 +5,7 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 
 const https = require('https');
 const app = express();
@@ -63,7 +63,7 @@ class Process{
 	}
 	
 	Run() {
-		this.pros = exec.spawn(this.Command, [], {cwd: this.Directory});
+		this.pros = spawn(this.Command, [], {cwd: this.Directory});
 	}
 }
 
