@@ -8,7 +8,7 @@ class Process {
 	
 	update() {
 		
-		fetch("https://vps.klimdanick.nl/getStatus").then(response => {this.Status = response.text();}).catch(error => {});
+		fetch("https://vps.klimdanick.nl/getStatus").then(response => {console.log(response); console.log(response.text()); this.Status = response.text();}).catch(error => {});
 		
 		//this.Status = Status;
 		this.Element = document.createElement("div");
