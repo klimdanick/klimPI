@@ -6,7 +6,7 @@ class Process {
 		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
 	}
 	
-	update() {
+	async update() {
 		
 		let response = await fetch("https://vps.klimdanick.nl/getStatus");
 		this.Status = await response.text();
