@@ -24,15 +24,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get("/server", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/server.html'));
 })
-app.get("/start", function (req, res, next) {
-	P[0].Run();
+app.get("/start:Id", function (req, res, next) {
+	P[req.params.Id].Run();
 	res.send("started");
 })
-app.get("/getStatus", function (req, res, next) {
-	res.send(P[0].Status);
+app.get("/getStatus:Id", function (req, res, next) {
+	res.send(P[req.params.Id].Status);
 })
-app.get("/stop", function (req, res, next) {
-	P[0].Stop();
+app.get("/stop:Id", function (req, res, next) {
+	P[req.params.Id].Stop();
 	res.send("stopped");
 })
 app.get("*", function (req, res, next) {
@@ -94,4 +94,5 @@ class Process{
 
 let P = [];
 new Process("Assetto", 0, "/home/steam/assetto/", './acServer');
+new Process("QuoteBot", 1, "~/klimPI/QuoteBot/", 'python3 bot.py');
 console.log(P);

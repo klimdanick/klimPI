@@ -7,7 +7,7 @@ class Process {
 	
 	async update() {
 		
-		let response = await fetch("https://vps.klimdanick.nl/getStatus");
+		let response = await fetch("https://vps.klimdanick.nl/getStatus?Id="+this.Id);
 		this.Status = await response.text();
 		//this.Status = Status;
 		this.Element = document.createElement("div");
@@ -50,10 +50,10 @@ class Process {
 	
 	async toggle() {
 		if (this.Status == "Running") {
-			let response = await fetch("https://vps.klimdanick.nl/stop");
+			let response = await fetch("https://vps.klimdanick.nl/stop?Id="+this.Id);
 			console.log(response);
 		} else {
-			let response = await fetch("https://vps.klimdanick.nl/start");
+			let response = await fetch("https://vps.klimdanick.nl/start?Id="+this.Id);
 			console.log(response);
 		}
 		update();
@@ -63,8 +63,8 @@ class Process {
 let Processes = [];
 window.onload = function() {
   Processes.push(new Process("Assetto Corsa Server", 0));
+  Processes.push(new Process("QuoteBot", 1));
   /*
-  Processes.push(new Process("QuoteBot", "Stopped"));
   Processes.push(new Process("Viking Server", "Stopped"));
   Processes.push(new Process("QuoteApi", "Stopped"));
   Processes.push(new Process("E2 Bot", "Stopped"));
