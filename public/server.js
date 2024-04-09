@@ -47,6 +47,17 @@ class Process {
 		Button.setAttribute("onclick", "toggleProcess("+this.Id+")");
 		this.Element.appendChild(Button);
 	}
+	
+	async toggle() {
+		if (this.Status == "Running") {
+			let response = await fetch("https://vps.klimdanick.nl/stop/"+this.Id);
+			console.log(response);
+		} else {
+			let response = await fetch("https://vps.klimdanick.nl/start/"+this.Id);
+			console.log(response);
+		}
+		update();
+	}
 }
 
 let Processes = [];
