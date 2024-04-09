@@ -38,7 +38,7 @@ def daily_quote():
             quote = data["metaData"]["currentQuote"]["quote"] + "   - " + data["metaData"]["currentQuote"]["auteur"]
         else:
             data["metaData"]["time"] = date
-            data["metaData"]["currentQuote"] = data["quotes"][random.randrange(0, len(data["quotes"])-1, 1)]
+            data["metaData"]["currentQuote"] = data["quotes"][random.randrange(0, len(data["quotes"]), 1)]
             quote = data["metaData"]["currentQuote"]["quote"] + "   - " + data["metaData"]["currentQuote"]["auteur"]
             
     with open('quotes.json', 'w') as f:
