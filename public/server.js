@@ -2,17 +2,17 @@ class Process {
 	constructor(Name, Id) {
 		this.Name = Name;
 		this.Id= Id;
+		this.Element = document.createElement("div");
+		this.Element.classList.add("process");
 		this.update();
 		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
 	}
 	
 	async update() {
-		
+		this.Element.innerHTML = "";
 		let response = await fetch("https://vps.klimdanick.nl/getStatus/"+this.Id);
 		this.Status = await response.text();
 		//this.Status = Status;
-		this.Element = document.createElement("div");
-		this.Element.classList.add("process");
 		let title = document.createElement("div");
 		title.classList.add("process-title");
 		title.innerText = this.Name;
@@ -46,17 +46,6 @@ class Process {
 		}
 		Button.setAttribute("onclick", "toggleProcess("+this.Id+")");
 		this.Element.appendChild(Button);
-	}
-	
-	async toggle() {
-		if (this.Status == "Running") {
-			let response = await fetch("https://vps.klimdanick.nl/stop/"+this.Id);
-			console.log(response);
-		} else {
-			let response = await fetch("https://vps.klimdanick.nl/start/"+this.Id);
-			console.log(response);
-		}
-		update();
 	}
 }
 
