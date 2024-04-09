@@ -65,20 +65,15 @@ window.onload = function() {
   Processes.push(new Process("Assetto Corsa Server", 0));
   Processes.push(new Process("QuoteBot", 1));
   Processes.push(new Process("E2 Bot", 2));
-  /*
-  Processes.push(new Process("Viking Server", "Stopped"));
-  */
 };
 
 function update() {
-	//document.documentElement.getElementsByClassName("process-list")[0].innerHTML = "";
 	Processes.forEach((item, index)=>{
 		item.update();
 	})
 }
 
 function toggleProcess(Id) {
-	//document.documentElement.getElementsByClassName("process-list")[0].innerHTML = "";
 	Processes.forEach((item, index)=>{
 		if (item.Id == Id) item.toggle();
 	})

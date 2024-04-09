@@ -132,3 +132,7 @@ h1 {
 .Stopped {
 	background-color: #05d993;
 }
+
+.time {
+	font: 46px/50px D-DIN-Bold,Arial,Verdana,sans-serif;
+}
