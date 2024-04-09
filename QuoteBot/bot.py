@@ -64,7 +64,15 @@ async def quote(interaction):
     guild=discord.Object(id=guildId)
 )
 async def addQuote(interaction, quote: str, auteur: str):
-    pload = {"quote":quote, "auteur":auteur}
+    quote_obj = {}
+    quote_obj["quote"] = quote
+    quote_obj["auteur"] = auteur
+    with open('quotes.json', 'r') as f:
+        data = json.load(f)
+    with open('quotes.json', 'w') as f:
+        data["quotes"].append(quote_obj)
+        json.dump(data, f)
+    
     await interaction.response.send_message("added quote!")
     
 @client.event
