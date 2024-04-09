@@ -64,11 +64,9 @@ let Processes = [];
 window.onload = function() {
   Processes.push(new Process("Assetto Corsa Server", 0));
   Processes.push(new Process("QuoteBot", 1));
-  //Processes.push(new Process("QuoteApi", 2));
+  Processes.push(new Process("E2 Bot", 2));
   /*
   Processes.push(new Process("Viking Server", "Stopped"));
-  Processes.push(new Process("QuoteApi", "Stopped"));
-  Processes.push(new Process("E2 Bot", "Stopped"));
   */
 };
 
