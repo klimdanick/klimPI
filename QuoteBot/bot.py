@@ -15,6 +15,8 @@ import json
 import datetime as dt
 import random
 
+import json
+
 last_accessed_date = None
 current_string = None
 
@@ -25,10 +27,19 @@ client = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(client)
 
 def daily_quote():
-    global last_accessed_date, current_string
-    x = requests.get('https://vps.klimdanick.nl/quote')
-    result = json.loads(x.text)
-    return result["quote"] + "   - " + result["auteur"]
+    with open('quotes.json', 'rw') as f:
+        date = dt.datetime.now().strftime("%d/%m/%Y")
+        data = json.load(f)
+        if (data["metaData"]["time"] == date):
+            return data["metaData"]["currentQuote"]["quote"] + "   - " + data["metaData"]["currentQuote"]["auteur"]
+        else:
+            data["metaData"]["time"] = date
+            data["metaData"]["currentQuote"] = data["quotes"][random.randrange(0, len(data["quotes"])-1, 1)]
+            json.dump(data, f)
+            return data["metaData"]["currentQuote"]["quote"] + "   - " + data["metaData"]["currentQuote"]["auteur"]
+        
+    
+    return "no quote available - QuoteBot";
 
 # Add the guild ids in which the slash command will appear.
 # If it should be in all, remove the argument, but note that
@@ -48,10 +59,7 @@ async def quote(interaction):
     guild=discord.Object(id=guildId)
 )
 async def addQuote(interaction, quote: str, auteur: str):
-    print(quote)
-    print(auteur)
     pload = {"quote":quote, "auteur":auteur}
-    requests.post('https://vps.klimdanick.nl/quote', json=pload)
     await interaction.response.send_message("added quote!")
     
 @client.event
