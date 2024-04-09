@@ -32,6 +32,8 @@ def daily_quote():
     with open('quotes.json', 'r') as f:
         date = dt.datetime.now().strftime("%d/%m/%Y")
         data = json.load(f)
+        print(date);
+        print(data);
         if (data["metaData"]["time"] == date):
             quote = data["metaData"]["currentQuote"]["quote"] + "   - " + data["metaData"]["currentQuote"]["auteur"]
         else:
