@@ -3,6 +3,7 @@ class Process {
 		this.Name = Name;
 		this.Id= Id;
 		this.update();
+		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
 	}
 	
 	async update() {
@@ -45,7 +46,6 @@ class Process {
 		}
 		Button.setAttribute("onclick", "toggleProcess("+this.Id+")");
 		this.Element.appendChild(Button);
-		document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
 	}
 	
 	async toggle() {
@@ -71,7 +71,7 @@ window.onload = function() {
 };
 
 function update() {
-	document.documentElement.getElementsByClassName("process-list")[0].innerHTML = "";
+	//document.documentElement.getElementsByClassName("process-list")[0].innerHTML = "";
 	Processes.forEach((item, index)=>{
 		item.update();
 	})
