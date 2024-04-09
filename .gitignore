@@ -1,4 +1,6 @@
 creds
 node_modules
 .env
-quotes.json
+klimpi.log
+nohup.out
+config.cfg
