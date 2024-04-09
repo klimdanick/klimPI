@@ -27,19 +27,22 @@ client = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(client)
 
 def daily_quote():
-    with open('quotes.json', 'rw') as f:
+    quote = "no quote available - QuoteBot"
+
+    with open('quotes.json', 'r') as f:
         date = dt.datetime.now().strftime("%d/%m/%Y")
         data = json.load(f)
         if (data["metaData"]["time"] == date):
-            return data["metaData"]["currentQuote"]["quote"] + "   - " + data["metaData"]["currentQuote"]["auteur"]
+            quote = data["metaData"]["currentQuote"]["quote"] + "   - " + data["metaData"]["currentQuote"]["auteur"]
         else:
             data["metaData"]["time"] = date
             data["metaData"]["currentQuote"] = data["quotes"][random.randrange(0, len(data["quotes"])-1, 1)]
-            json.dump(data, f)
-            return data["metaData"]["currentQuote"]["quote"] + "   - " + data["metaData"]["currentQuote"]["auteur"]
-        
+            quote = data["metaData"]["currentQuote"]["quote"] + "   - " + data["metaData"]["currentQuote"]["auteur"]
+            
+    with open('quotes.json', 'w') as f:
+        json.dump(data, f)
     
-    return "no quote available - QuoteBot";
+    return quote
 
 # Add the guild ids in which the slash command will appear.
 # If it should be in all, remove the argument, but note that
