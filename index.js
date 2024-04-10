@@ -39,22 +39,6 @@ app.get("*", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/404.html'));
 })*/
 
-/*
-exec('./acServer', {cwd: "/home/steam/assetto/"}, (error, stdout, stderr) => {
-	if (error) {
-		console.error(`error: ${error.message}`);
-		return;
-	}
-
-	if (stderr) {
-		console.error(`stderr: ${stderr}`);
-		return;
-	}
-
-	console.log(`stdout:\n${stdout}`);
-});
-*/
-
 
 class Process{
 	constructor(Name, Id, Directory, Command) {
