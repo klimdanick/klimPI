@@ -9,3 +9,7 @@ function closeNav() {
 	console.log("close");
 	document.getElementById("Menu").style.width = "0";
 }
+
+window.onload = function() {
+	javascript: (function(){document.querySelector("body").requestFullscreen();})();
+}
