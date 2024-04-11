@@ -15,6 +15,11 @@ h1 {
 	font-weight: bold;
 }
 
+.time {
+	font: 46px/50px D-DIN-Bold,Arial,Verdana,sans-serif;
+	font-size: 46px;
+}
+
 #notFound {
     position: absolute;
     width: 100%;
@@ -131,9 +136,4 @@ h1 {
 
 .Stopped {
 	background-color: #05d993;
-}
-
-.time {
-	font: 46px/50px D-DIN-Bold,Arial,Verdana,sans-serif;
-	font-size: 46px;
 }
