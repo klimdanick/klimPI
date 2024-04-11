@@ -8,6 +8,9 @@ function mainLoop() {
 }
 
 window.onload = function() {
-	setTimeout(function(){document.querySelector("body").requestFullscreen()}, 5000);
 	setInterval(mainLoop, 500);
+}
+
+function fullscreen() {
+	document.querySelector("body").requestFullscreen()
 }
