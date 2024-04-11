@@ -11,8 +11,8 @@ const terminate = require('terminate')
 const https = require('https');
 const app = express();
 const options = {
-  key: fs.readFileSync('./certs/localhost.decrypted.key'),
-  cert: fs.readFileSync('./certs/localhost.crt')
+  key: fs.readFileSync('/certs/private.key'),
+  cert: fs.readFileSync('/certs/certificate.crt')
 };
 
 const server = https.createServer(options, app);
