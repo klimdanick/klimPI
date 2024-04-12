@@ -24,6 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get("/server", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/server.html'));
 })
+app.get("/home", function (req, res, next) {
+	res.sendFile(path.join(__dirname + '/public/home.html'));
+})
 app.get("/start/:Id", function (req, res, next) {
 	P[req.params.Id].Run();
 	res.send("started");
