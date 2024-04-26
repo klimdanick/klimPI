@@ -11,7 +11,7 @@ function nsLoop() {
 	var params = {
 		// Request parameters
 		"station": "Brd",
-		"maxJourneys": "10"
+		"maxJourneys": "6"
 	};
   
 	fetch("https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures?station=Brd&maxJourneys=9", {
@@ -24,7 +24,7 @@ function nsLoop() {
 	.then(out => {
 		let l = out["payload"]["departures"];
 		document.getElementById("ns").innerHTML="";
-		for (let i = 0; i < l.length; i++) {
+		for (let i = 2; i < l.length; i++) {
 			let tijdNu = new Date();
 			let tijdAankomst = new Date(l[i]["actualDateTime"]);
 			let deltaT = (Math.floor((tijdAankomst - tijdNu)/60000))+":"+(Math.floor((tijdAankomst - tijdNu)/1000)%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
