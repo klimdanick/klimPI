@@ -10,7 +10,7 @@ function mainLoop() {
 function nsLoop() {
 	var params = {
 		// Request parameters
-		"station": "Dt",
+		"station": "Brd",
 		"maxJourneys": "10"
 	};
   
