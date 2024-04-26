@@ -7,7 +7,7 @@ function mainLoop() {
 	document.getElementById("date").innerHTML = days[d.getDay()] + "<br><h5>" + (d.getDate()) + " " + months[d.getMonth()] + " " + (d.getFullYear()) + "</h5>";
 }
 
-function nsLopp() {
+function nsLoop() {
 	var params = {
 		// Request parameters
 		"station": "Dt",
