@@ -7,15 +7,6 @@ function mainLoop() {
 	document.getElementById("date").innerHTML = days[d.getDay()] + "<br><h5>" + (d.getDate()) + " " + months[d.getMonth()] + " " + (d.getFullYear()) + "</h5>";
 }
 
-window.onload = function() {
-	setInterval(mainLoop, 500);
-	setInterval(nsLoop, 1000);
-}
-
-function fullscreen() {
-	document.querySelector("body").requestFullscreen()
-}
-
 function nsLopp() {
 	var params = {
 		// Request parameters
@@ -51,4 +42,13 @@ function nsLopp() {
 			console.log(l[i]);
 		}
 	}).catch(err => { throw err });
+}
+
+window.onload = function() {
+	setInterval(mainLoop, 500);
+	setInterval(nsLoop, 1000);
+}
+
+function fullscreen() {
+	document.querySelector("body").requestFullscreen()
 }
