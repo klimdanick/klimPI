@@ -11,7 +11,7 @@ function nsLoop() {
 	var params = {
 		// Request parameters
 		"station": "Brd",
-		"maxJourneys": "6"
+		"maxJourneys": "4"
 	};
   
 	fetch("https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures?station=Brd&maxJourneys=9", {
@@ -39,7 +39,7 @@ function nsLoop() {
 			if (l[i]["messages"].length > 0) message = l[i]["messages"][0]["message"];
 			if (l[i]["cancelled"]) color="#DB0029";
 			/*if (tijdAankomst - tijdNu > 0)*/ document.getElementById("ns").innerHTML += "<div style=\"display: block; margin-top: 0.3em; line-height: 1em; font-size:300%;\"><p style=\"height: 1em; font-size: 0.7em; align-test:center; margin:0; margin-top: 0em; border-left: 6px solid "+color+"!important; line-height: 1em;\"><b>" + l[i]["direction"] + "</b></p><p style=\"font-size:0.4em; margin:0; margin-top: 0em; line-height: 1em;\">Spoor: " + l[i]["actualTrack"] + " Over: " + deltaT + " <span style=\"color: #DB0029\">" + vertraging + "</span>(" + tijdAankomst.getHours().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + ":" + tijdAankomst.getMinutes().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + ")</p><p style=\"color:#DB0029; font-size:0.4em; margin:0; margin-top: 0em; line-height: 1em;\">" + message + "</p></div>"
-			console.log(l[i]);
+			//console.log(l[i]);
 		}
 	}).catch(err => { throw err });
 }
