@@ -43,10 +43,10 @@ function nsLoop() {
 		}
 	}).catch(err => { throw err });
 }
-
+let nsloop, mainloop;
 window.onload = function() {
-	setInterval(mainLoop, 500);
-	setInterval(nsLoop, 1000);
+	mainloop = setInterval(mainLoop, 500);
+	nsloop = setInterval(nsLoop, 1000);
 }
 
 function fullscreen() {
