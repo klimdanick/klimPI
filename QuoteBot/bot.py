@@ -78,7 +78,7 @@ async def addQuote(interaction, quote: str, auteur: str):
     description="See quote stats",
     guild=discord.Object(id=guildId)
 )
-async def stats():
+async def stats(interaction):
     with open('quotes.json', 'r') as f:
         data = json.load(f)
         totalQuotes = len(data["quotes"])
