@@ -120,15 +120,17 @@ async def stats(interaction):
         #print(board1);
         
         colWidth = 12;
-        cols = 2;
+        cols = 3;
         rows = 1+len(leaderBoard);
         board2 = makeBoard(colWidth, cols, rows);
-        board2 = setValueInBoard(board2, "auteur", 0, 0, cols, colWidth);
-        board2 = setValueInBoard(board2, "quotes", 1, 0, cols, colWidth);
+        board2 = setValueInBoard(board2, "place", 0, 0, cols, colWidth);
+        board2 = setValueInBoard(board2, "auteur", 1, 0, cols, colWidth);
+        board2 = setValueInBoard(board2, "quotes", 2, 0, cols, colWidth);
         i = 1;
         for auteur in leaderBoard:
-            board2 = setValueInBoard(board2, auteur, 0, i, cols, colWidth);
-            board2 = setValueInBoard(board2, f"{leaderBoard[auteur]}", 1, i, cols, colWidth);
+            board2 = setValueInBoard(board2, f"{i}", 0, i, cols, colWidth);
+            board2 = setValueInBoard(board2, auteur, 1, i, cols, colWidth);
+            board2 = setValueInBoard(board2, f"{leaderBoard[auteur]}", 2, i, cols, colWidth);
             i+=1;
         #print(board2);
         await interaction.response.send_message(board1+board2)
