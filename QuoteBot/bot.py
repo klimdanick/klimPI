@@ -88,11 +88,14 @@ async def stats(interaction):
         for quote in data["quotes"]:
             if quote["auteur"].find("&") != -1:
                 continue;
+            if quote["auteur"].find(" en ") != -1:
+                continue;
             if not quote["auteur"] in leaderBoard:
                 leaderBoard[quote["auteur"].lower()] = 1;
             else:
                 leaderBoard[quote["auteur"].lower()]+= 1;
-            
+         
+        leaderBoard = dict(sorted(leaderBoard.items(),key=lambda x:x[1],reverse=False))
         totalAuthors = len(leaderBoard);
         colWidth = max(math.log(totalQuotes, 10), len("totalAuthors"));
         cols = 2;
