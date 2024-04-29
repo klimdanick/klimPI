@@ -119,7 +119,7 @@ async def stats(interaction):
         board1 = setValueInBoard(board1, f"{totalAuthors}", 1, 1, cols, colWidth);
         #print(board1);
         
-        colWidth = 11;
+        colWidth = 12;
         cols = 2;
         rows = 1+len(leaderBoard);
         board2 = makeBoard(colWidth, cols, rows);
