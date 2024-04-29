@@ -71,7 +71,7 @@ async def addQuote(interaction, quote: str, auteur: str):
         data["quotes"].append(quote_obj)
         json.dump(data, f)
     
-    await interaction.response.send_message("added quote!")
+    await interaction.response.send_message(f"added quote from {auteur}!")
     
 @tree.command(
     name="stats",
