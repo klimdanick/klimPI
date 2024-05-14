@@ -14,7 +14,7 @@ ACpros = async (process) => {
 	ACdata = process.tracks = await (await fetch("https://vps.klimdanick.nl/getACdata/"+process.Id)).json();
 	process.tracks = ACdata.tracks;
 	process.cars = ACdata.cars;
-	update(process);
+	await update(process);
 	return process;
 }
 
