@@ -62,7 +62,7 @@ async function update (process) {
 			opt = document.createElement('option');
 			opt.value = process.tracks[i];
 			opt.innerHTML = process.tracks[i];
-			select.appendChild(opt);
+			Select.appendChild(opt);
 		}
 
 		process.Element.appendChild(Select);
@@ -74,7 +74,7 @@ async function update (process) {
 			opt = document.createElement('option');
 			opt.value = process.cars[i];
 			opt.innerHTML = process.cars[i];
-			select.appendChild(opt);
+			Select.appendChild(opt);
 		}
 
 		process.Element.appendChild(Select);
