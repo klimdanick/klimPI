@@ -57,7 +57,7 @@ toggle = async (process) => {
 		let response = await fetch("https://vps.klimdanick.nl/start/"+process.Id);
 		console.log(response);
 	}
-	update();
+	updatePage();
 }
 
 let Processes = [];
@@ -67,7 +67,7 @@ window.onload = function() {
   Processes.push(Process("E2 Bot", 2));
 };
 
-function update() {
+function updatePage() {
 	Processes.forEach((item, index)=>{
 		update(item);
 	})
