@@ -61,7 +61,7 @@ async function update (process) {
 		Config.classList.add("process-toggle");
 		Config.innerText = "config";
 		Config.classList.add("Stopped");
-		Config.setAttribute("onclick", "window.location.href = \n"+process.configure+"\"");
+		Config.setAttribute("onclick", "window.location.href = \""+process.configure+"\"");
 		process.Element.appendChild(Config);
 	}
 
