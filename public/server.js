@@ -6,7 +6,14 @@ Process = (Name, Id) => {
 	process.Element.classList.add("process");
 	update(process);
 	document.documentElement.getElementsByClassName("process-list")[0].appendChild(process.Element);
-	return process
+	return process;
+}
+
+ACpros = async (process) => {
+	ACdata = process.tracks = await (await fetch("https://vps.klimdanick.nl/getACdata/"+process.Id)).json();
+	process.tracks = ACdata.tracks;
+	process.cars = ACdata.cars;
+	return process;
 }
 
 async function update (process) {
@@ -62,7 +69,7 @@ toggle = async (process) => {
 
 let Processes = [];
 window.onload = function() {
-  Processes.push(Process("Assetto Corsa Server", 0));
+  Processes.push(ACpros(Process("Assetto Corsa Server", 0)));
   Processes.push(Process("QuoteBot", 1));
   Processes.push(Process("E2 Bot", 2));
 };
