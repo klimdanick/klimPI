@@ -44,45 +44,45 @@ app.get("*", function (req, res, next) {
 })*/
 
 
-class Process{
-	constructor(Name, Id, Directory, Command) {
-		this.Name = Name;
-		this.Id = Id;
-		this.Directory = Directory;
-		this.Command = Command;
-		this.out = "";
-		P[Id] = this;
-		this.Status = "Stopped";
-	}
+Process = (Name, Id, Directory, Command) => {
+	let p = {};
+	p.Name = Name;
+	p.Id = Id;
+	p.Directory = Directory;
+	p.Command = Command;
+	p.out = "";
+	P[Id] = this;
+	p.Status = "Stopped";
+	return p;
+}
 	
-	Run() {
-		console.log(this.Directory);
-		this.proc = spawn(this.Command, [], {cwd: this.Directory});
-		this.Status = "Running";
-		this.proc.stdout.on('data', (data) => {
-			//console.log(`stdout: ${data}`);
-			this.out += data;
-		});
+Run = (process) => {
+	console.log(this.Directory);
+	process.proc = spawn(this.Command, [], {cwd: this.Directory});
+	process.Status = "Running";
+	process.proc.stdout.on('data', (data) => {
+		//console.log(`stdout: ${data}`);
+		process.out += data;
+	});
 
-		this.proc.stderr.on('data', (data) => {
-			//console.log(`stderr: ${data}`);
-			this.out += "[ERROR]: " + data;
-		});
+	process.proc.stderr.on('data', (data) => {
+		//console.log(`stderr: ${data}`);
+		process.out += "[ERROR]: " + data;
+	});
 
-		this.proc.on('close', (code) => {
-		  console.log(`child process exited with code ${code}`);
-		  this.Status = "Stopped";
-		}); 
-	}
+	process.proc.on('close', (code) => {
+		console.log(`child process exited with code ${code}`);
+		process.Status = "Stopped";
+	}); 
+}
 	
-	Stop() {
-		console.log("STOPPING: " + this.Name);
-		terminate(this.proc.pid, err => console.log(err));
-	}
+Stop = (process) => {
+	console.log("STOPPING: " + process.Name);
+	terminate(process.proc.pid, err => console.log(err));
 }
 
 let P = [];
-new Process("Assetto", 0, "/home/steam/assetto/", './acServer');
-new Process("QuoteBot", 1, "QuoteBot/", './run.sh');
-new Process("E2 Bot", 2, "~/E2/", './run.sh');
+Process("Assetto", 0, "/home/steam/assetto/", './acServer');
+Process("QuoteBot", 1, "QuoteBot/", './run.sh');
+Process("E2 Bot", 2, "~/E2/", './run.sh');
 console.log(P);
