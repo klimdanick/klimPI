@@ -61,7 +61,7 @@ async function update (process) {
 		Config.classList.add("process-toggle");
 		Config.innerText = "config";
 		Config.classList.add("Stopped");
-		Config.setAttribute("onclick", "alert("+process.configure+")");
+		Config.setAttribute("onclick", "alert(\""+process.configure+"\")");
 		process.Element.appendChild(Config);
 	}
 
