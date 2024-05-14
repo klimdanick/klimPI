@@ -29,14 +29,14 @@ app.get("/home", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/home.html'));
 })
 app.get("/start/:Id", function (req, res, next) {
-	P[req.params.Id].Run();
+	Run(P[req.params.Id]);
 	res.send("started");
 })
 app.get("/getStatus/:Id", function (req, res, next) {
 	res.send(P[req.params.Id].Status);
 })
 app.get("/stop/:Id", function (req, res, next) {
-	P[req.params.Id].Stop();
+	Stop(P[req.params.Id]);
 	res.send("stopped");
 })
 /*
