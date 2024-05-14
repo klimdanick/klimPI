@@ -14,7 +14,7 @@ ACpros = async (process) => {
 	ACdata = process.tracks = await (await fetch("https://vps.klimdanick.nl/getACdata/"+process.Id)).json();
 	process.tracks = ACdata.tracks;
 	process.cars = ACdata.cars;
-	await update(process);
+	update(process);
 	return process;
 }
 
@@ -65,7 +65,12 @@ async function update (process) {
 			opt.innerHTML = process.tracks[i];
 			Select.appendChild(opt);
 		}
-
+		Select.onchange = () => {
+			fetch("https://vps.klimdanick.nl/setTrack/"+process.Id+"/"+Select.value);
+			toggleProcess(process.Id);
+			toggleProcess(process.Id);
+			updatePage();
+		}
 		process.Element.appendChild(Select);
 	}
 
@@ -77,7 +82,12 @@ async function update (process) {
 			opt.innerHTML = process.cars[i];
 			Select.appendChild(opt);
 		}
-
+		Select.onchange = () => {
+			fetch("https://vps.klimdanick.nl/setCar/"+process.Id+"/"+Select.value);
+			toggleProcess(process.Id);
+			toggleProcess(process.Id);
+			updatePage();
+		}
 		process.Element.appendChild(Select);
 	}
 
