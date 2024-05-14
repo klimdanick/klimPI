@@ -12,7 +12,7 @@ Process = (Name, Id) => {
 
 ACpros = (process) => {
 	//ACdata = process.tracks = await (await fetch("https://vps.klimdanick.nl/getACdata/"+process.Id)).json();
-	process.configure = "http://vps.klimdanick.nl:8772/quick";
+	process.configure = "http://vps.klimdanick.nl:8772";
 	//setInterval(update(process), 2000);
 	return process;
 }
