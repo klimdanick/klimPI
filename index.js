@@ -39,11 +39,13 @@ app.get("/stop/:Id", function (req, res, next) {
 	Stop(P[req.params.Id]);
 	res.send("stopped");
 })
-/*
-app.get("*", function (req, res, next) {
-	res.sendFile(path.join(__dirname + '/public/404.html'));
+app.get("/getACdata/:Id", function (req, res, next) {
+	AC = P[req.params.Id];
+	res.json({
+		tracks: AC.tracks,
+		cars: AC.cars
+	})
 })
-*/
 
 
 Process = (Name, Id, Directory, Command) => {
