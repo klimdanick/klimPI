@@ -101,7 +101,7 @@ Stop = (process) => {
 
 
 let P = [];
-ACpros(Process("Assetto", 0, "../acServerManager/linux", './server-manager'));
+Process("Assetto", 0, "../acServerManager/linux", './server-manager');
 Process("QuoteBot", 1, "../QuoteBot/", './run.sh');
 Process("E2 Bot", 2, "~/E2/", './run.sh');
 setTimeout(() => {console.log(P);},1000);
