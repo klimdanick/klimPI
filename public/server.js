@@ -12,8 +12,7 @@ Process = (Name, Id) => {
 
 ACpros = async (process) => {
 	ACdata = process.tracks = await (await fetch("https://vps.klimdanick.nl/getACdata/"+process.Id)).json();
-	process.tracks = ACdata.tracks;
-	process.cars = ACdata.cars;
+	process.configure = "vps.klimdanick.nl:443";
 	update(process);
 	return process;
 }
@@ -56,6 +55,15 @@ async function update (process) {
 	}
 	Button.setAttribute("onclick", "toggleProcess("+process.Id+")");
 	process.Element.appendChild(Button);
+
+	if (process.configure) {
+		let Config = document.createElement("span");
+		Config.classList.add("process-toggle");
+		Config.innerText = "config";
+		Config.classList.add("Stopped");
+		Config.setAttribute("onclick", "alert("+process.configure+")");
+		process.Element.appendChild(Config);
+	}
 
 	if (process.tracks) {
 		let Select = document.createElement("select");
