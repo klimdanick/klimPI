@@ -64,7 +64,7 @@ ACpros = (process) => {
 	ls.stdout.on('data', (data) => {
 		//console.log(`stdout: ${data}`);
 		process.tracks = data;
-		console.log("tracks:" + tracks);
+		console.log("tracks:" + process.tracks);
 	});
 	return process;
 }
