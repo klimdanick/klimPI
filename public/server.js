@@ -5,7 +5,7 @@ Process = (Name, Id) => {
 	process.Element = document.createElement("div");
 	process.Element.classList.add("process");
 	update(process);
-	document.documentElement.getElementsByClassName("process-list")[0].appendChild(this.Element);
+	document.documentElement.getElementsByClassName("process-list")[0].appendChild(process.Element);
 	return process
 }
 
