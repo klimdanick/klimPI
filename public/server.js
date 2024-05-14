@@ -12,7 +12,7 @@ Process = (Name, Id) => {
 
 ACpros = (process) => {
 	//ACdata = process.tracks = await (await fetch("https://vps.klimdanick.nl/getACdata/"+process.Id)).json();
-	process.configure = "vps.klimdanick.nl:443";
+	process.configure = "http://vps.klimdanick.nl:8772/quick";
 	//setInterval(update(process), 2000);
 	return process;
 }
@@ -61,7 +61,7 @@ async function update (process) {
 		Config.classList.add("process-toggle");
 		Config.innerText = "config";
 		Config.classList.add("Stopped");
-		Config.setAttribute("onclick", "alert(\""+process.configure+"\")");
+		Config.setAttribute("onclick", "window.location.href = \n"+process.configure+"\"");
 		process.Element.appendChild(Config);
 	}
 
