@@ -59,8 +59,8 @@ Process = (Name, Id, Directory, Command) => {
 }
 	
 Run = (process) => {
-	console.log(this.Directory);
-	process.proc = spawn(this.Command, [], {cwd: this.Directory});
+	console.log(process.Directory);
+	process.proc = spawn(process.Command, [], {cwd: process.Directory});
 	process.Status = "Running";
 	process.proc.stdout.on('data', (data) => {
 		//console.log(`stdout: ${data}`);

@@ -11,7 +11,7 @@ Process = (Name, Id) => {
 
 async function update (process) {
 	process.Element.innerHTML = "";
-	let response = await fetch("https://vps.klimdanick.nl/getStatus/"+this.Id);
+	let response = await fetch("https://vps.klimdanick.nl/getStatus/"+process.Id);
 	process.Status = await response.text();
 	//this.Status = Status;
 	let title = document.createElement("div");
@@ -50,7 +50,6 @@ async function update (process) {
 }
 
 toggle = async (process) => {
-	console.log(process.Id);
 	if (process.Status == "Running") {
 		let response = await fetch("https://vps.klimdanick.nl/stop/"+process.Id);
 		console.log(response);
