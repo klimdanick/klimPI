@@ -67,9 +67,6 @@ async function update (process) {
 		}
 		Select.onchange = () => {
 			fetch("https://vps.klimdanick.nl/setTrack/"+process.Id+"/"+Select.value);
-			toggleProcess(process.Id);
-			toggleProcess(process.Id);
-			updatePage();
 		}
 		process.Element.appendChild(Select);
 	}
@@ -84,9 +81,6 @@ async function update (process) {
 		}
 		Select.onchange = () => {
 			fetch("https://vps.klimdanick.nl/setCar/"+process.Id+"/"+Select.value);
-			toggleProcess(process.Id);
-			toggleProcess(process.Id);
-			updatePage();
 		}
 		process.Element.appendChild(Select);
 	}
