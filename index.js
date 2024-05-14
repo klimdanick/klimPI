@@ -53,7 +53,7 @@ Process = (Name, Id, Directory, Command) => {
 	p.Directory = Directory;
 	p.Command = Command;
 	p.out = "";
-	P[Id] = this;
+	P[Id] = p;
 	p.Status = "Stopped";
 	return p;
 }
