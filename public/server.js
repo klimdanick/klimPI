@@ -6,6 +6,7 @@ Process = (Name, Id) => {
 	process.Element.classList.add("process");
 	update(process);
 	document.documentElement.getElementsByClassName("process-list")[0].appendChild(process.Element);
+	Processes.push(process);
 	return process;
 }
 
@@ -69,9 +70,9 @@ toggle = async (process) => {
 
 let Processes = [];
 window.onload = function() {
-  Processes.push(ACpros(Process("Assetto Corsa Server", 0)));
-  Processes.push(Process("QuoteBot", 1));
-  Processes.push(Process("E2 Bot", 2));
+  ACpros(Process("Assetto Corsa Server", 0));
+  Process("QuoteBot", 1);
+  Process("E2 Bot", 2);
 };
 
 function updatePage() {
