@@ -50,6 +50,7 @@ async function update (process) {
 }
 
 toggle = async (process) => {
+	console.log(process.Id);
 	if (process.Status == "Running") {
 		let response = await fetch("https://vps.klimdanick.nl/stop/"+process.Id);
 		console.log(response);
