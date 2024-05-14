@@ -10,10 +10,10 @@ Process = (Name, Id) => {
 	return process;
 }
 
-ACpros = async (process) => {
+ACpros = (process) => {
 	//ACdata = process.tracks = await (await fetch("https://vps.klimdanick.nl/getACdata/"+process.Id)).json();
 	process.configure = "vps.klimdanick.nl:443";
-	setInterval(update(process), 500);
+	//setInterval(update(process), 2000);
 	return process;
 }
 
