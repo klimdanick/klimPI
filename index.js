@@ -85,6 +85,6 @@ Stop = (process) => {
 
 let P = [];
 Process("Assetto", 0, "/home/steam/assetto/", './acServer');
-Process("QuoteBot", 1, "QuoteBot/", './run.sh');
+Process("QuoteBot", 1, "../QuoteBot/", './run.sh');
 Process("E2 Bot", 2, "~/E2/", './run.sh');
 console.log(P);
