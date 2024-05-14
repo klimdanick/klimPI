@@ -55,6 +55,32 @@ async function update (process) {
 	}
 	Button.setAttribute("onclick", "toggleProcess("+process.Id+")");
 	process.Element.appendChild(Button);
+
+	if (process.tracks) {
+		let Select = document.createElement("select");
+		for (let i = 0; i < process.tracks.length; i++){
+			opt = document.createElement('option');
+			opt.value = process.tracks[i];
+			opt.innerHTML = process.tracks[i];
+			select.appendChild(opt);
+		}
+
+		process.Element.appendChild(Select);
+	}
+
+	if (process.cars) {
+		let Select = document.createElement("select");
+		for (let i = 0; i < process.cars.length; i++){
+			opt = document.createElement('option');
+			opt.value = process.cars[i];
+			opt.innerHTML = process.cars[i];
+			select.appendChild(opt);
+		}
+
+		process.Element.appendChild(Select);
+	}
+
+	
 }
 
 toggle = async (process) => {
