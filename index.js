@@ -33,7 +33,7 @@ app.get("/start/:Id", function (req, res, next) {
 	res.send("started");
 })
 app.get("/getStatus/:Id", function (req, res, next) {
-	console.log(req.params.Id + " | " + P.length);
+	console.log(req.params + " | " + P.length);
 	res.send(P[req.params.Id].Status);
 })
 app.get("/stop/:Id", function (req, res, next) {
