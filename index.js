@@ -62,7 +62,7 @@ ACpros = (process) => {
 	ls = spawn("ls", ['content/tracks'], {cwd: process.Directory});
 	ls.stdout.on('data', (data) => {
 		//console.log(`stdout: ${data}`);
-		process.tracks = data.split("\n");
+		process.tracks = `${data}`.split("\n");
 	});
 	return process;
 }
