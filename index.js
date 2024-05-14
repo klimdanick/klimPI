@@ -57,6 +57,17 @@ Process = (Name, Id, Directory, Command) => {
 	p.Status = "Stopped";
 	return p;
 }
+
+ACpros = (process) => {
+	ls = spawn("ls ./content/tracks", [], {cwd: process.Directory});
+	process.tracks;
+	ls.stdout.on('data', (data) => {
+		//console.log(`stdout: ${data}`);
+		process.tracks = data;
+		console.log("tracks:" + tracks);
+	});
+	return process;
+}
 	
 Run = (process) => {
 	console.log(process.Directory);
@@ -83,8 +94,10 @@ Stop = (process) => {
 	terminate(process.proc.pid, err => console.log(err));
 }
 
+
+
 let P = [];
-Process("Assetto", 0, "/home/steam/assetto/", './acServer');
+ACpros(Process("Assetto", 0, "/home/steam/assetto/", './acServer'));
 Process("QuoteBot", 1, "../QuoteBot/", './run.sh');
 Process("E2 Bot", 2, "~/E2/", './run.sh');
 console.log(P);
