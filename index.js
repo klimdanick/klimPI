@@ -82,6 +82,6 @@ class Process{
 
 let P = [];
 new Process("Assetto", 0, "/home/steam/assetto/", './acServer');
-new Process("QuoteBot", 1, "QuoteBot/", './run.sh');
-new Process("E2 Bot", 2, "~/E2/", './run.sh');
+new Process("QuoteBot", 1, "../QuoteBot", './setup.sh');
+new Process("E2 Bot", 2, "~/E2", './run.sh');
 console.log(P);
