@@ -59,7 +59,7 @@ Process = (Name, Id, Directory, Command) => {
 }
 
 ACpros = (process) => {
-	ls = spawn("ls content/tracks", [], {cwd: process.Directory});
+	ls = spawn("ls", ['content/tracks'], {cwd: process.Directory});
 	process.tracks = "";
 	ls.stdout.on('data', (data) => {
 		//console.log(`stdout: ${data}`);
