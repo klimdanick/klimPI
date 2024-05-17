@@ -97,9 +97,9 @@ Run = (process) => {
 }
 	
 Stop = (process) => {
-	console.log("STOPPING: " + process.Name);
-	if (process.killcommand.command != "term") {
-		killproc = spawn(process.killcommand.command, process.killcommand.args, {cwd: process.Directory});
+	console.log(`STOPPING: ${process.Name} with: ${process.killcommand}`);
+	if (process.killcommand["command"] != "term") {
+		killproc = spawn(process.killcommand["command"], process.killcommand.args, {cwd: process.Directory});
 		killproc.stdout.on('data', (data) => {
 			//console.log(`stdout: ${data}`);
 			console.log(`kill command: ${data}`);
@@ -115,5 +115,5 @@ Process("Assetto", 0, "../acServerManager", './server-manager');
 Process("QuoteBot", 1, "../QuoteBot/", './run.sh');
 Process("E2 Bot", 2, "../E2/", './run.sh');
 Process("x screen", 3, "../torcs/torcs-1.3.7", "./xserver.sh");
-Process("xterm", 4, "../torcs/torcs-1.3.7", "xterm", true, {"command": "killall", "args": ["xterm"]});
+Process("xterm", 4, "../torcs/torcs-1.3.7", "xterm", true, {command: "killall", args: ["xterm"]});
 setTimeout(() => {console.log(P);},1000);
