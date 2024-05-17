@@ -56,7 +56,7 @@ Process = (Name, Id, Directory, Command, autoRun = true, killcommand = {"command
 	p.Directory = Directory;
 	p.Command = Command;
 	p.out = "";
-	P.killcommand = killcommand;
+	p.killcommand = killcommand;
 	P[Id] = p;
 	p.Status = "Stopped";
 	if (autoRun) Run(p);
