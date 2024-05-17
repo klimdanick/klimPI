@@ -48,7 +48,7 @@ app.get("/getACdata/:Id", function (req, res, next) {
 })
 
 
-Process = (Name, Id, Directory, Command) => {
+Process = (Name, Id, Directory, Command, autoRun = true) => {
 	let p = {};
 	p.Name = Name;
 	p.Id = Id;
@@ -57,6 +57,7 @@ Process = (Name, Id, Directory, Command) => {
 	p.out = "";
 	P[Id] = p;
 	p.Status = "Stopped";
+	if (autoRun) Run(p);
 	return p;
 }
 
