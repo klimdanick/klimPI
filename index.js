@@ -10,6 +10,7 @@ const { spawn } = require('child_process');
 const terminate = require('terminate')
 
 const https = require('https');
+const { kill } = require('process');
 const app = express();
 const options = {
   key: fs.readFileSync('/certs/private.key'),
@@ -48,13 +49,14 @@ app.get("/getACdata/:Id", function (req, res, next) {
 })
 
 
-Process = (Name, Id, Directory, Command, autoRun = true) => {
+Process = (Name, Id, Directory, Command, autoRun = true, killcommand = null) => {
 	let p = {};
 	p.Name = Name;
 	p.Id = Id;
 	p.Directory = Directory;
 	p.Command = Command;
 	p.out = "";
+	P.killcommand = killcommand;
 	P[Id] = p;
 	p.Status = "Stopped";
 	if (autoRun) Run(p);
@@ -97,6 +99,10 @@ Run = (process) => {
 Stop = (process) => {
 	console.log("STOPPING: " + process.Name);
 	terminate(process.proc.pid, err => console.log(err));
+	if (process.killcommand) {
+		killproc = spawn(process.Command, [], {cwd: process.Directory});
+		terminate(killproc.pid, err => console.log(err));
+	}
 }
 
 
@@ -106,5 +112,5 @@ Process("Assetto", 0, "../acServerManager", './server-manager');
 Process("QuoteBot", 1, "../QuoteBot/", './run.sh');
 Process("E2 Bot", 2, "../E2/", './run.sh');
 Process("x screen", 3, "../torcs/torcs-1.3.7", "./xserver.sh");
-Process("xterm", 4, "../torcs/torcs-1.3.7", "xterm");
+Process("xterm", 4, "../torcs/torcs-1.3.7", "xterm", true, "killall xterm");
 setTimeout(() => {console.log(P);},1000);
