@@ -112,6 +112,7 @@ window.onload = function() {
   ACpros(Process("Assetto Corsa Server", 0));
   Process("QuoteBot", 1);
   Process("E2 Bot", 2);
+  Process("x server", 3);
 };
 
 function updatePage() {
