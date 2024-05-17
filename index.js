@@ -49,7 +49,7 @@ app.get("/getACdata/:Id", function (req, res, next) {
 })
 
 
-Process = (Name, Id, Directory, Command, autoRun = true, killcommand = {"command": "term", "args": []}) => {
+Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
 	let p = {};
 	p.Name = Name;
 	p.Id = Id;
@@ -78,7 +78,7 @@ ACpros = (process) => {
 	
 Run = (process) => {
 	console.log(process.Directory);
-	process.proc = spawn(process.Command, [], {cwd: process.Directory});
+	process.proc = spawn(process.Command.command, process.Command.args, {cwd: process.Directory});
 	process.Status = "Running";
 	process.proc.stdout.on('data', (data) => {
 		//console.log(`stdout: ${data}`);
@@ -111,9 +111,9 @@ Stop = (process) => {
 
 
 let P = [];
-Process("Assetto", 0, "../acServerManager", './server-manager');
-Process("QuoteBot", 1, "../QuoteBot/", './run.sh');
-Process("E2 Bot", 2, "../E2/", './run.sh');
-Process("x screen", 3, "../torcs/torcs-1.3.7", "./xserver.sh");
-Process("xterm", 4, "../torcs/torcs-1.3.7/BUILD/bin", "xterm -hold -e ./torcs", true, {command: "killall", args: ["xterm"]});
+Process("Assetto", 0, "../acServerManager", {command: './server-manager', args: []});
+Process("QuoteBot", 1, "../QuoteBot/");
+Process("E2 Bot", 2, "../E2/");
+Process("x screen", 3, "../torcs/torcs-1.3.7", {command: "./xserver.sh", args: []});
+Process("xterm", 4, "../torcs/torcs-1.3.7/BUILD/bin", {command: "xterm", args: ["-hold", "-e", "./torcs"]}, true, {command: "killall", args: ["xterm"]});
 setTimeout(() => {console.log(P);},1000);
