@@ -113,6 +113,7 @@ window.onload = function() {
   Process("QuoteBot", 1);
   Process("E2 Bot", 2);
   Process("x server", 3);
+  Process("xterm", 4);
 };
 
 function updatePage() {
