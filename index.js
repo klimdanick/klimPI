@@ -115,5 +115,6 @@ Process("Assetto", 0, "../acServerManager", {command: './server-manager', args: 
 Process("QuoteBot", 1, "../QuoteBot/");
 Process("E2 Bot", 2, "../E2/");
 Process("x screen", 3, "../torcs/torcs-1.3.7", {command: "./xserver.sh", args: []});
-Process("xterm", 4, "../torcs/torcs-1.3.7/BUILD/bin", {command: "xterm", args: ["-hold", "-e", "./torcs"]}, true, {command: "killall", args: ["xterm"]});
+Process("xterm", 4, "../torcs/torcs-1.3.7/BUILD/bin", {command: "xterm", args: ["-hold"]}, true, {command: "killall", args: ["xterm"]});
+Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", {command: "xterm", args: ["-hold", "-e", "./torcs"]}, true, {command: "killall", args: ["xterm"]});
 setTimeout(() => {console.log(P);},1000);
