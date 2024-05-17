@@ -101,7 +101,11 @@ Stop = (process) => {
 	terminate(process.proc.pid, err => console.log(err));
 	if (process.killcommand) {
 		killproc = spawn(process.Command, [], {cwd: process.Directory});
-		terminate(killproc.pid, err => console.log(err));
+		killproc.stdout.on('data', (data) => {
+			//console.log(`stdout: ${data}`);
+			console.log(data);
+		});
+		setTimeout(() => {terminate(killproc.pid, err => console.log(err))}, 1000);
 	}
 }
 
