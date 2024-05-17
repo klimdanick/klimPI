@@ -49,7 +49,7 @@ app.get("/getACdata/:Id", function (req, res, next) {
 })
 
 
-Process = (Name, Id, Directory, Command, autoRun = true, killcommand = null) => {
+Process = (Name, Id, Directory, Command, autoRun = true, killcommand = "term") => {
 	let p = {};
 	p.Name = Name;
 	p.Id = Id;
@@ -98,13 +98,12 @@ Run = (process) => {
 	
 Stop = (process) => {
 	console.log("STOPPING: " + process.Name);
-	if (process.killcommand) {
+	if (process.killcommand != "term") {
 		killproc = spawn(process.killcommand, [], {cwd: process.Directory});
 		killproc.stdout.on('data', (data) => {
 			//console.log(`stdout: ${data}`);
-			console.log(data);
+			console.log(`kill command: ${data}`);
 		});
-		setTimeout(() => {terminate(killproc.pid, err => console.log(err))}, 1000);
 	}
 	terminate(process.proc.pid, err => console.log(err));
 }
