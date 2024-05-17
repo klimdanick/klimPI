@@ -97,7 +97,7 @@ Run = (process) => {
 }
 	
 Stop = (process) => {
-	console.log(`STOPPING: ${process.Name} with: ${process.killcommand}`);
+	console.log(`STOPPING: ${process} with: ${process.killcommand}`);
 	if (process.killcommand["command"] != "term") {
 		killproc = spawn(process.killcommand["command"], process.killcommand.args, {cwd: process.Directory});
 		killproc.stdout.on('data', (data) => {
