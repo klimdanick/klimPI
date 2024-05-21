@@ -24,6 +24,9 @@ server.listen(443, () => {
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.get("/server", function (req, res, next) {
+	res.sendFile(path.join(__dirname + '/public/dashboard.html'));
+})
+app.get("/server", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/server.html'));
 })
 app.get("/home", function (req, res, next) {
