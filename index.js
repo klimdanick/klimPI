@@ -5,6 +5,7 @@
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
+const bodyParser = require('body-parser')
 
 const { spawn } = require('child_process');
 const terminate = require('terminate')
@@ -22,6 +23,7 @@ server.listen(443, () => {
   console.log('HTTPS server running on port 443');
 });
 
+app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.get("/dashboard", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/dashboard.html'));
@@ -49,6 +51,42 @@ app.get("/getACdata/:Id", function (req, res, next) {
 		tracks: AC.tracks,
 		cars: AC.cars
 	})
+})
+app.get("/ELEGEN/title/:domain", function (req, res, next) {
+	let ELEGEN = JSON.parse(fs.readFileSync("ELEGEN.json").toString())
+	if (ELEGEN[req.params.domain]) res.send(ELEGEN[req.params.domain]["title"])
+	else res.send(ELEGEN["localhost"]["title"])
+})
+app.get("/ELEGEN/text/:domain", function (req, res, next) {
+	let ELEGEN = JSON.parse(fs.readFileSync("ELEGEN.json").toString())
+	if (ELEGEN[req.params.domain]) res.send(ELEGEN[req.params.domain]["text"])
+	else res.send(ELEGEN["localhost"]["text"])
+})
+
+app.post("/ELEGEN/title/:domain", function (req, res, next) {
+	let ELEGEN = JSON.parse(fs.readFileSync("ELEGEN.json").toString())
+	if (!ELEGEN[req.params.domain]) {
+		res.sendStatus(400);
+		return;
+	}
+	ELEGEN[req.params.domain].title = JSON.parse(req.body);
+	console.log(ELEGEN);
+	res.sendStatus(200);
+})
+app.post("/ELEGEN/text/:domain", function (req, res, next) {
+	let ELEGEN = JSON.parse(fs.readFileSync("ELEGEN.json").toString())
+	if (!ELEGEN[req.params.domain]) {
+		res.sendStatus(400);
+		return;
+	}
+	ELEGEN[req.params.domain].text = JSON.parse(req.body);
+	//console.log(ELEGEN);
+	let data = JSON.stringify(ELEGEN);
+	fs.writeFile('ELEGEN.json', data, (err) => {
+		if (err) throw err;
+		console.log(`Data written to file ${data}`);
+	});
+	res.sendStatus(200);
 })
 
 
