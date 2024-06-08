@@ -23,6 +23,18 @@ server.listen(443, () => {
   console.log('HTTPS server running on port 443');
 });
 
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header(
+	  "Access-Control-Allow-Headers",
+	  "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+	);
+	if (req.method === "OPTIONS") {
+	  res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+	  return res.status(200).json({});
+	}
+	next();
+  });
 app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.get("/dashboard", function (req, res, next) {
