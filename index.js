@@ -82,7 +82,11 @@ app.post("/ELEGEN/title/:domain", function (req, res, next) {
 		return;
 	}
 	ELEGEN[req.params.domain].title = JSON.parse(req.body);
-	console.log(ELEGEN);
+	let data = JSON.stringify(ELEGEN);
+	fs.writeFile('ELEGEN.json', data, (err) => {
+		if (err) throw err;
+		console.log(`Data written to file ${data}`);
+	});
 	res.sendStatus(200);
 })
 app.post("/ELEGEN/text/:domain", function (req, res, next) {
