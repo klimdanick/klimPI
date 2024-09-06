@@ -68,7 +68,7 @@ app.get("/resetMcWorld/:Id", function (req, res, next) {
 	MC = P[req.params.Id];
 	Stop(MC);
 	
-	rm = spawn("rm", ["-r", "world*"], {cwd: process.Directory});
+	rm = spawn("rm", ["-r", "worl*"], {cwd: process.Directory});
 	rm.stdout.on('data', (data) => {
 	});
 
