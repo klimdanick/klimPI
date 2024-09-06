@@ -64,6 +64,23 @@ app.get("/getACdata/:Id", function (req, res, next) {
 		cars: AC.cars
 	})
 })
+app.get("/resetMcWorld/:Id", function (req, res, next) {
+	MC = P[req.params.Id];
+	Stop(MC);
+	
+	rm = spawn("rm", ["-r", "world*"], {cwd: process.Directory});
+	rm.stdout.on('data', (data) => {
+	});
+
+	rm.stderr.on('data', (data) => {
+	});
+
+	rm.on('close', (code) => {
+	}); 
+	Run(MC);
+	res.status(200);
+})
+
 app.get("/ELEGEN/title/:domain", function (req, res, next) {
 	let ELEGEN = JSON.parse(fs.readFileSync("ELEGEN.json").toString())
 	if (ELEGEN[req.params.domain]) res.send(ELEGEN[req.params.domain]["title"])
