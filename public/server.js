@@ -76,7 +76,7 @@ async function update (process) {
 		Config.classList.add("process-toggle");
 		Config.innerText = "reset world";
 		Config.classList.add("Stopped");
-		Config.setAttribute("onclick", precoess.resetWorld);
+		Config.setAttribute("onclick", process.resetWorld);
 		process.Element.appendChild(Config);
 	}
 
