@@ -11,9 +11,14 @@ Process = (Name, Id) => {
 }
 
 ACpros = (process) => {
-	//ACdata = process.tracks = await (await fetch("https://vps.klimdanick.nl/getACdata/"+process.Id)).json();
 	process.configure = "http://vps.klimdanick.nl:8772";
-	//setInterval(update(process), 2000);
+	return process;
+}
+
+MCpros = (process) => {
+	process.resetWorld = () => {
+		fetch("https://vps.klimdanick.nl/resetMCWorld/"+process.Id);
+	}
 	return process;
 }
 
@@ -37,6 +42,7 @@ async function update (process) {
 	statusSpan2.classList.add("process-status");
 	statusSpan2.innerText = process.Status;
 	statusSpan.appendChild(statusSpan2);
+
 	if (process.Status == "Running") {
 		hr.style.borderColor = "#05d993";
 		statusSpan2.style.color = "#05d993";
@@ -62,6 +68,15 @@ async function update (process) {
 		Config.innerText = "config";
 		Config.classList.add("Stopped");
 		Config.setAttribute("onclick", "window.location.href = \""+process.configure+"\"");
+		process.Element.appendChild(Config);
+	}
+
+	if (process.resetWorld) {
+		let Config = document.createElement("span");
+		Config.classList.add("process-toggle");
+		Config.innerText = "reset world";
+		Config.classList.add("Stopped");
+		Config.setAttribute("onclick", precoess.resetWorld);
 		process.Element.appendChild(Config);
 	}
 
@@ -116,6 +131,7 @@ window.onload = function() {
   Process("xterm", 4);
   Process("torcs", 5);
   Process("KotN server", 6);
+  MCpros(Process("MC hardcore", 7));
 };
 
 function updatePage() {
