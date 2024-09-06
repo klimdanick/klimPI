@@ -68,18 +68,40 @@ app.get("/resetMcWorld/:Id", function (req, res, next) {
 	MC = P[req.params.Id];
 	Stop(MC);
 	console.log(MC.Directory + "$  rm -r worl*");
+	
+	ls = spawn("ls", ["worl*"], {cwd: MC.Directory});
+	ls.stdout.on('data', (data) => {
+		console.log(data);
+	});
+	ls.stderr.on('data', (data) => {
+		console.log(data);
+	});
+	ls.on('close', (code) => {
+		console.log(code);
+	}); 
+
 	rm = spawn("rm", ["-r", "worl*"], {cwd: MC.Directory});
 	rm.stdout.on('data', (data) => {
 		console.log(data);
 	});
-
 	rm.stderr.on('data', (data) => {
 		console.log(data);
 	});
-
 	rm.on('close', (code) => {
 		console.log(code);
 	}); 
+
+	ls = spawn("ls", ["worl*"], {cwd: MC.Directory});
+	ls.stdout.on('data', (data) => {
+		console.log(data);
+	});
+	ls.stderr.on('data', (data) => {
+		console.log(data);
+	});
+	ls.on('close', (code) => {
+		console.log(code);
+	}); 
+
 	Run(MC);
 	res.status(200);
 })
