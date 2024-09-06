@@ -16,7 +16,7 @@ ACpros = (process) => {
 }
 
 MCpros = (process) => {
-	process.resetWorld = `fetch("https://vps.klimdanick.nl/resetMCWorld/"+process.Id);`
+	process.resetWorld = `fetch("https://vps.klimdanick.nl/resetMCWorld/"`+process.Id+`);`
 	return process;
 }
 
