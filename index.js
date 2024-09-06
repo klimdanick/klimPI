@@ -70,12 +70,15 @@ app.get("/resetMcWorld/:Id", function (req, res, next) {
 	
 	rm = spawn("rm", ["-r", "worl*"], {cwd: process.Directory});
 	rm.stdout.on('data', (data) => {
+		console.log(data);
 	});
 
 	rm.stderr.on('data', (data) => {
+		console.log(data);
 	});
 
 	rm.on('close', (code) => {
+		console.log(code);
 	}); 
 	Run(MC);
 	res.status(200);
