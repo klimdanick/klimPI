@@ -115,6 +115,7 @@ window.onload = function() {
   Process("x server", 3);
   Process("xterm", 4);
   Process("torcs", 5);
+  Process("KotN server", 6);
 };
 
 function updatePage() {
