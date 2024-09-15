@@ -73,7 +73,7 @@ async function update (process) {
 
 	let options = {
 		backgroundColor: "transparent",
-		animationEnabled: true,
+		animationEnabled: false,
 		theme: "dark1", // "light1", "light2", "dark1", "dark2"
 		axisY: {
 		  valueFormatString: "#0%",
@@ -115,7 +115,7 @@ async function update (process) {
 
   	process.chart = new CanvasJS.Chart(graph.id, options);
 
-	
+	process.chart.render();
 
 	let Buttons = document.createElement("div");
 	Buttons.classList.add("process-buttons");
@@ -199,14 +199,14 @@ function toggleProcess(Id) {
 }
 
 async function updateGraph(process) {
-	/*
+	
 	let response = await fetch("https://vps.klimdanick.nl/getStats/"+process.Id);
 	response = await response.json();
 	process.chart.options.data[0].dataPoints = response.cpu;
 	process.chart.options.data[1].dataPoints = response.ram;
 	process.chart.options.data[2].dataPoints = response.up;
 	process.chart.options.data[3].dataPoints = response.down;
-	*/
+	
 	process.chart.render();
 }
 
