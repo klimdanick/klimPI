@@ -142,6 +142,7 @@ Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, a
 	P[Id] = p;
 	p.Status = "Stopped";
 	if (autoRun) Run(p);
+	P.stats = {cpu: [], ram: [], up: [], down: []};
 	return p;
 }
 
@@ -195,7 +196,9 @@ let statsInterval = setInterval(() => {
 	for (let i = 0; i < P.length; i++) {
 		if (P[i].proc)
 		pidusage(P[i].proc.pid, function (err, stats) {
-			console.log(stats.cpu, stats.memory);
+			P[i].stats.cpu.push(stats.cpu);
+			P[i].stats.ram.push(stats.memory);
+			console.log(P[i].stats.cpu.length);
 		});
 	}
 }, 1000);
