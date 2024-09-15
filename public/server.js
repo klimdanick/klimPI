@@ -127,9 +127,10 @@ window.onload = function() {
   Process("E2 Bot", 2);
   Process("x server", 3);
   Process("xterm", 4);
-  Process("torcs", 5);
+  //Process("torcs", 5);
   Process("KotN server", 6);
   MCpros(Process("MC hardcore", 7));
+  //Process("Jayden Webserver", 8);
 };
 
 function updatePage() {
