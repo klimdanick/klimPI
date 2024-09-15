@@ -200,9 +200,14 @@ let statsInterval = setInterval(() => {
 		if (P[i].proc)
 		pidusage(P[i].proc.pid, function (err, stats) {
 			if (!stats) return;
-			P[i].stats.cpu.push(stats.cpu);
-			P[i].stats.ram.push(stats.memory);
+			P[i].stats.cpu.push({x: new Date(i), y: parseFloat(stats.cpu)});
+			P[i].stats.ram.push({x: new Date(i), y: parseFloat(stats.memory)});
+			P[i].stats.up.push({x: new Date(i), y: parseFloat(0)});
+			P[i].stats.down.push({x: new Date(i), y: parseFloat(0)});
 			while (P[i].stats.cpu.length > 60) P[i].stats.cpu.shift();
+			while (P[i].stats.ram.length > 60) P[i].stats.ram.shift();
+			while (P[i].stats.up.length > 60) P[i].stats.up.shift();
+			while (P[i].stats.down.length > 60) P[i].stats.down.shift();
 			//console.log(P[i].stats.cpu.length);
 		});
 	}
