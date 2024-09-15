@@ -193,8 +193,17 @@ function toggleProcess(Id) {
 	})
 }
 
+async function updateGraph(process) {
+	let response = await fetch("https://vps.klimdanick.nl/getStats/"+process.Id);
+	process.stats.cpu = response.cpu;
+	process.stats.ram = response.ram;
+	process.stats.up = response.up;
+	process.stats.down = response.down;
+	process.chart.render();
+}
+
 let graphUpdateInterval = setInterval(() => {
 	Processes.forEach((item, index)=>{
-		item.chart.render();
+		updateGraph(item);
 	})
 }, 100);
