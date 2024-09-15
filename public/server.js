@@ -27,26 +27,100 @@ async function update (process) {
 	//this.Status = Status;
 	let title = document.createElement("div");
 	title.classList.add("process-title");
-	title.innerText = process.Name;
+	title.innerText = process.Name + " | ";
 	process.Element.appendChild(title);
 	let hr = document.createElement("hr");
 	hr.style.width = "100%";
 	hr.style.borderColor = "#299ad0";
 	process.Element.appendChild(hr);
-	let statusSpan = document.createElement("span"); //<hr style="width: 100%; border-color: #299ad0;">
-	statusSpan.classList.add("process-status-label");
-	statusSpan.innerText = "Status | ";//Running";
-	let statusSpan2 = document.createElement("span");
-	statusSpan2.classList.add("process-status");
-	statusSpan2.innerText = process.Status;
-	statusSpan.appendChild(statusSpan2);
+	let statusSpan = document.createElement("span");
+	statusSpan.classList.add("process-status");
+	statusSpan.innerText = process.Status;
+	
 
 	if (process.Status == "Running") {
 		hr.style.borderColor = "#05d993";
-		statusSpan2.style.color = "#05d993";
+		statusSpan.style.color = "#05d993";
 	}
-	process.Element.appendChild(statusSpan);
+	title.appendChild(statusSpan);
 	//<span onclick="toggleProcess('Assetto Corsa')" class="process-toggle">Stop</span>
+
+	let graph = document.createElement("div");
+	graph.id = "graph-"+process.Name;
+	graph.classList.add("process-graph");
+	process.Element.appendChild(graph);
+
+	process.cpu = [];
+	process.ram = [];
+	process.up = [];
+	process.down = [];
+
+	let date = new Date();
+	let a = Math.random()*2;
+	let b = Math.random()*2;
+	let c = Math.random()*2;
+	let d = Math.random()*2;
+	for (var i = 1; i < 100; i++) {
+		a+= Math.random()-0.5;
+		b+= Math.random()-0.5;
+		c+= Math.random()-0.5;
+		d+= Math.random()-0.5;
+		process.cpu.push({x: new Date(i), y: parseFloat(a)});
+		process.ram.push({x: new Date(i), y: parseFloat(b)});
+		process.up.push({x: new Date(i), y: parseFloat(c)});
+		process.down.push({x: new Date(i), y: parseFloat(d)});
+	}
+
+	let options = {
+		backgroundColor: "transparent",
+		animationEnabled: true,
+		theme: "dark1", // "light1", "light2", "dark1", "dark2"
+		axisY: {
+		  valueFormatString: "#0%",
+		},
+		data: [{
+		  type: "splineArea", 
+		  name: "cpu",
+		  yValueFormatString: "#%",
+		  color: "#d70e48",
+		  xValueType: "dateTime",
+		  xValueFormatString: "DD MMM YY HH:mm",
+		  dataPoints: process.cpu
+		},{
+			type: "splineArea", 
+			name: "ram",
+			yValueFormatString: "#%",
+			color: "#d0b747",
+			xValueType: "dateTime",
+			xValueFormatString: "DD MMM YY HH:mm",
+			dataPoints: process.ram
+		  },{
+			type: "splineArea", 
+			name: "up",
+			yValueFormatString: "#%",
+			color: "#05d993",
+			xValueType: "dateTime",
+			xValueFormatString: "DD MMM YY HH:mm",
+			dataPoints: process.up
+		  },{
+			type: "splineArea", 
+			name: "down",
+			yValueFormatString: "#%",
+			color: "#299ad0",
+			xValueType: "dateTime",
+			xValueFormatString: "DD MMM YY HH:mm",
+			dataPoints: process.down
+		  }]
+	  };
+
+  	process.chart = new CanvasJS.Chart(graph.id, options);
+
+	
+
+	let Buttons = document.createElement("div");
+	Buttons.classList.add("process-buttons");
+	process.Element.appendChild(Buttons);
+
 	let Button = document.createElement("span");
 	Button.classList.add("process-toggle");
 	if (process.Status == "Running") {
@@ -58,7 +132,7 @@ async function update (process) {
 		Button.classList.add("Stopped");
 	}
 	Button.setAttribute("onclick", "toggleProcess("+process.Id+")");
-	process.Element.appendChild(Button);
+	Buttons.appendChild(Button);
 
 	if (process.configure) {
 		let Config = document.createElement("span");
@@ -66,7 +140,7 @@ async function update (process) {
 		Config.innerText = "config";
 		Config.classList.add("Stopped");
 		Config.setAttribute("onclick", "window.location.href = \""+process.configure+"\"");
-		process.Element.appendChild(Config);
+		Buttons.appendChild(Config);
 	}
 
 	if (process.resetWorld) {
@@ -75,35 +149,7 @@ async function update (process) {
 		Config.innerText = "reset world";
 		Config.classList.add("Stopped");
 		Config.setAttribute("onclick", process.resetWorld);
-		process.Element.appendChild(Config);
-	}
-
-	if (process.tracks) {
-		let Select = document.createElement("select");
-		for (let i = 0; i < process.tracks.length; i++){
-			opt = document.createElement('option');
-			opt.value = process.tracks[i];
-			opt.innerHTML = process.tracks[i];
-			Select.appendChild(opt);
-		}
-		Select.onchange = () => {
-			fetch("https://vps.klimdanick.nl/setTrack/"+process.Id+"/"+Select.value);
-		}
-		process.Element.appendChild(Select);
-	}
-
-	if (process.cars) {
-		let Select = document.createElement("select");
-		for (let i = 0; i < process.cars.length; i++){
-			opt = document.createElement('option');
-			opt.value = process.cars[i];
-			opt.innerHTML = process.cars[i];
-			Select.appendChild(opt);
-		}
-		Select.onchange = () => {
-			fetch("https://vps.klimdanick.nl/setCar/"+process.Id+"/"+Select.value);
-		}
-		process.Element.appendChild(Select);
+		Buttons.appendChild(Config);
 	}
 
 	
@@ -122,6 +168,7 @@ toggle = async (process) => {
 
 let Processes = [];
 window.onload = function() {
+
   ACpros(Process("Assetto Corsa Server", 0));
   Process("QuoteBot", 1);
   Process("E2 Bot", 2);
@@ -131,6 +178,7 @@ window.onload = function() {
   Process("KotN server", 6);
   MCpros(Process("MC hardcore", 7));
   //Process("Jayden Webserver", 8);
+  
 };
 
 function updatePage() {
@@ -144,3 +192,9 @@ function toggleProcess(Id) {
 		if (item.Id == Id) toggle(item);
 	})
 }
+
+let graphUpdateInterval = setInterval(() => {
+	Processes.forEach((item, index)=>{
+		item.chart.render();
+	})
+}, 100);
