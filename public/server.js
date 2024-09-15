@@ -181,6 +181,7 @@ async function updateGraph(process) {
 	let response = await fetch("https://vps.klimdanick.nl/getStats/"+process.Id);
 	response = await response.json();
 	console.log(response);
+	console.log(process);
 	process.cpu = response.cpu;
 	process.ram = response.ram;
 	process.up = response.up;
