@@ -203,7 +203,7 @@ let statsInterval = setInterval(() => {
 			console.log(P[i].stats.cpu.length);
 		});
 	}
-}, 1000);
+}, 100);
 
 
 let P = [];
