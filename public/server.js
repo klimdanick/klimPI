@@ -187,10 +187,10 @@ async function updateGraph(process) {
 	
 	let response = await fetch("https://vps.klimdanick.nl/getStats/"+process.Id);
 	response = await response.json();
-	response.cpu.forEach((item, index)=>{response.cpu[index].x = new Date(item.x); response.cpu[index].y = parseFloat(item.y >= 0.01 ? item.y : 1);})
-	response.ram.forEach((item, index)=>{response.ram[index].x = new Date(item.x); response.ram[index].y = parseFloat(item.y >= 0.01 ? item.y : 1);})
-	response.up.forEach((item, index)=>{response.up[index].x = new Date(item.x); response.up[index].y = parseFloat(item.y >= 0.01 ? item.y : 1);})
-	response.down.forEach((item, index)=>{response.down[index].x = new Date(item.x); response.down[index].y = parseFloat(item.y >= 0.01 ? item.y : 1);})
+	response.cpu.forEach((item, index)=>{response.cpu[index].x = new Date(item.x); response.cpu[index].y = parseFloat(item.y >= 0.01 ? item.y : 0.01);})
+	response.ram.forEach((item, index)=>{response.ram[index].x = new Date(item.x); response.ram[index].y = parseFloat(item.y >= 0.01 ? item.y : 0.01);})
+	response.up.forEach((item, index)=>{response.up[index].x = new Date(item.x); response.up[index].y = parseFloat(item.y >= 0.01 ? item.y : 0.01);})
+	response.down.forEach((item, index)=>{response.down[index].x = new Date(item.x); response.down[index].y = parseFloat(item.y >= 0.01 ? item.y : 0.01);})
 	process.chart.options.data[0].dataPoints = response.cpu;
 	process.chart.options.data[1].dataPoints = response.ram;
 	process.chart.options.data[2].dataPoints = response.up;
