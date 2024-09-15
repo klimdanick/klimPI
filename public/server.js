@@ -65,7 +65,7 @@ async function update (process) {
 		data: [{
 		  type: "splineArea", 
 		  name: "cpu",
-		  yValueFormatString: "#%",
+		  yValueFormatString: "CPU #%",
 		  color: "#d70e48",
 		  xValueType: "dateTime",
 		  xValueFormatString: "",
@@ -73,7 +73,7 @@ async function update (process) {
 		},{
 			type: "splineArea", 
 			name: "ram",
-			yValueFormatString: "#%",
+			yValueFormatString: "RAM #%",
 			color: "#d0b747",
 			xValueType: "dateTime",
 			xValueFormatString: "",
@@ -81,7 +81,7 @@ async function update (process) {
 		  },{
 			type: "splineArea", 
 			name: "up",
-			yValueFormatString: "#%",
+			yValueFormatString: "UP #%",
 			color: "#05d993",
 			xValueType: "dateTime",
 			xValueFormatString: "",
@@ -89,7 +89,7 @@ async function update (process) {
 		  },{
 			type: "splineArea", 
 			name: "down",
-			yValueFormatString: "#%",
+			yValueFormatString: "DOWN #%",
 			color: "#299ad0",
 			xValueType: "dateTime",
 			xValueFormatString: "",
