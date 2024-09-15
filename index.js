@@ -196,6 +196,7 @@ let statsInterval = setInterval(() => {
 	for (let i = 0; i < P.length; i++) {
 		if (P[i].proc)
 		pidusage(P[i].proc.pid, function (err, stats) {
+			if (!stats) return;
 			P[i].stats.cpu.push(stats.cpu);
 			P[i].stats.ram.push(stats.memory);
 			console.log(P[i].stats.cpu.length);
