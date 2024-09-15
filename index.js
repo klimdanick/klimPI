@@ -199,6 +199,7 @@ let statsInterval = setInterval(() => {
 			if (!stats) return;
 			P[i].stats.cpu.push(stats.cpu);
 			P[i].stats.ram.push(stats.memory);
+			while (P[i].stats.cpu.length > 60) P[i].stats.cpu.shift();
 			console.log(P[i].stats.cpu.length);
 		});
 	}
