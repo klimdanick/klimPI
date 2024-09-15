@@ -179,7 +179,7 @@ function toggleProcess(Id) {
 
 async function updateGraph(process) {
 	let response = await fetch("https://vps.klimdanick.nl/getStats/"+process.Id);
-	response = response.json();
+	response = await response.json();
 	console.log(response);
 	process.cpu = response.cpu;
 	process.ram = response.ram;
