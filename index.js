@@ -146,10 +146,10 @@ Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, a
 	p.Status = "Stopped";
 	if (autoRun) Run(p);
 	p.stats = {cpu: [], ram: [], up: [], down: []};
-	while (P[i].stats.cpu.length < 60) P[i].stats.cpu.push({x: new Date(P[i].stats.cpu.length), y: 0.0});
-	while (P[i].stats.ram.length < 60) P[i].stats.ram.push({x: new Date(P[i].stats.cpu.length), y: 0.0});
-	while (P[i].stats.up.length < 60) P[i].stats.up.push({x: new Date(P[i].stats.cpu.length), y: 0.0});
-	while (P[i].stats.down.length < 60) P[i].stats.down.push({x: new Date(P[i].stats.cpu.length), y: 0.0});
+	while (p.stats.cpu.length < 60) p.stats.cpu.push({x: new Date(p.stats.cpu.length), y: 0.0});
+	while (p.stats.ram.length < 60) p.stats.ram.push({x: new Date(p.stats.cpu.length), y: 0.0});
+	while (p.stats.up.length < 60) p.stats.up.push({x: new Date(p.stats.cpu.length), y: 0.0});
+	while (p.stats.down.length < 60) p.stats.down.push({x: new Date(p.stats.cpu.length), y: 0.0});
 	return p;
 }
 
