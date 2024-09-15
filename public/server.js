@@ -202,6 +202,10 @@ async function updateGraph(process) {
 	
 	let response = await fetch("https://vps.klimdanick.nl/getStats/"+process.Id);
 	response = await response.json();
+	response.cpu.forEach((item, index)=>{response.cpu[index].x = new Date(item.x);})
+	response.ram.forEach((item, index)=>{response.ram[index].x = new Date(item.x);})
+	response.up.forEach((item, index)=>{response.up[index].x = new Date(item.x);})
+	response.down.forEach((item, index)=>{response.down[index].x = new Date(item.x);})
 	process.chart.options.data[0].dataPoints = response.cpu;
 	process.chart.options.data[1].dataPoints = response.ram;
 	process.chart.options.data[2].dataPoints = response.up;
