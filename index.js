@@ -12,6 +12,7 @@ const terminate = require('terminate')
 
 const https = require('https');
 const { kill } = require('process');
+let pidusage = require('pidusage');
 const app = express();
 const options = {
   key: fs.readFileSync('/certs/private.key'),
@@ -187,8 +188,17 @@ Stop = (process) => {
 		});
 	}
 	terminate(process.proc.pid, err => console.log(err));
+	process.proc = null;
 }
 
+let statsInterval = setInterval(() => {
+	for (let i = 0; i < P.length; i++) {
+		if (P[i].proc)
+		pidusage(P[i].proc.pid, function (err, stats) {
+			console.log(stats.cpu, stats.memory);
+		});
+	}
+}, 1000);
 
 
 let P = [];
