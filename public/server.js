@@ -178,11 +178,11 @@ window.onload = function() {
   Process("KotN server", 6);
   MCpros(Process("MC hardcore", 7));
   //Process("Jayden Webserver", 8);
-  graphUpdateInterval= setInterval(() => {
-	Processes.forEach((item, index)=>{
+  //graphUpdateInterval= setInterval(() => {
+	//Processes.forEach((item, index)=>{
 		updateGraph(item);
-	})
-}, 1000);
+	//})
+  //}, 1000);
   
 };
 
