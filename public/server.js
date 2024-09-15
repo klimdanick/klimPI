@@ -50,27 +50,6 @@ async function update (process) {
 	graph.classList.add("process-graph");
 	process.Element.appendChild(graph);
 
-	process.cpu = [];
-	process.ram = [];
-	process.up = [];
-	process.down = [];
-
-	let date = new Date();
-	let a = Math.random()*2;
-	let b = Math.random()*2;
-	let c = Math.random()*2;
-	let d = Math.random()*2;
-	for (var i = 1; i < 100; i++) {
-		a+= Math.random()-0.5;
-		b+= Math.random()-0.5;
-		c+= Math.random()-0.5;
-		d+= Math.random()-0.5;
-		process.cpu.push({x: new Date(i), y: parseFloat(a)});
-		process.ram.push({x: new Date(i), y: parseFloat(b)});
-		process.up.push({x: new Date(i), y: parseFloat(c)});
-		process.down.push({x: new Date(i), y: parseFloat(d)});
-	}
-
 	let options = {
 		backgroundColor: "transparent",
 		animationEnabled: false,
@@ -85,7 +64,7 @@ async function update (process) {
 		  color: "#d70e48",
 		  xValueType: "dateTime",
 		  xValueFormatString: "DD MMM YY HH:mm",
-		  dataPoints: process.cpu
+		  dataPoints: []
 		},{
 			type: "splineArea", 
 			name: "ram",
@@ -178,11 +157,12 @@ window.onload = function() {
   Process("KotN server", 6);
   MCpros(Process("MC hardcore", 7));
   //Process("Jayden Webserver", 8);
-  //graphUpdateInterval= setInterval(() => {
-	//Processes.forEach((item, index)=>{
+
+  graphUpdateInterval= setInterval(() => {
+	Processes.forEach((item, index)=>{
 		updateGraph(item);
-	//})
-  //}, 1000);
+	})
+  }, 1000);
   
 };
 
