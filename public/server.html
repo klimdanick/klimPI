@@ -3,7 +3,7 @@
 	<link rel="icon" href="icon.png" type="image/png">
 	<link rel="stylesheet" href="style.css">
 	<script src="client.js"></script>
-	<script src="server.js"></script>
+	<!--script src="server.js"></script-->
 	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 </head>
 
@@ -22,5 +22,11 @@
 	<span onclick="openNav()" id="openMenu">◯</span>
 	
 	<div class="process-list">
+		<div class="process">
+			<span class="process-title">Assetto Corsa</span>
+			<hr style="width: 100%; border-color: rgb(5, 217, 147);">
+			<span class="process-status-label">Status | <span class="process-status" style="color: rgb(5, 217, 147);">Running</span></span>
+			<span onclick="toggleProcess('Assetto Corsa')" class="process-toggle Running" >Stop</span>
+		</div>
 	</div>
 </body>

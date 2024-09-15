@@ -204,12 +204,17 @@ let statsInterval = setInterval(() => {
 			P[i].stats.ram.push({x: new Date(), y: parseFloat(stats.memory/16000000000)});
 			P[i].stats.up.push({x: new Date(), y: parseFloat(0)});
 			P[i].stats.down.push({x: new Date(), y: parseFloat(0)});
-			while (P[i].stats.cpu.length > 60) P[i].stats.cpu.shift();
-			while (P[i].stats.ram.length > 60) P[i].stats.ram.shift();
-			while (P[i].stats.up.length > 60) P[i].stats.up.shift();
-			while (P[i].stats.down.length > 60) P[i].stats.down.shift();
-			//console.log(P[i].stats.cpu.length);
 		});
+		else {
+			P[i].stats.cpu.push({x: new Date(), y: parseFloat(0.0)});
+			P[i].stats.ram.push({x: new Date(), y: parseFloat(0.0)});
+			P[i].stats.up.push({x: new Date(), y: parseFloat(0.0)});
+			P[i].stats.down.push({x: new Date(), y: parseFloat(0.0)});
+		}
+		while (P[i].stats.cpu.length > 60) P[i].stats.cpu.shift();
+		while (P[i].stats.ram.length > 60) P[i].stats.ram.shift();
+		while (P[i].stats.up.length > 60) P[i].stats.up.shift();
+		while (P[i].stats.down.length > 60) P[i].stats.down.shift();
 	}
 }, 1000);
 
