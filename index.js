@@ -199,7 +199,10 @@ let statsInterval = setInterval(() => {
 	for (let i = 0; i < P.length; i++) {
 		if (P[i].proc)
 		pidusage(P[i].proc.pid, function (err, stats) {
-			if (!stats) return;
+			if (!stats) {
+				stats.cpu = 0;
+				stats.ram = 0;
+			}
 			P[i].stats.cpu.push({x: new Date(i), y: parseFloat(stats.cpu)});
 			P[i].stats.ram.push({x: new Date(i), y: parseFloat(stats.memory)});
 			P[i].stats.up.push({x: new Date(i), y: parseFloat(0)});
