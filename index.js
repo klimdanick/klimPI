@@ -71,22 +71,12 @@ app.get("/getACdata/:Id", function (req, res, next) {
 app.get("/resetMcWorld/:Id", function (req, res, next) {
 	MC = P[req.params.Id];
 	Stop(MC);
-	console.log(MC.Directory + "$  rm -r worl*");
+	console.log(MC.Directory + "$ reset.sh");
 
-	ls = spawn("ls", ["worl*"], {cwd: MC.Directory});
+	ls = spawn("./reset.sh", [], {cwd: MC.Directory});
 	ls.stdout.on('data', (data) => {
 		console.log(data);
 	}); 
-
-	rm = spawn("rm", ["-r", "worl*"], {cwd: MC.Directory});
-	rm.stdout.on('data', (data) => {
-		console.log(data);
-	});
-
-	ls = spawn("ls", ["worl*"], {cwd: MC.Directory});
-	ls.stdout.on('data', (data) => {
-		console.log(data);
-	});
 
 	Run(MC);
 	res.status(200);
