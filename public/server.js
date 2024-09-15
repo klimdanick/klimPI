@@ -178,7 +178,7 @@ window.onload = function() {
   Process("KotN server", 6);
   MCpros(Process("MC hardcore", 7));
   //Process("Jayden Webserver", 8);
-  graphUpdateInterval = setInterval(() => {
+  graphUpdateInterval= setInterval(() => {
 	Processes.forEach((item, index)=>{
 		updateGraph(item);
 	})
@@ -199,12 +199,14 @@ function toggleProcess(Id) {
 }
 
 async function updateGraph(process) {
+	/*
 	let response = await fetch("https://vps.klimdanick.nl/getStats/"+process.Id);
 	response = await response.json();
 	process.chart.options.data[0].dataPoints = response.cpu;
 	process.chart.options.data[1].dataPoints = response.ram;
 	process.chart.options.data[2].dataPoints = response.up;
 	process.chart.options.data[3].dataPoints = response.down;
+	*/
 	process.chart.render();
 }
 
