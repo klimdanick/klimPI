@@ -54,6 +54,9 @@ app.get("/start/:Id", function (req, res, next) {
 app.get("/getStatus/:Id", function (req, res, next) {
 	res.send(P[req.params.Id].Status);
 })
+app.get("/getStats/:Id", function (req, res, next) {
+	res.json(P[req.params.Id].stats);
+})
 app.get("/stop/:Id", function (req, res, next) {
 	Stop(P[req.params.Id]);
 	res.send("stopped");
