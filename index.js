@@ -142,7 +142,7 @@ Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, a
 	P[Id] = p;
 	p.Status = "Stopped";
 	if (autoRun) Run(p);
-	P.stats = {cpu: [], ram: [], up: [], down: []};
+	p.stats = {cpu: [], ram: [], up: [], down: []};
 	return p;
 }
 
