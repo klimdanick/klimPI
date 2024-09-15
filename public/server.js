@@ -55,7 +55,7 @@ async function update (process) {
 		animationEnabled: false,
 		theme: "dark1", // "light1", "light2", "dark1", "dark2"
 		axisY: {
-		  valueFormatString: "#0%",
+		  valueFormatString: "#%",
 		},
 		data: [{
 		  type: "splineArea", 
