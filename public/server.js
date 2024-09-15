@@ -64,7 +64,7 @@ async function update (process) {
 		  color: "#d70e48",
 		  xValueType: "dateTime",
 		  xValueFormatString: "DD MMM YY HH:mm",
-		  dataPoints: process.cpu
+		  dataPoints: []
 		},{
 			type: "splineArea", 
 			name: "ram",
@@ -72,7 +72,7 @@ async function update (process) {
 			color: "#d0b747",
 			xValueType: "dateTime",
 			xValueFormatString: "DD MMM YY HH:mm",
-			dataPoints: process.ram
+			dataPoints: []
 		  },{
 			type: "splineArea", 
 			name: "up",
@@ -80,7 +80,7 @@ async function update (process) {
 			color: "#05d993",
 			xValueType: "dateTime",
 			xValueFormatString: "DD MMM YY HH:mm",
-			dataPoints: process.up
+			dataPoints: []
 		  },{
 			type: "splineArea", 
 			name: "down",
@@ -88,7 +88,7 @@ async function update (process) {
 			color: "#299ad0",
 			xValueType: "dateTime",
 			xValueFormatString: "DD MMM YY HH:mm",
-			dataPoints: process.down
+			dataPoints: []
 		  }]
 	  };
 
