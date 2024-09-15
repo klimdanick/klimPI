@@ -70,7 +70,7 @@ app.get("/getACdata/:Id", function (req, res, next) {
 })
 app.get("/resetMcWorld/:Id", function (req, res, next) {
 	MC = P[req.params.Id];
-	Stop(MC);
+	//Stop(MC);
 	console.log(MC.Directory + "$ reset.sh");
 
 	ls = spawn("./reset.sh", [], {cwd: MC.Directory});
@@ -78,7 +78,7 @@ app.get("/resetMcWorld/:Id", function (req, res, next) {
 		console.log(data);
 	}); 
 
-	Run(MC);
+	//Run(MC);
 	res.status(200);
 })
 
