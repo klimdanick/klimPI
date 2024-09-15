@@ -54,6 +54,11 @@ async function update (process) {
 		backgroundColor: "transparent",
 		animationEnabled: false,
 		theme: "dark1", // "light1", "light2", "dark1", "dark2"
+		axisX: {
+			labelFormatter: function(){
+				return " ";
+			}
+		},
 		axisY: {
 		  valueFormatString: "#%",
 		},
