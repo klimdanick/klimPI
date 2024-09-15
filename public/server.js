@@ -63,7 +63,7 @@ async function update (process) {
 		  yValueFormatString: "#%",
 		  color: "#d70e48",
 		  xValueType: "dateTime",
-		  xValueFormatString: "DD MMM YY HH:mm",
+		  xValueFormatString: "",
 		  dataPoints: []
 		},{
 			type: "splineArea", 
@@ -71,7 +71,7 @@ async function update (process) {
 			yValueFormatString: "#%",
 			color: "#d0b747",
 			xValueType: "dateTime",
-			xValueFormatString: "DD MMM YY HH:mm",
+			xValueFormatString: "",
 			dataPoints: []
 		  },{
 			type: "splineArea", 
@@ -79,7 +79,7 @@ async function update (process) {
 			yValueFormatString: "#%",
 			color: "#05d993",
 			xValueType: "dateTime",
-			xValueFormatString: "DD MMM YY HH:mm",
+			xValueFormatString: "",
 			dataPoints: []
 		  },{
 			type: "splineArea", 
@@ -87,7 +87,7 @@ async function update (process) {
 			yValueFormatString: "#%",
 			color: "#299ad0",
 			xValueType: "dateTime",
-			xValueFormatString: "DD MMM YY HH:mm",
+			xValueFormatString: "",
 			dataPoints: []
 		  }]
 	  };
