@@ -50,11 +50,6 @@ async function update (process) {
 	graph.classList.add("process-graph");
 	process.Element.appendChild(graph);
 
-	process.cpu = [];
-	process.ram = [];
-	process.up = [];
-	process.down = [];
-
 	let options = {
 		backgroundColor: "transparent",
 		animationEnabled: true,
@@ -180,12 +175,10 @@ function toggleProcess(Id) {
 async function updateGraph(process) {
 	let response = await fetch("https://vps.klimdanick.nl/getStats/"+process.Id);
 	response = await response.json();
-	console.log(response);
-	console.log(process);
-	process.cpu = response.cpu;
-	process.ram = response.ram;
-	process.up = response.up;
-	process.down = response.down;
+	process.chart.data[0].dataPoints = response.cpu;
+	process.chart.data[1].dataPoints = response.ram;
+	process.chart.data[2].dataPoints = response.up;
+	process.chart.data[3].dataPoints = response.down;
 	process.chart.render();
 }
 
