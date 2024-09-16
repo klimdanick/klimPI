@@ -37,7 +37,10 @@ app.use((req, res, next) => {
 	next();
   });
 app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.get("/", function (req, res, next) {
+	res.status(301).redirect("http://vps.klimdanick.nl")
+})
+//app.use(express.static(path.join(__dirname, 'public')));
 app.get("/dashboard", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/dashboard.html'));
 })
