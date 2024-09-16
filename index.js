@@ -213,10 +213,10 @@ let P = [];
 Process("Assetto", 0, "../acServerManager", {command: './server-manager', args: []});
 Process("QuoteBot", 1, "../QuoteBot/");
 Process("E2 Bot", 2, "../E2/");
-Process("x screen", 3, "../torcs/torcs-1.3.7", {command: "./xserver.sh", args: []}, false, {command: "killall", args: ["Xvfb"]});
-Process("xterm", 4, "../torcs/torcs-1.3.7/BUILD/bin", {command: "xterm", args: ["-display", ":1", "-hold"]}, false, {command: "killall", args: ["xterm"]});
+Process("x screen", 3, "../torcs/torcs-1.3.7", {command: "./xserver.sh", args: []}, true, {command: "killall", args: ["Xvfb"]});
+Process("xterm", 4, "../", {command: "xterm", args: ["-display", ":1", "-hold"]}, true, {command: "killall", args: ["xterm"]});
 Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", {command: "xterm", args: ["-display", ":1", "-hold", "-e", "./torcs"]}, false);
-Process("King Of The North Server", 6, "../KotN/", {command: "java", args: ["-jar", "KotN_Server.jar"]}, false);
-Process("MC hardcore", 7, "../mcServer/", {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]}, false)
+Process("King Of The North Server", 6, "../KotN/", {command: "java", args: ["-jar", "KotN_Server.jar"]}, true);
+Process("MC hardcore", 7, "../mcServer/", {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]}, true)
 Process("Jayden Website", 8, "../vpsHttpserverTest")
 setTimeout(() => {console.log(P);},1000);
