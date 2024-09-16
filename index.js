@@ -38,7 +38,7 @@ app.use((req, res, next) => {
   });
 app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.get("/", function (req, res, next) {
-	res.status(301).redirect("http://vps.klimdanick.nl/server")
+	res.status(301).redirect("https://vps.klimdanick.nl/server")
 })
 app.use(express.static(path.join(__dirname, 'public')));
 app.get("/dashboard", function (req, res, next) {
