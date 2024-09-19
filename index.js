@@ -143,7 +143,7 @@ app.get("/upload/:fileName/:user", function (req, res, next) {
 	let filename = req.params.fileName;
 	let user = req.params.user;
 	let datetime = new Date().toISOString();
-	res.send({hash, filename, user, datetime}.stringify());
+	res.send({hash, filename, user, datetime});
 })
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
