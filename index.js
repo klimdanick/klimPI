@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 	}
 	next();
   });
-app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
+//app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
 app.get("/", function (req, res, next) {
 	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
