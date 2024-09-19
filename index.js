@@ -26,6 +26,19 @@ server.listen(443, () => {
   console.log('HTTPS server running on port 443');
 });
 
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+	  cb(null, '/root/files/');
+	},
+	filename: function (req, file, cb) {
+	  cb(null, path.extname(file.originalname)); // Adds a unique timestamp to avoid file overwriting
+	}
+  });
+
+const upload = multer({ storage: storage });
+
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header(
@@ -152,7 +165,7 @@ app.get("/upload/:fileName/:user", function (req, res, next) {
 	fs.writeFile(`../files/${user}/${filename}`, JSON.stringify({hash, filename, user, datetime}), (err) => {if (err) throw err;});
 })
 
-app.post("/upload/:fileName/:user", function (req, res, next) {
+app.post("/upload/:fileName/:user", upload.single('file'), function (req, res, next) {
 	res.send(200)
 	console.log(req)
 	console.log(req.file)
