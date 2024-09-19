@@ -19,6 +19,8 @@ const options = {
   cert: fs.readFileSync('/certs/certificate.crt')
 };
 
+const crypto = require('crypto')
+
 const server = https.createServer(options, app);
 server.listen(443, () => {
   console.log('HTTPS server running on port 443');
@@ -131,6 +133,11 @@ app.get("/download/:fileID", function (req, res, next) {
 	let id = req.params.fileID;
 	let file = JSON.parse(fs.readFileSync("../files/db.json").toString())["files"][id]
 	res.sendFile(path.join(`/root/files/${file.name}`));
+})
+
+app.get("/upload/:fileName", function (req, res, next) {
+	let hash = crypto.createHash('md5').update(req.params.fileName).digest("hex")
+	res.send(hash)
 })
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
