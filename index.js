@@ -151,6 +151,10 @@ app.get("/upload/:fileName/:user", function (req, res, next) {
 	fs.writeFile(`../files/${user}/${filename}`, JSON.stringify({hash, filename, user, datetime}), (err) => {if (err) throw err;});
 })
 
+app.post("/upload/:fileName/:user", function (req, res, next) {
+	res.send(200)
+})
+
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
 	let p = {};
 	p.Name = Name;
