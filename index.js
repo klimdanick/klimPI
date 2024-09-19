@@ -133,14 +133,17 @@ app.get("/download/:fileID", function (req, res, next) {
 	let id = req.params.fileID;
 	let file = JSON.parse(fs.readFileSync("../files/db.json").toString())["files"][id]
 	if (file)
-		res.sendFile(path.join(`/root/files/${file.name}`));
+		res.sendFile(path.join(`/root/files/${file.owner}/${file.name}`));
 	else
 		res.send("file not found!");
 })
 
-app.get("/upload/:fileName", function (req, res, next) {
-	let hash = crypto.createHash('md5').update(req.params.fileName+new Date().toISOString()).digest("hex")
-	res.send(hash)
+app.get("/upload/:fileName/:user", function (req, res, next) {
+	let hash = crypto.createHash('md5').update(req.params.fileName+new Date().toISOString()+req.params.user).digest("hex")
+	let filename = req.params.fileName;
+	let user = req.params.user;
+	let datetime = new Date().toISOString();
+	res.send({hash, filename, user, datetime}.stringify());
 })
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
