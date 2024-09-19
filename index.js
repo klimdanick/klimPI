@@ -153,7 +153,7 @@ app.get("/upload/:fileName/:user", function (req, res, next) {
 
 app.post("/upload/:fileName/:user", function (req, res, next) {
 	res.send(200)
-	console.log(req.body)
+	console.log(req)
 })
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
