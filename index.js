@@ -136,7 +136,7 @@ app.get("/download/:fileID", function (req, res, next) {
 })
 
 app.get("/upload/:fileName", function (req, res, next) {
-	let hash = crypto.createHash('md5').update(req.params.fileName).digest("hex")
+	let hash = crypto.createHash('md5').update(req.params.fileName+new Date().toISOString()).digest("hex")
 	res.send(hash)
 })
 
