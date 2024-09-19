@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 	}
 	next();
   });
-//app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
+app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
 app.get("/", function (req, res, next) {
 	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
@@ -155,7 +155,7 @@ app.get("/upload/:fileName/:user", function (req, res, next) {
 app.post("/upload/:fileName/:user", function (req, res, next) {
 	res.send(200)
 	console.log(req)
-	console.log(req.body)
+	console.log(req.file)
 })
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
