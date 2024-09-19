@@ -146,7 +146,7 @@ app.get("/upload/:fileName/:user", function (req, res, next) {
 	res.send({hash, filename, user, datetime});
 
 	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
-	db["hash"] = {"name": filename, user, datetime}
+	db["files"][hash] = {"name": filename, user, datetime}
 	fs.writeFile("../files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
 })
 
