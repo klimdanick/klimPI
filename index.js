@@ -130,7 +130,7 @@ app.post("/ELEGEN/text/:domain", function (req, res, next) {
 app.get("/download/:fileID", function (req, res, next) {
 	let id = req.params.fileID;
 	let file = JSON.parse(fs.readFileSync("../files/db.json").toString())["files"][id]
-	res.sendFile(path.join(__dirname + `/files/${file.name}`));
+	res.sendFile(path.join(__dirname + `../files/${file.name}`));
 })
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
