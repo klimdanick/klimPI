@@ -166,7 +166,7 @@ app.get("/upload/:fileName/:user", function (req, res, next) {
 })
 
 app.post("/upload", upload.single('file'), function (req, res, next) {
-	let filename = "req.file.filename";
+	let filename = req.file.filename;
 	let user = "";
 	let datetime = new Date().toISOString();
 	let hash = crypto.createHash('md5').update(filename+user+datetime).digest("hex")
