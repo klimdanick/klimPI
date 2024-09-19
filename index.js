@@ -38,8 +38,8 @@ app.use((req, res, next) => {
   });
 app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.get("/", function (req, res, next) {
-	console.log(req.hostname);
-	res.status(301).redirect("https://vps.klimdanick.nl/server")
+	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
+	if(req.hostname == "file.klimdanick.nl") res.sendFile(path.join(__dirname + '/public/file/index.html'));
 })
 app.use(express.static(path.join(__dirname, 'public')));
 app.get("/dashboard", function (req, res, next) {
