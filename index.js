@@ -33,7 +33,7 @@ const storage = multer.diskStorage({
 	  cb(null, '/root/files/');
 	},
 	filename: function (req, file, cb) {
-	  cb(null, path.extname(file.originalname)); // Adds a unique timestamp to avoid file overwriting
+	  cb(null, file.originalname); // Adds a unique timestamp to avoid file overwriting
 	}
   });
 
@@ -165,10 +165,16 @@ app.get("/upload/:fileName/:user", function (req, res, next) {
 	fs.writeFile(`../files/${user}/${filename}`, JSON.stringify({hash, filename, user, datetime}), (err) => {if (err) throw err;});
 })
 
-app.post("/upload/:fileName/:user", upload.single('file'), function (req, res, next) {
-	res.send(200)
-	console.log(req)
-	console.log(req.file)
+app.post("/upload", upload.single('file'), function (req, res, next) {
+	let filename = "req.file.filename";
+	let user = "";
+	let datetime = new Date().toISOString();
+	let hash = crypto.createHash('md5').update(filename+user+datetime).digest("hex")
+	res.send({hash, filename, user, datetime});
+
+	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
+	db["files"][hash] = {"name": filename, user, datetime}
+	fs.writeFile("../files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
 })
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
