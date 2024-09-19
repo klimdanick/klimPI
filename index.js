@@ -147,7 +147,7 @@ app.get("/upload/:fileName/:user", function (req, res, next) {
 
 	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
 	db["hash"] = {"name": filename, user, datetime}
-	fs.writeFile("../files/db.json", db, (err) => {if (err) throw err;});
+	fs.writeFile("../files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
 })
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
