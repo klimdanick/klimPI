@@ -158,10 +158,10 @@ app.post("/upload", upload.single('file'), function (req, res, next) {
 	let datetime = new Date().toISOString();
 	let hash = crypto.createHash('md5').update(filename+user+datetime).digest("hex")
 
-	checkFile("../files/db.json");
-	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
+	checkFile("/root/files/db.json");
+	let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
 	db["files"][hash] = {"name": filename, user, datetime, hash}
-	fs.writeFile("../files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
+	fs.writeFile("/root/files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
 
 	res.status(200).redirect("https://file.klimdanick.nl/myFiles");
 })
@@ -171,7 +171,7 @@ app.get("/myFiles", function (req, res, next) {
 })
 
 app.get("/fileList", function (req, res, next) {
-	checkFile("../files/db.json");
+	checkFile("/root/files/db.json");
 	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
 	res.send(db.files);
 })
