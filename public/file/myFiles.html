@@ -23,6 +23,8 @@
     async function getFiles() {
         files = await fetch("/fileList").then((response) => response.json());
         console.log(files);
-        for (let i = 0; i < files.length; i++) document.getElementsByClassName("container")[0].innerHTML += files;
+        Object.values(myObj).map((val) => {
+            document.getElementsByClassName("container")[0].innerHTML += val.name + "<br>";
+        })
     }
 </script>
