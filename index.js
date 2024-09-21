@@ -152,25 +152,13 @@ app.get("/download/:fileID", function (req, res, next) {
 		res.send("file not found!");
 })
 
-app.get("/upload/:fileName/:user", function (req, res, next) {
-	let hash = crypto.createHash('md5').update(req.params.fileName+new Date().toISOString()+req.params.user).digest("hex")
-	let filename = req.params.fileName;
-	let user = req.params.user;
-	let datetime = new Date().toISOString();
-	res.send({hash, filename, user, datetime});
-
-	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
-	db["files"][hash] = {"name": filename, user, datetime}
-	fs.writeFile("../files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
-	fs.writeFile(`../files/${user}/${filename}`, JSON.stringify({hash, filename, user, datetime}), (err) => {if (err) throw err;});
-})
-
 app.post("/upload", upload.single('file'), function (req, res, next) {
 	let filename = req.file.filename;
 	let user = "";
 	let datetime = new Date().toISOString();
 	let hash = crypto.createHash('md5').update(filename+user+datetime).digest("hex")
 
+	checkFile("../files/db.json");
 	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
 	db["files"][hash] = {"name": filename, user, datetime, hash}
 	fs.writeFile("../files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
@@ -183,9 +171,18 @@ app.get("/myFiles", function (req, res, next) {
 })
 
 app.get("/fileList", function (req, res, next) {
+	checkFile("../files/db.json");
 	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
 	res.send(db.files);
 })
+
+function checkFile(path) {
+	const fs = require("fs"); // Or `import fs from "fs";` with ESM
+	if (fs.existsSync(path)) {
+		let json = {"files": {}};
+		fs.writeFile(path, JSON.stringify(json), err => {});
+	}
+}
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
 	let p = {};
