@@ -62,7 +62,6 @@ async function update (process) {
 		axisY: {
 		  suffix: "%",
 		  minimum: 0,
-		  maximum: 600,
 		  interval: 100
 		},
 		data: [{
