@@ -17,7 +17,11 @@
 </style>
 <script>
     window.onload = () => {
-        let files = fetch("/fileList").then((response) => response.json()).then((data) => {console.log(data)})
+        getFiles();
+    }
+
+    async function getFiles() {
+        let files = await fetch("/fileList").then((response) => response.json());
         console.log(files);
         document.getElementsByClassName("container")[0].innerHTML = files;
     }
