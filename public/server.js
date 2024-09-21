@@ -62,7 +62,7 @@ async function update (process) {
 		axisY: {
 		  valueFormatString: "#%",
 		  minimum: 0,
-		  maximum: 600
+		  maximum: 6
 		},
 		data: [{
 		  type: "splineArea", 
