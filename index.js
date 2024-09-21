@@ -178,6 +178,15 @@ app.post("/upload", upload.single('file'), function (req, res, next) {
 	res.status(200).redirect("https://file.klimdanick.nl/myFiles");
 })
 
+app.get("/myFiles", function (req, res, next) {
+	res.sendFile(path.join(__dirname + '/public/file/myFiles.html'));
+})
+
+app.get("/fileList", function (req, res, next) {
+	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
+	res.send(db.files);
+})
+
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
 	let p = {};
 	p.Name = Name;
