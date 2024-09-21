@@ -172,7 +172,7 @@ app.post("/upload", upload.single('file'), function (req, res, next) {
 	let hash = crypto.createHash('md5').update(filename+user+datetime).digest("hex")
 
 	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
-	db["files"][hash] = {"name": filename, user, datetime}
+	db["files"][hash] = {"name": filename, user, datetime, hash}
 	fs.writeFile("../files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
 
 	res.status(200).redirect("https://file.klimdanick.nl/myFiles");
