@@ -163,7 +163,7 @@ app.post("/upload", upload.single('file'), function (req, res, next) {
 	db["files"][hash] = {"name": filename, user, datetime, hash}
 	fs.writeFile("/root/files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
 
-	res.status(200).redirect("https://file.klimdanick.nl/myFiles");
+	res.status(200).redirect("https://vps.klimdanick.nl/myFiles");
 })
 
 app.get("/myFiles", function (req, res, next) {
