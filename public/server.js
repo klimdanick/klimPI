@@ -60,14 +60,16 @@ async function update (process) {
 			}
 		},
 		axisY: {
-		  valueFormatString: "#%",
+		  suffix: "%",
 		  minimum: 0,
-		  maximum: 6
+		  maximum: 6,
+		  interval: 1
 		},
 		data: [{
 		  type: "splineArea", 
 		  name: "cpu",
-		  yValueFormatString: "CPU #%",
+		  suffix: "%",
+		  prefix: "CPU ",
 		  color: "#d70e48",
 		  xValueType: "dateTime",
 		  xValueFormatString: "",
@@ -75,7 +77,8 @@ async function update (process) {
 		},{
 			type: "splineArea", 
 			name: "ram",
-			yValueFormatString: "RAM #%",
+			suffix: "%",
+		  prefix: "RAM ",
 			color: "#d0b747",
 			xValueType: "dateTime",
 			xValueFormatString: "",
@@ -83,7 +86,8 @@ async function update (process) {
 		  },{
 			type: "splineArea", 
 			name: "up",
-			yValueFormatString: "UP #%",
+			suffix: "%",
+		  prefix: "UP ",
 			color: "#05d993",
 			xValueType: "dateTime",
 			xValueFormatString: "",
@@ -91,7 +95,8 @@ async function update (process) {
 		  },{
 			type: "splineArea", 
 			name: "down",
-			yValueFormatString: "DOWN #%",
+			suffix: "%",
+		  prefix: "DOWN ",
 			color: "#299ad0",
 			xValueType: "dateTime",
 			xValueFormatString: "",
