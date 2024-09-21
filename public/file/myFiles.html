@@ -24,7 +24,7 @@
         files = await fetch("/fileList").then((response) => response.json());
         console.log(files);
         Object.values(files).map((file) => {
-            document.getElementsByClassName("container")[0].innerHTML += "<a onclick=\"copyLink('"+file.hash+"')">"file.name" + "</a><br>";
+            document.getElementsByClassName("container")[0].innerHTML += "<a onclick=\"copyLink('"+file.hash+"')\">"+file.name + "</a><br>";
         })
     }
 
