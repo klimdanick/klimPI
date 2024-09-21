@@ -24,11 +24,11 @@
         files = await fetch("/fileList").then((response) => response.json());
         console.log(files);
         Object.values(files).map((file) => {
-            document.getElementsByClassName("container")[0].innerHTML += "<a onclick=\"copyLink('"+file.hash+"')\">"+file.name + "</a><br>";
+            document.getElementsByClassName("container")[0].innerHTML += "<a href=\"https://file.klimdanick.nl/download/"+file.hash+"\" onclick=\"copyLink('"+file.hash+"')\">"+file.name + "</a><br>";
         })
     }
 
     function copyLink(hash) {
-        navigator.clipboard.writeText("https://files.klimdanick.nl/download/"+hash);
+        navigator.clipboard.writeText("https://file.klimdanick.nl/download/"+hash);
     }
 </script>
