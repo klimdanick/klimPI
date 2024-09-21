@@ -170,11 +170,12 @@ app.post("/upload", upload.single('file'), function (req, res, next) {
 	let user = "";
 	let datetime = new Date().toISOString();
 	let hash = crypto.createHash('md5').update(filename+user+datetime).digest("hex")
-	res.send({hash, filename, user, datetime});
 
 	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
 	db["files"][hash] = {"name": filename, user, datetime}
 	fs.writeFile("../files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
+
+	res.status(200).redirect("https://file.klimdanick.nl/myFiles");
 })
 
 Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
