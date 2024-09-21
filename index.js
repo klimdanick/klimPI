@@ -180,7 +180,8 @@ function checkFile(path) {
 	const fs = require("fs"); // Or `import fs from "fs";` with ESM
 	if (fs.existsSync(path)) {
 		let json = {"files": {}};
-		fs.writeFile(path, JSON.stringify(json), err => {});
+		fs.open(path, 'w', function (err, file) {});
+		fs.writeFileSync(path, JSON.stringify(json));
 	}
 }
 
