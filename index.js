@@ -29,7 +29,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-	  cb(null, '/root/files/');
+	  cb(null, "/root/files/"+req.params.user+"/");
 	},
 	filename: function (req, file, cb) {
 	  cb(null, file.originalname); // Adds a unique timestamp to avoid file overwriting
@@ -152,9 +152,9 @@ app.get("/download/:fileID", function (req, res, next) {
 		res.send("file not found!");
 })
 
-app.post("/upload", upload.single('file'), function (req, res, next) {
+app.post("/upload/:user", upload.single('file'), function (req, res, next) {
 	let filename = req.file.filename;
-	let user = "";
+	let user = req.params.user;
 	let datetime = new Date().toISOString();
 	let hash = filename;//crypto.createHash('md5').update(filename+user+datetime).digest("hex")
 
