@@ -1,4 +1,3 @@
-// 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
 // nohup node index.js > klimpi.log &
 
 
