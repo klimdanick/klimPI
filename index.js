@@ -146,10 +146,10 @@ app.post("/ELEGEN/text/:domain", function (req, res, next) {
 app.get("/download/:fileID", function (req, res, next) {
 	let id = req.params.fileID;
 	let file = JSON.parse(fs.readFileSync("../files/db.json").toString())["files"][id]
-	if (file)
+	if (file) {
 		console.log(path.join(`/root/files/${file.user}/${file.name}`));
 		res.sendFile(path.join(`/root/files/${file.user}/${file.name}`));
-	else
+	} else
 		res.send("file not found!");
 })
 
