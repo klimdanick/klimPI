@@ -81,7 +81,7 @@ app.use((req, res, next) => {
 		return res.status(401).redirect("/login")
 	}
 })
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 app.get("/", function (req, res, next) {
 	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
 	if(req.hostname == "file.klimdanick.nl") res.sendFile(path.join(__dirname + '/public/file/index.html'));
