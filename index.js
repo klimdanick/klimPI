@@ -59,9 +59,9 @@ app.use((req, res, next) => {
 	}
 	next();
   });
+app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
-app.use(bodyParser.urlencoded({extended : true}))
 app.use(cookieParser())
 app.use((req, res, next) => {
 	if (req.url == "/login") return next();
