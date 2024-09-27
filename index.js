@@ -64,6 +64,7 @@ app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser())
 app.use((req, res, next) => {
+	console.log(req.url);
 	console.log(req.body);
 	let username = req.body.username;
 	let password = req.body.password;
