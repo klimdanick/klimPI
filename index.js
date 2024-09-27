@@ -64,10 +64,10 @@ app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'})
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
 app.use(cookieParser())
 app.use((req, res, next) => {
-	if (req.url == "/login") return next();
-	if (req.url == "/icon.png") return next();
 	console.log(req.url);
 	console.log(req.body);
+	if (req.url == "/login") return next();
+	if (req.url == "/icon.png") return next();
 	let username = req.body.username;
 	let password = req.body.password;
 	let token = req.cookies.token;
