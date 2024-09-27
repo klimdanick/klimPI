@@ -66,20 +66,20 @@ app.use(cookieParser())
 app.use((req, res, next) => {
 	console.log(req.url);
 	console.log(req.body);
-	if (req.url == "/login") return next();
-	if (req.url == "/icon.png") return next();
 	let username = req.body.username;
 	let password = req.body.password;
 	let token = req.cookies.token;
 	if (username && password) {
 		if (username == "fred" && password == "neusgat") {
 			token = "admin"
-			res.cookie('token', token, { maxAge: 900000, httpOnly: false })
+			return res.cookie('token', token, { maxAge: 900000, httpOnly: false })
 		}
 	}
 	if (token && token == "admin") {
 		next();
 	} else {
+		if (req.url == "/login") return next();
+		if (req.url == "/icon.png") return next();
 		return res.status(401).redirect("/login")
 	}
 })
