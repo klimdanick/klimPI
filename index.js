@@ -63,6 +63,7 @@ app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'})
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
 app.use(cookieParser())
 app.use((req, res, next) => {
+	console.log(req.baseUrl);
 	if (req.baseUrl == "/login") return next();
 	let body;
 	try {
