@@ -72,7 +72,7 @@ app.use((req, res, next) => {
 	if (username && password) {
 		if (username == "fred" && password == "neusgat") {
 			token = "21232f297a57a5a743894a0e4a801fc3"
-			res.cookie('token', token, { maxAge: 900000, httpOnly: false })
+			res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
 			return next();
 		}
 	}
