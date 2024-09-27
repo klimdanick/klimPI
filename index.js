@@ -5,6 +5,7 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 const bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 
 const { spawn } = require('child_process');
 const terminate = require('terminate')
@@ -13,10 +14,18 @@ const https = require('https');
 const { kill } = require('process');
 let pidusage = require('pidusage');
 const app = express();
-const options = {
-  key: fs.readFileSync('/certs/private.key'),
-  cert: fs.readFileSync('/certs/certificate.crt')
-};
+let options;
+try {
+	options = {
+		key: fs.readFileSync('/certs/private.key'),
+		cert: fs.readFileSync('/certs/certificate.crt')
+	};
+} catch(err) {
+	options = {
+		key: fs.readFileSync('certs/private.key'),
+		cert: fs.readFileSync('certs/certificate.crt')
+	};
+}
 
 const crypto = require('crypto')
 
@@ -52,6 +61,28 @@ app.use((req, res, next) => {
   });
 app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
+app.use(cookieParser())
+app.use((req, res, next) => {
+	if (req.baseUrl == "/login") return next();
+	let body;
+	try {
+	body = JSON.parse(req.body);
+	} catch(err) {
+		return res.status(401).redirect("/login")
+	}
+	console.log(body);
+	let username = body.user;
+	let password = body.pass;
+	let token = req.cookies.token;
+	if (username && password) {
+		token = "test"
+	}
+	if (token) {
+		next();
+	} else {
+		return res.status(401).redirect("https://vps.klimdanick.nl/login")
+	}
+})
 app.get("/", function (req, res, next) {
 	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
 	if(req.hostname == "file.klimdanick.nl") res.sendFile(path.join(__dirname + '/public/file/index.html'));
@@ -185,7 +216,7 @@ function checkFile(path) {
 	}
 }
 
-Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = true, killcommand = {"command": "term", "args": []}) => {
+Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = false, killcommand = {"command": "term", "args": []}) => {
 	let p = {};
 	p.Name = Name;
 	p.Id = Id;
@@ -274,9 +305,9 @@ let P = [];
 Process("Assetto", 0, "../acServerManager", {command: './server-manager', args: []});
 Process("QuoteBot", 1, "../QuoteBot/");
 Process("E2 Bot", 2, "../E2/");
-Process("x screen", 3, "../torcs/torcs-1.3.7", {command: "./xserver.sh", args: []}, true, {command: "killall", args: ["Xvfb"]});
-Process("xterm", 4, "../", {command: "xterm", args: ["-display", ":1", "-hold"]}, true, {command: "killall", args: ["xterm"]});
+Process("x screen", 3, "../torcs/torcs-1.3.7", {command: "./xserver.sh", args: []}, false, {command: "killall", args: ["Xvfb"]});
+Process("xterm", 4, "../", {command: "xterm", args: ["-display", ":1", "-hold"]}, false, {command: "killall", args: ["xterm"]});
 Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", {command: "xterm", args: ["-display", ":1", "-hold", "-e", "./torcs"]}, false);
-Process("King Of The North Server", 6, "../KotN/", {command: "java", args: ["-jar", "KotN_Server.jar"]}, true);
-Process("MC hardcore", 7, "../mcServer/", {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]}, true)
+Process("King Of The North Server", 6, "../KotN/", {command: "java", args: ["-jar", "KotN_Server.jar"]}, false);
+Process("MC hardcore", 7, "../mcServer/", {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]}, false)
 setTimeout(() => {console.log(P);},1000);
