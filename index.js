@@ -71,12 +71,12 @@ app.use((req, res, next) => {
 	let token = req.cookies.token;
 	if (username && password) {
 		if (username == "fred" && password == "neusgat") {
-			token = "admin"
+			token = "21232f297a57a5a743894a0e4a801fc3"
 			res.cookie('token', token, { maxAge: 900000, httpOnly: false })
 			return next();
 		}
 	}
-	if (token && token == "admin") {
+	if (token && token == "21232f297a57a5a743894a0e4a801fc3") {
 		return next();
 	} else {
 		if (req.url == "/login") return next();
