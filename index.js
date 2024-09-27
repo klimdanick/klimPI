@@ -63,8 +63,7 @@ app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'})
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
 app.use(cookieParser())
 app.use((req, res, next) => {
-	console.log(req.baseUrl);
-	if (req.baseUrl == "/login") return next();
+	if (req.url == "/login") return next();
 	let body;
 	try {
 	body = JSON.parse(req.body);
@@ -78,7 +77,7 @@ app.use((req, res, next) => {
 	if (username && password) {
 		token = "test"
 	}
-	if (token) {
+	if (token && token == "admin") {
 		next();
 	} else {
 		return res.status(401).redirect("https://vps.klimdanick.nl/login")

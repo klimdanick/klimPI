@@ -1,5 +1,5 @@
-certs
-certs/*
+
+./certs
 .env
 node_modules
 klimpi.log
@@ -7,3 +7,9 @@ nohup.out
 config.cfg
 ELEGEN
 ELEGEN/*
+certs/ca_bundle.crt
+certs/certificate.crt
+certs/private.key
+certs/certs/ca_bundle.crt
+certs/certs/certificate.crt
+certs/certs/private.key
