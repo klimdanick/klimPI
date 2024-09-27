@@ -64,6 +64,8 @@ app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser())
 app.use((req, res, next) => {
+	if (req.url == "/login") return next();
+	if (req.url == "/icon.png") return next();
 	console.log(req.url);
 	console.log(req.body);
 	let username = req.body.username;
@@ -75,10 +77,8 @@ app.use((req, res, next) => {
 		}
 	}
 	if (token && token == "admin") {
-		if (req.url == "/login") return res.status(200).redirect("/server")
 		next();
 	} else {
-		if (req.url == "/login") return next();
 		return res.status(401).redirect("/login")
 	}
 })
