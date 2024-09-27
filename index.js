@@ -61,34 +61,34 @@ app.use((req, res, next) => {
   });
 app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser())
 app.use((req, res, next) => {
-	if (req.url == "/login") return next();
-	/*
-	let body;
-	try {
-	body = JSON.parse(req.body);
-	} catch(err) {
-		return res.status(401).redirect("/login")
-	}
-	console.log(body);*/
-	let username = "";//body.user;
-	let password = "";//body.pass;
+	console.log(req.body);
+	let username = req.body.username;
+	let password = req.body.password;
 	let token = req.cookies.token;
 	if (username && password) {
-		token = "test"
+		if (username == "fred" && password == "neusgat") {
+			token = admin;
+		}
 	}
 	if (token && token == "admin") {
+		if (req.url == "/login") return res.status(200).redirect("/server")
 		next();
 	} else {
+		if (req.url == "/login") return next();
 		return res.status(401).redirect("/login")
 	}
 })
+app.use(express.static(path.join(__dirname, 'public')));
 app.get("/", function (req, res, next) {
 	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
 	if(req.hostname == "file.klimdanick.nl") res.sendFile(path.join(__dirname + '/public/file/index.html'));
 })
-app.use(express.static(path.join(__dirname, 'public')));
+app.get("/login", function (req, res, next) {
+	res.sendFile(path.join(__dirname + '/public/login.html'));
+})
 app.get("/dashboard", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/dashboard.html'));
 })

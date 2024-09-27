@@ -1,0 +1,51 @@
+<head>
+	<title>Klim π | login</title>
+	<link rel="icon" href="icon.png" type="image/png">
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+	<h1>KLIM<span style="color: #c40f43;"> π</span><hr style="width: 5em; border-color: #299ad0"></h1>
+
+	<div id="Menu" class="sidenav">
+	  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">◯</a>
+	  <a href="../dashboard">Dashboard</a>
+	  <a href="../server">Server</a>
+	  <a href="../home">Home</a>
+	  <a href="../">Website</a>
+	</div>
+	
+	
+	
+	<div class="list">
+		<div class="process">
+			<span class="process-title">Login</span>
+			<hr style="width: 100%; border-color: rgb(5, 217, 147);">
+			<form action="/server" method="get" enctype="multipart/form-data">
+                <span><label for="username" class="username-label">Username</label>
+                <input type="text" name="username"></span>
+                <span><label for="password" class="password-label">Password</label>
+                <input type="password" name="password"></span>
+                <button>submit</button>
+            </form>
+		</div>
+	</div>
+</body>
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .list {
+        position: absolute;
+        display: flex;
+        height : 100%;
+        bottom: 0;
+        width: 100%;
+        place-items: center;
+        align-items: center;
+        justify-content: center;
+    }    
+</style>
