@@ -73,7 +73,7 @@ app.use((req, res, next) => {
 	let token = req.cookies.token;
 	if (username && password) {
 		if (username == "fred" && password == "neusgat") {
-			token = admin;
+			token = "admin";
 		}
 	}
 	if (token && token == "admin") {
