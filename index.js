@@ -5,6 +5,7 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 const bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 
 const { spawn } = require('child_process');
 const terminate = require('terminate')
@@ -52,8 +53,27 @@ app.use((req, res, next) => {
   });
 app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
+app.use(cookieParser())
 app.use((req, res, next) => {
-	console.log(req.body);
+	if (req.baseUrl == "/login") return next();
+	let body;
+	try {
+	body = JSON.parse(req.body);
+	} catch(err) {
+		return res.status(401).redirect("/login")
+	}
+	console.log(body);
+	let username = body.user;
+	let password = body.pass;
+	let token = req.cookies.token;
+	if (username && password) {
+		token = "test"
+	}
+	if (token) {
+		next();
+	} else {
+		return res.status(401).redirect("https://vps.klimdanick.nl/login")
+	}
 })
 app.get("/", function (req, res, next) {
 	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
