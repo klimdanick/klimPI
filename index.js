@@ -72,11 +72,12 @@ app.use((req, res, next) => {
 	if (username && password) {
 		if (username == "fred" && password == "neusgat") {
 			token = "admin"
-			return res.cookie('token', token, { maxAge: 900000, httpOnly: false })
+			res.cookie('token', token, { maxAge: 900000, httpOnly: false })
+			return next();
 		}
 	}
 	if (token && token == "admin") {
-		next();
+		return next();
 	} else {
 		if (req.url == "/login") return next();
 		if (req.url == "/icon.png") return next();
