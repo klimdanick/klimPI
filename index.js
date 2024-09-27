@@ -64,6 +64,7 @@ app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
 app.use(cookieParser())
 app.use((req, res, next) => {
 	if (req.url == "/login") return next();
+	/*
 	let body;
 	try {
 	body = JSON.parse(req.body);
@@ -72,7 +73,7 @@ app.use((req, res, next) => {
 	}
 	console.log(body);
 	let username = body.user;
-	let password = body.pass;
+	let password = body.pass;*/
 	let token = req.cookies.token;
 	if (username && password) {
 		token = "test"
@@ -80,7 +81,7 @@ app.use((req, res, next) => {
 	if (token && token == "admin") {
 		next();
 	} else {
-		return res.status(401).redirect("https://vps.klimdanick.nl/login")
+		return res.status(401).redirect("/login")
 	}
 })
 app.get("/", function (req, res, next) {
