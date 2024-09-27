@@ -90,6 +90,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get("/login", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/login.html'));
 })
+app.post("/login", function (req, res, next) {
+	res.sendFile(path.join(__dirname + '/public/login.html'));
+})
 app.get("/dashboard", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/dashboard.html'));
 })
