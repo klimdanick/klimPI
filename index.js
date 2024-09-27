@@ -14,10 +14,18 @@ const https = require('https');
 const { kill } = require('process');
 let pidusage = require('pidusage');
 const app = express();
-const options = {
-  key: fs.readFileSync('certs/private.key'),
-  cert: fs.readFileSync('certs/certificate.crt')
-};
+let options;
+try {
+	options = {
+		key: fs.readFileSync('/certs/private.key'),
+		cert: fs.readFileSync('/certs/certificate.crt')
+	};
+} catch(err) {
+	options = {
+		key: fs.readFileSync('certs/private.key'),
+		cert: fs.readFileSync('certs/certificate.crt')
+	};
+}
 
 const crypto = require('crypto')
 
