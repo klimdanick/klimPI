@@ -59,7 +59,7 @@ app.use((req, res, next) => {
 	}
 	next();
   });
-//app.use(bodyParser.urlencoded({extended : false}))
+app.use(bodyParser.urlencoded({extended : false}))
 app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
 app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
 app.use(cookieParser())
