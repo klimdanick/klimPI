@@ -71,9 +71,9 @@ app.use((req, res, next) => {
 	} catch(err) {
 		return res.status(401).redirect("/login")
 	}
-	console.log(body);
+	console.log(body);*/
 	let username = body.user;
-	let password = body.pass;*/
+	let password = body.pass;
 	let token = req.cookies.token;
 	if (username && password) {
 		token = "test"
