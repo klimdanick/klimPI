@@ -73,6 +73,7 @@ app.use((req, res, next) => {
 		if (username == "fred" && password == "neusgat") {
 			token = "21232f297a57a5a743894a0e4a801fc3"
 			res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
+			res.cookie('user', username, { maxAge: 900000000, httpOnly: false })
 			return next();
 		}
 	}
@@ -191,9 +192,9 @@ app.get("/download/:fileID", function (req, res, next) {
 		res.send("file not found!");
 })
 
-app.post("/upload/:user", upload.single('file'), function (req, res, next) {
+app.post("/upload", upload.single('file'), function (req, res, next) {
 	let filename = req.file.filename;
-	let user = req.params.user;
+	let user = req.cookies.username;
 	let datetime = new Date().toISOString();
 	let hash = filename;//crypto.createHash('md5').update(filename+user+datetime).digest("hex")
 
