@@ -82,6 +82,7 @@ app.use((req, res, next) => {
 	} else {
 		if (req.url == "/login") return next();
 		if (req.url == "/icon.png") return next();
+		if (req.url == "/taart") return next();
 		if (req.url.startsWith("/download/")) return next();
 		return res.status(401).redirect("/login")
 	}
