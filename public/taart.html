@@ -10,6 +10,11 @@
 <h2 class="powned" style="position: absolute; bottom: 10%; right: 15%; color:black"">YOU HAVE BEEN POWNED</h2>
 <h2 class="powned" style="position: absolute; bottom: 25%; left: 10%; color:black"">YOU HAVE BEEN POWNED</h2>
 </body>
+<style>
+    .powned{
+        padding: 10px;
+    }
+</style>
 <script>
     let index = 0;
     setInterval(() => {
@@ -19,6 +24,10 @@
             let color = "red";
             if (index % 2 == 0) color = "white"
             powned[i].style.background = color; 
+            let x = Math.random() * 100;
+            let y = Math.random() * 100;
+            powned[i].style.top = y;
+            powned[i].style.left = x; 
         }
         index+=1;
     }, 500);
