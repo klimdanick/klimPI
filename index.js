@@ -106,6 +106,9 @@ app.get("/server", function (req, res, next) {
 app.get("/home", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/home.html'));
 })
+app.get("/taart", function (req, res, next) {
+	res.sendFile(path.join(__dirname + '/public/taart.html'));
+})
 app.get("/start/:Id", function (req, res, next) {
 	Run(P[req.params.Id]);
 	res.send("started");
