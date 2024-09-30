@@ -5,8 +5,24 @@
 <h1 style="color: white">Hoe maak je cyber-brood? met e-mail...</h1>
 <image src="https://vps.klimdanick.nl/download/taart.jpg" style="width: 50%; height: auto;"/>
 <div class="canvas-container" style="position: absolute; left: 0; top: 0; width: 100; height: 100; z-index: -1;"></div>
+<h2 class="powned" style="position: absolute; left: 10%; top: 15%; color:black"">YOU HAVE BEEN POWNED</h2>
+<h2 class="powned" style="position: absolute; right: 20%; top: 20%; color:black"">YOU HAVE BEEN POWNED</h2>
+<h2 class="powned" style="position: absolute; bottom: 10%; right: 15%; color:black"">YOU HAVE BEEN POWNED</h2>
+<h2 class="powned" style="position: absolute; bottom: 25%; left: 10%; color:black"">YOU HAVE BEEN POWNED</h2>
 </body>
 <script>
+    let index = 0;
+    setInterval(() => {
+        let powned = document.documentElement.getElementsByClassName("powned");
+
+        for (let i = 0; i < powned.length; i++) {
+            let color = "red";
+            if (index % 2 == 0) color = "white"
+            powned[i].style.background = color; 
+        }
+        index+=1;
+    }, 500);
+
     let vehicle = [];
     
     function setup() {
