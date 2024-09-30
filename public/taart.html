@@ -33,6 +33,8 @@
     }, 500);
 
     let vehicle = [];
+    const CHAR_SIZE = 20;
+    let columns = [];
     
     function setup() {
       let canvas = createCanvas(windowWidth, windowHeight);
@@ -42,11 +44,16 @@
       vehicle[1] = new Vehicle(Math.floor(Math.random() * width), Math.floor(Math.random() * height));
       vehicle[2] = new Vehicle(Math.floor(Math.random() * width), Math.floor(Math.random() * height));
       vehicle[3] = new Vehicle(Math.floor(Math.random() * width), Math.floor(Math.random() * height));
+      textSize(CHAR_SIZE);
+        for (let i = 0; i < width; i += CHAR_SIZE) {
+            columns.push(new Column(i, random(-1000, 0)));
+        }
     }
     
     function draw() {
       resizeCanvas(windowWidth, windowHeight);
       background(8,16,23);
+      columns.forEach(column => column.render());
       target= new Target(mouseX, mouseY);
     
       for (let i = 0; i < 4; i++) {
@@ -210,4 +217,78 @@
     }
     }
     
+    class MatrixSymbol {
+  constructor(x, y, speed, col) {
+    this.x = x;
+    this.y = y;
+    this.value = this.setRandomSymbol();
+    this.speed = speed;
+    this.color = col;
+    this.interval = round(random(21, 60));
+  }
+  
+  setRandomSymbol() {
+    return String.fromCharCode(0x30A0 + round(random(0, 96)));
+  }
+  
+  scroll() {
+    this.y += this.speed;
+    if (this.y > height + CHAR_SIZE) {
+      this.y = -CHAR_SIZE;
+    }
+  }
+    
+  update() {
+    this.scroll();
+    if (frameCount % this.interval === 0) {
+      this.value = this.setRandomSymbol();
+    }
+  }
+  
+  render() {
+    fill(this.color);
+    text(this.value, this.x, this.y);
+  }
+}
+
+
+class Column {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.symbols = [];
+    this.totalSymbols = round(random(10, 20));
+    this.speed = random(2,4);
+    this.setup();
+  }
+
+  setup() {
+    for (let i = 0; i < this.totalSymbols; i++) {
+      let letterColor;
+      
+      if (i === 0 && random(1) > 0.4) {
+        letterColor = color(200, 250, 200);
+      } else {
+        letterColor = color(20, 185, 70);
+      }
+      
+      const symbol = new MatrixSymbol(
+        this.x,
+        this.y,
+        this.speed,
+        letterColor
+      );
+      
+      this.symbols.push(symbol);
+      this.y -= CHAR_SIZE;
+    }
+  }
+
+  render() {
+    this.symbols.forEach(symbol => {
+      symbol.update();
+      symbol.render();
+    });
+  }
+}
     </script>
