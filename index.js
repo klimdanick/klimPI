@@ -323,4 +323,5 @@ Process("xterm", 4, "../", {command: "xterm", args: ["-display", ":1", "-hold"]}
 Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", {command: "xterm", args: ["-display", ":1", "-hold", "-e", "./torcs"]}, false);
 Process("King Of The North Server", 6, "../KotN/", {command: "java", args: ["-jar", "KotN_Server.jar"]}, false);
 Process("MC hardcore", 7, "../mcServer/", {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]}, false)
+Process("Notities", 8, "../notities/", {command: "./init.sh", args: []});
 setTimeout(() => {console.log(P);},1000);

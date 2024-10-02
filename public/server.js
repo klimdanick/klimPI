@@ -166,6 +166,7 @@ window.onload = function() {
   //Process("torcs", 5);
   Process("KotN server", 6);
   MCpros(Process("MC hardcore", 7));
+  Process("Notities", 8);
 
   graphUpdateInterval= setInterval(() => {
 	Processes.forEach((item, index)=>{
