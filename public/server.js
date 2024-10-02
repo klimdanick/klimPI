@@ -196,7 +196,7 @@ function toggleProcess(Id) {
 }
 
 async function getLogs(Id) {
-	let response = await fetch("https://vps.klimdanick.nl/getLogs/"+process.Id);
+	let response = await fetch("https://vps.klimdanick.nl/getLogs/"+Id);
 	console.log(response);
 }
 
