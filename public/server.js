@@ -127,7 +127,7 @@ async function update (process) {
 	let logsButton = document.createElement("span");
 	logsButton.classList.add("process-toggle");
 	logsButton.innerText = "logs";
-	logsButton.classList.add("Running");
+	logsButton.classList.add("Stopped");
 	logsButton.setAttribute("onclick", "getLogs("+process.Id+")");
 	Buttons.appendChild(logsButton);
 
