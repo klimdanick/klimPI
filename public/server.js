@@ -124,12 +124,12 @@ async function update (process) {
 	Button.setAttribute("onclick", "toggleProcess("+process.Id+")");
 	Buttons.appendChild(Button);
 
-	let logs = document.createElement("span");
-	logs.classList.add("process-toggle");
-	logs.innerText = "logs";
-	logs.classList.add("Running");
-	logs.setAttribute("onclick", "getLogs("+process.Id+")");
-	Buttons.appendChild(Logs);
+	let logsButton = document.createElement("span");
+	logsButton.classList.add("process-toggle");
+	logsButton.innerText = "logs";
+	logsButton.classList.add("Running");
+	logsButton.setAttribute("onclick", "getLogs("+process.Id+")");
+	Buttons.appendChild(logsButton);
 
 	if (process.configure) {
 		let Config = document.createElement("span");
