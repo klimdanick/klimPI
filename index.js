@@ -145,6 +145,11 @@ app.get("/resetMcWorld/:Id", function (req, res, next) {
 	res.status(200);
 })
 
+app.get("/getLogs/:Id", function (req, res, next) {
+	proc = P[req.params.Id];
+	res.send(process.out);
+})
+
 app.get("/ELEGEN/title/:domain", function (req, res, next) {
 	let ELEGEN = JSON.parse(fs.readFileSync("ELEGEN.json").toString())
 	if (ELEGEN[req.params.domain]) res.send(ELEGEN[req.params.domain]["title"])

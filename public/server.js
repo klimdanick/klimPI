@@ -124,6 +124,13 @@ async function update (process) {
 	Button.setAttribute("onclick", "toggleProcess("+process.Id+")");
 	Buttons.appendChild(Button);
 
+	let logs = document.createElement("span");
+	logs.classList.add("process-toggle");
+	logs.innerText = "logs";
+	logs.classList.add("Running");
+	logs.setAttribute("onclick", "getLogs("+process.Id+")");
+	Buttons.appendChild(Logs);
+
 	if (process.configure) {
 		let Config = document.createElement("span");
 		Config.classList.add("process-toggle");
@@ -186,6 +193,11 @@ function toggleProcess(Id) {
 	Processes.forEach((item, index)=>{
 		if (item.Id == Id) toggle(item);
 	})
+}
+
+async function getLogs(Id) {
+	let response = await fetch("https://vps.klimdanick.nl/getLogs/"+process.Id);
+	console.log(response);
 }
 
 async function updateGraph(process) {
