@@ -179,6 +179,7 @@ h1 {
 	overflow-x: scroll;
 	font-size: 16px;
 	line-height: 1em;
+	font-family: "Courier New", Courier, monospace;
 }
 
 #closeLogs{
