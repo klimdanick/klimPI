@@ -199,4 +199,8 @@ async function updateGraph(process) {
 	process.chart.render();
 }
 
+function closeLogs() {
+	document.getElementById("logsWindow").style.display = "none";
+}
+
 let graphUpdateInterval;
