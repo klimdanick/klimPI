@@ -71,7 +71,8 @@ app.use((req, res, next) => {
 	//console.log(req.url);
 	//console.log(req.body);
 	let username = req.body.username;
-	let password = createHash(req.body.password);
+	let password = req.body.password;
+	if (password) password = createHash(password);
 	let token = req.cookies.token;
 	if (username && password) {
 		let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
