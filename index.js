@@ -96,13 +96,12 @@ app.use((req, res, next) => {
 				return next();
 			}
 		}
-	} else {
-		if (req.url == "/login") return next();
-		if (req.url == "/icon.png") return next();
-		if (req.url == "/taart") return next();
-		if (req.url.startsWith("/download/")) return next();
-		return res.status(401).redirect("/login")
 	}
+	if (req.url == "/login") return next();
+	if (req.url == "/icon.png") return next();
+	if (req.url == "/taart") return next();
+	if (req.url.startsWith("/download/")) return next();
+	return res.status(401).redirect("/login")
 })
 app.get("/", function (req, res, next) {
 	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
