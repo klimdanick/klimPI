@@ -92,7 +92,7 @@ app.use((req, res, next) => {
 	if (token) {
 		let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
 		for (let i = 0; i < db.users.length; i++) {
-			if (db.users[i].token == token) {
+			if (db.users[i].token && db.users[i].token == token) {
 				return next();
 			}
 		}
