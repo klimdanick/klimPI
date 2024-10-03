@@ -127,20 +127,25 @@ app.get("/taart", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/taart.html'));
 })
 app.get("/start/:Id", function (req, res, next) {
+	if (!checkUserPermission(req.params.Id, req.cookies.token)) return res.sendStatus(403);
 	Run(P[req.params.Id]);
 	res.send("started");
 })
 app.get("/getStatus/:Id", function (req, res, next) {
+	if (!checkUserPermission(req.params.Id, req.cookies.token)) return res.sendStatus(403);
 	res.send(P[req.params.Id].Status);
 })
 app.get("/getStats/:Id", function (req, res, next) {
+	if (!checkUserPermission(req.params.Id, req.cookies.token)) return res.sendStatus(403);
 	res.json(P[req.params.Id].stats);
 })
 app.get("/stop/:Id", function (req, res, next) {
+	if (!checkUserPermission(req.params.Id, req.cookies.token)) return res.sendStatus(403);
 	Stop(P[req.params.Id]);
 	res.send("stopped");
 })
 app.get("/getACdata/:Id", function (req, res, next) {
+	if (!checkUserPermission(req.params.Id, req.cookies.token)) return res.sendStatus(403);
 	AC = P[req.params.Id];
 	res.json({
 		tracks: AC.tracks,
@@ -148,6 +153,7 @@ app.get("/getACdata/:Id", function (req, res, next) {
 	})
 })
 app.get("/resetMcWorld/:Id", function (req, res, next) {
+	if (!checkUserPermission(req.params.Id, req.cookies.token)) return res.sendStatus(403);
 	MC = P[req.params.Id];
 	//Stop(MC);
 	console.log(MC.Directory + "$ reset.sh");
@@ -162,6 +168,7 @@ app.get("/resetMcWorld/:Id", function (req, res, next) {
 })
 
 app.get("/getLogs/:Id", function (req, res, next) {
+	if (!checkUserPermission(req.params.Id, req.cookies.token)) return res.sendStatus(403);
 	proc = P[req.params.Id];
 	res.send(process.out);
 })
@@ -345,4 +352,30 @@ Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", false, {command: "x
 Process("King Of The North Server", 6, "../KotN/", false, {command: "java", args: ["-jar", "KotN_Server.jar"]});
 Process("MC hardcore", 7, "../mcServer/", false, {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]})
 Process("Notities", 8, "../notities/", false, {command: "./init.sh", args: []});
+
+function checkUserPermission(Id, token) {
+	let username = "";
+	let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
+	for (let i = 0; i < db.users.length; i++) {
+		if (db.users[i].token && db.users[i].token == token) {
+			username = db.users[i].username;
+			break;
+		}
+	}
+	return UserPermitted[Id+""].includes(username);
+}
+
+let UserPermitted = {
+	"0": ["klimdanick", "jayden"],
+	"1": ["klimdanick", "fred"],
+	"2": ["klimdanick"],
+	"3": ["klimdanick"],
+	"4": ["klimdanick"],
+	"5": ["klimdanick", "fred"],
+	"6": ["klimdanick"],
+	"7": ["klimdanick", "jayden"],
+	"8": ["klimdanick", "fred"]
+};
+
+
 setTimeout(() => {console.log(P);},1000);
