@@ -287,7 +287,7 @@ app.get("/fileList", function (req, res, next) {
 	let username = getUsernameByToken(req.cookies.token);
 	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
 	let files = {};
-	let keys = db.files.keys();
+	let keys = Object.keys(db.files);
 	for (let i = 0; i < keys.length; i++) {
 		if (db.files[keys[i]].user == username) files[keys[i]] = db.files[keys[i]];
 	}
