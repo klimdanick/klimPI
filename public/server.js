@@ -180,6 +180,7 @@ function toggleProcess(Id) {
 async function getLogs(Id) {
 	let response = await (await fetch("https://vps.klimdanick.nl/getLogs/"+Id)).text();
 	document.getElementById("logs").innerText = response;
+	document.getElementById("logs").style.display = "default";
 }
 
 async function updateGraph(process) {
