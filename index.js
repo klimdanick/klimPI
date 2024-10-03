@@ -126,6 +126,8 @@ app.get("/processLoader.js", (req, res, next) => {
 		});
 	  }, 1000);
 	  };`;
+
+	res.send(js);
 	/*window.onload = function() {
 		ACpros(Process("Assetto Corsa Server", 0));
 		Process("QuoteBot", 1);
