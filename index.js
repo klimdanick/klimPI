@@ -79,7 +79,7 @@ app.use((req, res, next) => {
 		let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
 		for (let i = 0; i < db.users.length; i++) {
 			if (db.users[i].username == username && db.users[i].password == password) {
-				let token = int(Math.random() * Number.MAX_VALUE);
+				let token = Math.random() * Number.MAX_VALUE;
 				db.users[i].token = token;
 				fs.writeFile("/root/files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
 				res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
