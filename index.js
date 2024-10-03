@@ -78,7 +78,7 @@ app.use((req, res, next) => {
 		console.log(password);
 		let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
 		console.log(db.users);
-		for (let i = 0; i < db.users; i++) {
+		for (let i = 0; i < db.users.length; i++) {
 			console.log(db.users[i].username == username);
 			console.log(db.users[i].password == password);
 			if (db.users[i].username == username && db.users[i].password == password) {
