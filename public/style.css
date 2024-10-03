@@ -43,6 +43,9 @@ h1 {
 	text-decoration: none;
 	display: block;
 	transition: 0.5s;
+	left: 0;
+    position: absolute;
+    top: 0;
 }
 
 .sidenav {
