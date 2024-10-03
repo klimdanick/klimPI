@@ -179,7 +179,7 @@ h1 {
 }
 
 #closeLogs{
-	position: absolute;
+	position: relative;
 	left: 10px;
 	top: 10px;
 }
