@@ -266,7 +266,7 @@ app.get("/download/:fileID", function (req, res, next) {
 
 app.post("/upload", upload.single('file'), function (req, res, next) {
 	let filename = req.file.filename;
-	let user = req.cookies.username;
+	let user = getUsernameByToken(req.cookies.token);
 	let datetime = new Date().toISOString();
 	let hash = filename;//crypto.createHash('md5').update(filename+user+datetime).digest("hex")
 
@@ -284,8 +284,14 @@ app.get("/myFiles", function (req, res, next) {
 
 app.get("/fileList", function (req, res, next) {
 	checkFile("/root/files/db.json");
+	let username = getUsernameByToken(req.cookies.token);
 	let db = JSON.parse(fs.readFileSync("../files/db.json").toString())
-	res.send(db.files);
+	let files = {};
+	let keys = db.files.keys();
+	for (let i = 0; i < keys.length; i++) {
+		if (db.files[keys[i]].user == username) files[keys[i]] = db.files[keys[i]];
+	}
+	res.send(files);
 })
 
 function checkFile(path) {
@@ -394,6 +400,11 @@ Process("MC hardcore", 7, "../mcServer/", false, {command: "java", args: ["-Xms8
 Process("Notities", 8, "../notities/", false, {command: "./init.sh", args: []});
 
 function checkUserPermission(Id, token) {
+	let username = getUsernameByToken(token);
+	return UserPermitted[Id+""].includes(username);
+}
+
+function getUsernameByToken(token) {
 	let username = "";
 	let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
 	for (let i = 0; i < db.users.length; i++) {
@@ -402,7 +413,7 @@ function checkUserPermission(Id, token) {
 			break;
 		}
 	}
-	return UserPermitted[Id+""].includes(username);
+	return username;
 }
 
 let UserPermitted = {
