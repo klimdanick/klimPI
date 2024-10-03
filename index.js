@@ -75,12 +75,8 @@ app.use((req, res, next) => {
 	if (password) password = createHash(password);
 	let token = req.cookies.token;
 	if (username && password) {
-		console.log(password);
 		let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
-		console.log(db.users);
 		for (let i = 0; i < db.users.length; i++) {
-			console.log(db.users[i].username == username);
-			console.log(db.users[i].password == password);
 			if (db.users[i].username == username && db.users[i].password == password) {
 				let token = "21232f297a57a5a743894a0e4a801fc3";
 				res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
