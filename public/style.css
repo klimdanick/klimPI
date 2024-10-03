@@ -150,3 +150,7 @@ h1 {
 .Stopped {
 	background-color: #05d993;
 }
+
+.canvasjs-chart-credit {
+	display:none
+}
