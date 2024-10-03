@@ -84,7 +84,6 @@ app.use((req, res, next) => {
 			if (db.users[i].username == username && db.users[i].password == password) {
 				let token = "21232f297a57a5a743894a0e4a801fc3";
 				res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
-				res.send(200);
 				console.log(`succesfull login as ${username}!`);
 				return next();
 			}
