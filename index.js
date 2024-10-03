@@ -47,6 +47,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+function createHash(password) {
+	return crypto.createHash('sha256').update(password).digest('hex');
+  }
+
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header(
@@ -67,14 +71,16 @@ app.use((req, res, next) => {
 	//console.log(req.url);
 	//console.log(req.body);
 	let username = req.body.username;
-	let password = req.body.password;
+	let password = createHash(req.body.password);
 	let token = req.cookies.token;
 	if (username && password) {
-		if (username == "fred" && password == "neusgat") {
-			token = "21232f297a57a5a743894a0e4a801fc3"
-			res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
-			res.cookie('username', username, { maxAge: 900000000, httpOnly: false })
-			return next();
+		let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
+		for (let i = 0; i < db.users; i++) {
+			if (db.users[i].username == username && db.users[i].password == password) {
+				let token = "21232f297a57a5a743894a0e4a801fc3";
+				res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
+				return next();
+			}
 		}
 	}
 	if (token && token == "21232f297a57a5a743894a0e4a801fc3") {
@@ -234,7 +240,7 @@ function checkFile(path) {
 	}
 }
 
-Process = (Name, Id, Directory, Command = {"command": "./run.sh", "args": []}, autoRun = false, killcommand = {"command": "term", "args": []}) => {
+Process = (Name, Id, Directory, autoRun = false, Command = {"command": "./run.sh", "args": []}, killcommand = {"command": "term", "args": []}) => {
 	let p = {};
 	p.Name = Name;
 	p.Id = Id;
@@ -321,12 +327,12 @@ let statsInterval = setInterval(() => {
 
 let P = [];
 Process("Assetto", 0, "../acServerManager", {command: './server-manager', args: []});
-Process("QuoteBot", 1, "../QuoteBot/");
+Process("QuoteBot", 1, "../QuoteBot/", true);
 Process("E2 Bot", 2, "../E2/");
-Process("x screen", 3, "../torcs/torcs-1.3.7", {command: "./xserver.sh", args: []}, false, {command: "killall", args: ["Xvfb"]});
-Process("xterm", 4, "../", {command: "xterm", args: ["-display", ":1", "-hold"]}, false, {command: "killall", args: ["xterm"]});
-Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", {command: "xterm", args: ["-display", ":1", "-hold", "-e", "./torcs"]}, false);
-Process("King Of The North Server", 6, "../KotN/", {command: "java", args: ["-jar", "KotN_Server.jar"]}, false);
-Process("MC hardcore", 7, "../mcServer/", {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]}, false)
-Process("Notities", 8, "../notities/", {command: "./init.sh", args: []});
+Process("x screen", 3, "../torcs/torcs-1.3.7", false, {command: "./xserver.sh", args: []}, {command: "killall", args: ["Xvfb"]});
+Process("xterm", 4, "../", false, {command: "xterm", args: ["-display", ":1", "-hold"]}, {command: "killall", args: ["xterm"]});
+Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", false, {command: "xterm", args: ["-display", ":1", "-hold", "-e", "./torcs"]});
+Process("King Of The North Server", 6, "../KotN/", false, {command: "java", args: ["-jar", "KotN_Server.jar"]});
+Process("MC hardcore", 7, "../mcServer/", false, {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]})
+Process("Notities", 8, "../notities/", false, {command: "./init.sh", args: []});
 setTimeout(() => {console.log(P);},1000);
