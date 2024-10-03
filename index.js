@@ -79,7 +79,9 @@ app.use((req, res, next) => {
 		let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
 		for (let i = 0; i < db.users.length; i++) {
 			if (db.users[i].username == username && db.users[i].password == password) {
-				let token = "21232f297a57a5a743894a0e4a801fc3";
+				let token = int(Math.random() * Number.MAX_VALUE);
+				db.users[i].token = token;
+				fs.writeFile("/root/files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
 				res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
 				console.log(`succesfull login as ${username}!`);
 				return next();
@@ -87,8 +89,15 @@ app.use((req, res, next) => {
 		}
 		console.log("unsuccesfull login!");
 	}
-	if (token && token == "21232f297a57a5a743894a0e4a801fc3") {
-		return next();
+	if (token) {
+		let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
+		for (let i = 0; i < db.users.length; i++) {
+			for (let i = 0; i < db.users.length; i++) {
+				if (db.users[i].token == token) {
+					return next();
+				}
+			}
+		}
 	} else {
 		if (req.url == "/login") return next();
 		if (req.url == "/icon.png") return next();
