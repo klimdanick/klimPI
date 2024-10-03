@@ -159,18 +159,20 @@ h1 {
 	width: 60%;
 	height: 60%;
 	background-color: #152a3d;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10% 10%;
 }
 
 #logs{
-	transform-origin: center;
-	top: 50%;
-	left: 50%;
 	width: 80%;
 	height: 80%;
 	background-color: #081017;
+	border-radius: 10% 10%;
 }
 body{
 	display:flex;
 	align-items: center;
-	justify-items: center;
+	justify-content: center;
 }
