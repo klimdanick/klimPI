@@ -210,7 +210,7 @@ app.get("/resetMcWorld/:Id", function (req, res, next) {
 app.get("/getLogs/:Id", function (req, res, next) {
 	if (!checkUserPermission(req.params.Id, req.cookies.token)) return res.sendStatus(403);
 	proc = P[req.params.Id];
-	console.log(proc.out);
+	//console.log(proc.out);
 	res.send(proc.out);
 })
 
@@ -336,6 +336,7 @@ Run = (process) => {
 	console.log(process.Directory);
 	process.proc = spawn(process.Command.command, process.Command.args, {cwd: process.Directory});
 	process.Status = "Running";
+	process.out = "";
 	process.proc.stdout.on('data', (data) => {
 		//console.log(`stdout: ${data}`);
 		process.out += data;
