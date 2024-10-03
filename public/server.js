@@ -164,24 +164,6 @@ toggle = async (process) => {
 }
 
 let Processes = [];
-window.onload = function() {
-  ACpros(Process("Assetto Corsa Server", 0));
-  Process("QuoteBot", 1);
-  Process("E2 Bot", 2);
-  //Process("x server", 3);
-  Process("xterm", 4);
-  //Process("torcs", 5);
-  Process("KotN server", 6);
-  MCpros(Process("MC hardcore", 7));
-  Process("Notities", 8);
-
-  graphUpdateInterval= setInterval(() => {
-	Processes.forEach((item, index)=>{
-		updateGraph(item);
-	})
-  }, 1000);
-  
-};
 
 function updatePage() {
 	Processes.forEach((item, index)=>{

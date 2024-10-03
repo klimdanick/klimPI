@@ -107,6 +107,44 @@ app.get("/", function (req, res, next) {
 	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
 	if(req.hostname == "file.klimdanick.nl") res.sendFile(path.join(__dirname + '/public/file/index.html'));
 })
+app.get("/processLoader.js", (req, res, next) => {
+	let js = `window.onload = function() {`;
+
+	if (checkUserPermission(0, req.cookies.token)) js += `ACpros(Process("Assetto Corsa Server", 0));`;
+	if (checkUserPermission(1, req.cookies.token)) js += `Process("QuoteBot", 1);`;
+	if (checkUserPermission(2, req.cookies.token)) js += `Process("E2 Bot", 2);`;
+	if (checkUserPermission(3, req.cookies.token)) js += ``;
+	if (checkUserPermission(4, req.cookies.token)) js += `Process("xterm", 4);`;
+	if (checkUserPermission(5, req.cookies.token)) js += ``;
+	if (checkUserPermission(6, req.cookies.token)) js += `Process("KotN server", 6);`;
+	if (checkUserPermission(7, req.cookies.token)) js += `MCpros(Process("MC hardcore", 7));`;
+	if (checkUserPermission(8, req.cookies.token)) js += `Process("Notities", 8);`;
+
+	js += `graphUpdateInterval= setInterval(() => {
+		Processes.forEach((item, index)=>{
+			updateGraph(item);
+		});
+	  }, 1000);
+	  };`;
+	/*window.onload = function() {
+		ACpros(Process("Assetto Corsa Server", 0));
+		Process("QuoteBot", 1);
+		Process("E2 Bot", 2);
+		//Process("x server", 3);
+		Process("xterm", 4);
+		//Process("torcs", 5);
+		Process("KotN server", 6);
+		MCpros(Process("MC hardcore", 7));
+		Process("Notities", 8);
+	  
+		graphUpdateInterval= setInterval(() => {
+		  Processes.forEach((item, index)=>{
+			  updateGraph(item);
+		  })
+		}, 1000);
+		
+	  };*/
+});
 app.use(express.static(path.join(__dirname, 'public')));
 app.get("/login", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/login.html'));
