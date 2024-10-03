@@ -173,3 +173,7 @@ h1 {
 	height: 80%;
 	background-color: #081017;
 }
+body{
+	display:flex;
+	align-items: center;
+}
