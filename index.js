@@ -210,8 +210,8 @@ app.get("/resetMcWorld/:Id", function (req, res, next) {
 app.get("/getLogs/:Id", function (req, res, next) {
 	if (!checkUserPermission(req.params.Id, req.cookies.token)) return res.sendStatus(403);
 	proc = P[req.params.Id];
-	console.log(process.out);
-	res.send(process.out);
+	console.log(proc.out);
+	res.send(proc.out);
 })
 
 app.get("/ELEGEN/title/:domain", function (req, res, next) {
