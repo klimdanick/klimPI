@@ -326,9 +326,9 @@ let statsInterval = setInterval(() => {
 
 
 let P = [];
-Process("Assetto", 0, "../acServerManager", {command: './server-manager', args: []});
+Process("Assetto", 0, "../acServerManager", false, {command: './server-manager', args: []});
 Process("QuoteBot", 1, "../QuoteBot/", true);
-Process("E2 Bot", 2, "../E2/");
+Process("E2 Bot", 2, "../E2/", false);
 Process("x screen", 3, "../torcs/torcs-1.3.7", false, {command: "./xserver.sh", args: []}, {command: "killall", args: ["Xvfb"]});
 Process("xterm", 4, "../", false, {command: "xterm", args: ["-display", ":1", "-hold"]}, {command: "killall", args: ["xterm"]});
 Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", false, {command: "xterm", args: ["-display", ":1", "-hold", "-e", "./torcs"]});
