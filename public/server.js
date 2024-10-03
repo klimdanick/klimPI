@@ -178,11 +178,10 @@ function toggleProcess(Id) {
 }
 
 async function getLogs(Id) {
-	let response = await (await fetch("https://vps.klimdanick.nl/getLogs/"+Id)).text();
-	document.getElementById("logs").innerText = response;
 	document.getElementById("logsWindow").style.display = "flex";
+	LogsId = Id;
 }
-
+let LogsId = 0;
 async function updateGraph(process) {
 	
 	let response = await fetch("https://vps.klimdanick.nl/getStats/"+process.Id);
@@ -197,6 +196,9 @@ async function updateGraph(process) {
 	process.chart.options.data[3].dataPoints = response.down;
 	
 	process.chart.render();
+
+	let r = await (await fetch("https://vps.klimdanick.nl/getLogs/"+LogsId)).text();
+	document.getElementById("logs").innerText = r;
 }
 
 function closeLogs() {
