@@ -119,6 +119,7 @@ app.get("/processLoader.js", (req, res, next) => {
 	if (checkUserPermission(6, req.cookies.token)) js += `Process("KotN server", 6);`;
 	if (checkUserPermission(7, req.cookies.token)) js += `MCpros(Process("MC hardcore", 7));`;
 	if (checkUserPermission(8, req.cookies.token)) js += `Process("Notities", 8);`;
+	if (checkUserPermission(9, req.cookies.token)) js += `Process("test http server", 9);`;
 
 	js += `graphUpdateInterval= setInterval(() => {
 		Processes.forEach((item, index)=>{
@@ -400,6 +401,7 @@ Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", false, {command: "x
 Process("King Of The North Server", 6, "../KotN/", false, {command: "java", args: ["-jar", "KotN_Server.jar"]});
 Process("MC hardcore", 7, "../mcServer/", false, {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]})
 Process("Notities", 8, "../notities/", false, {command: "./init.sh", args: []});
+Process("http", 9, "../vpsHttpserverTest/", false);
 
 function checkUserPermission(Id, token) {
 	let username = getUsernameByToken(token);
@@ -427,7 +429,8 @@ let UserPermitted = {
 	"5": ["klimdanick", "fred"],
 	"6": ["klimdanick"],
 	"7": ["klimdanick", "jayden"],
-	"8": ["klimdanick", "fred"]
+	"8": ["klimdanick", "fred"],
+	"9": ["klimdanick"]
 };
 
 
