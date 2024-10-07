@@ -422,14 +422,14 @@ function getUsernameByToken(token) {
 
 let UserPermitted = {
 	"0": ["klimdanick", "jayden"],
-	"1": ["klimdanick", "fred"],
+	"1": ["klimdanick", "fred", "tijmen"],
 	"2": ["klimdanick"],
 	"3": ["klimdanick"],
 	"4": ["klimdanick"],
-	"5": ["klimdanick", "fred"],
+	"5": ["klimdanick", "fred", "tijmen"],
 	"6": ["klimdanick"],
 	"7": ["klimdanick", "jayden"],
-	"8": ["klimdanick", "fred"],
+	"8": ["klimdanick", "fred", "tijmen"],
 	"9": ["klimdanick"]
 };
 
