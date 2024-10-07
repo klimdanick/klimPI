@@ -37,10 +37,9 @@ server.listen(443, () => {
 const multer = require('multer');
 
 const storage = multer.diskStorage({
-	destination: function (req, file, cb) 
-	  let username = getUsernameByToken(req.cookies.token)
-	  cb(null, "/root/files/"+username+"/");
-	},
+	destination: function (req, file, cb) {
+	  cb(null, "/root/files/"+getUsernameByToken(req.cookies.token)+"/");
+	}},
 	filename: function (req, file, cb) {
 	  cb(null, file.originalname); // Adds a unique timestamp to avoid file overwriting
 	}
