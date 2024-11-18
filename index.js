@@ -10,65 +10,53 @@ var cookieParser = require('cookie-parser')
 const { spawn } = require('child_process');
 const terminate = require('terminate')
 
-const https = require('https');
+const http = require('http');
 const { kill } = require('process');
 let pidusage = require('pidusage');
 const app = express();
-let options;
-try {
-	options = {
-		key: fs.readFileSync('/certs/private.key'),
-		cert: fs.readFileSync('/certs/certificate.crt')
-	};
-} catch(err) {
-	options = {
-		key: fs.readFileSync('certs/private.key'),
-		cert: fs.readFileSync('certs/certificate.crt')
-	};
-}
 
 const crypto = require('crypto')
 
-const server = https.createServer(options, app);
+const server = http.createServer(options, app);
 const port = 8085;
 server.listen(port, () => {
-  console.log(`HTTPS server running on port ${port}`);
+	console.log(`HTTPS server running on port ${port}`);
 });
 
 const multer = require('multer');
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-	  cb(null, "/root/files/"+getUsernameByToken(req.cookies.token)+"/");
+		cb(null, "/root/files/" + getUsernameByToken(req.cookies.token) + "/");
 	},
 	filename: function (req, file, cb) {
-	  cb(null, file.originalname); // Adds a unique timestamp to avoid file overwriting
+		cb(null, file.originalname); // Adds a unique timestamp to avoid file overwriting
 	}
-  });
+});
 
 const upload = multer({ storage: storage });
 
 function createHash(password) {
 	return crypto.createHash('sha256').update(password).digest('hex');
-  }
+}
 app.get("/iframe", function (req, res) {
 	res.send('<iframe src="https://www.strato.nl/apps/CustomerService?_gl=1*hkvd2s*_gcl_aw*R0NMLjE3MjY0MjY3NjYuQ2owS0NRandpNXEzQmhDaUFSSXNBSkNmdVptbVFZa01ZRFhXQ29ZdjAxZWNVS2ZiTmhFWFhBWjEtM2FQZlZTSF9QSldmTG1hUXpXaXYtSWFBalktRUFMd193Y0I.*_gcl_au*MjAwODIxODE1NS4xNzI1MzkyMTQ0*_ga*MTE2OTQxOTQwOC4xNzI1MzkyMTQ0*_ga_BRF0CQE7BF*MTczMDgxNjE0OC4xNy4xLjE3MzA4MTYxNTcuNTEuMC4w#/skl"></iframe>');
 })
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header(
-	  "Access-Control-Allow-Headers",
-	  "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept, Authorization"
 	);
 	if (req.method === "OPTIONS") {
-	  res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-	  return res.status(200).json({});
+		res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+		return res.status(200).json({});
 	}
 	next();
-  });
-app.use(bodyParser.urlencoded({extended : false}))
-app.use(bodyParser.raw({inflate:true, limit: '100kb', type: 'application/json'}));
-app.use(bodyParser.raw({inflate:true, limit: '1mb', type: 'text/plain'}))
+});
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.raw({ inflate: true, limit: '100kb', type: 'application/json' }));
+app.use(bodyParser.raw({ inflate: true, limit: '1mb', type: 'text/plain' }))
 app.use(cookieParser())
 app.use((req, res, next) => {
 	//console.log(req.url);
@@ -84,7 +72,7 @@ app.use((req, res, next) => {
 			if (db.users[i].username == username && db.users[i].password == password) {
 				let token = createHash(Math.floor(Math.random() * Number.MAX_VALUE) + "");
 				db.users[i].token = token;
-				fs.writeFile("/root/files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
+				fs.writeFile("/root/files/db.json", JSON.stringify(db), (err) => { if (err) throw err; });
 				res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
 				console.log(`succesfull login as ${username}!`);
 				return next();
@@ -108,8 +96,8 @@ app.use((req, res, next) => {
 	return res.status(401).redirect("/login")
 })
 app.get("/", function (req, res, next) {
-	if(req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
-	if(req.hostname == "file.klimdanick.nl") res.sendFile(path.join(__dirname + '/public/file/index.html'));
+	if (req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
+	if (req.hostname == "file.klimdanick.nl") res.sendFile(path.join(__dirname + '/public/file/index.html'));
 })
 app.get("/processLoader.js", (req, res, next) => {
 	let js = `window.onload = function() {`;
@@ -124,8 +112,8 @@ app.get("/processLoader.js", (req, res, next) => {
 	if (checkUserPermission(7, req.cookies.token)) js += `MCpros(Process("MC hardcore", 7));`;
 	if (checkUserPermission(8, req.cookies.token)) js += `Process("Notities", 8);`;
 	if (checkUserPermission(9, req.cookies.token)) js += `Process("test http server", 9);`;
-	if (checkUserPermission(10,req.cookies.token)) js += `Process("proxy", 10);`;
-	if (checkUserPermission(11,req.cookies.token)) js += `Process("klimdanick.nl", 11);`
+	if (checkUserPermission(10, req.cookies.token)) js += `Process("proxy", 10);`;
+	if (checkUserPermission(11, req.cookies.token)) js += `Process("klimdanick.nl", 11);`
 
 	js += `graphUpdateInterval= setInterval(() => {
 		Processes.forEach((item, index)=>{
@@ -205,10 +193,10 @@ app.get("/resetMcWorld/:Id", function (req, res, next) {
 	//Stop(MC);
 	console.log(MC.Directory + "$ reset.sh");
 
-	ls = spawn("./reset.sh", [], {cwd: MC.Directory});
+	ls = spawn("./reset.sh", [], { cwd: MC.Directory });
 	ls.stdout.on('data', (data) => {
 		console.log(data);
-	}); 
+	});
 
 	//Run(MC);
 	res.status(200);
@@ -280,8 +268,8 @@ app.post("/upload", upload.single('file'), function (req, res, next) {
 
 	checkFile("/root/files/db.json");
 	let db = JSON.parse(fs.readFileSync("/root/files/db.json").toString())
-	db["files"][hash] = {"name": filename, user, datetime, hash}
-	fs.writeFile("/root/files/db.json", JSON.stringify(db), (err) => {if (err) throw err;});
+	db["files"][hash] = { "name": filename, user, datetime, hash }
+	fs.writeFile("/root/files/db.json", JSON.stringify(db), (err) => { if (err) throw err; });
 
 	res.status(200).redirect("https://vps.klimdanick.nl/myFiles");
 })
@@ -305,13 +293,13 @@ app.get("/fileList", function (req, res, next) {
 function checkFile(path) {
 	const fs = require("fs"); // Or `import fs from "fs";` with ESM
 	if (!fs.existsSync(path)) {
-		let json = {"files": {}};
-		fs.open(path, 'w', function (err, file) {});
+		let json = { "files": {} };
+		fs.open(path, 'w', function (err, file) { });
 		fs.writeFileSync(path, JSON.stringify(json));
 	}
 }
 
-Process = (Name, Id, Directory, autoRun = false, Command = {"command": "./run.sh", "args": []}, killcommand = {"command": "term", "args": []}) => {
+Process = (Name, Id, Directory, autoRun = false, Command = { "command": "./run.sh", "args": [] }, killcommand = { "command": "term", "args": [] }) => {
 	let p = {};
 	p.Name = Name;
 	p.Id = Id;
@@ -322,26 +310,26 @@ Process = (Name, Id, Directory, autoRun = false, Command = {"command": "./run.sh
 	P[Id] = p;
 	p.Status = "Stopped";
 	if (autoRun) Run(p);
-	p.stats = {cpu: [], ram: [], up: [], down: []};
+	p.stats = { cpu: [], ram: [], up: [], down: [] };
 	return p;
 }
 
 ACpros = (process) => {
-	lsTrakcs = spawn("ls", ['content/tracks'], {cwd: process.Directory});
+	lsTrakcs = spawn("ls", ['content/tracks'], { cwd: process.Directory });
 	lsTrakcs.stdout.on('data', (data) => {
 		process.tracks = `${data}`.split("\n");
 	});
 
-	lsCars = spawn("ls", ['content/cars'], {cwd: process.Directory});
+	lsCars = spawn("ls", ['content/cars'], { cwd: process.Directory });
 	lsCars.stdout.on('data', (data) => {
 		process.cars = `${data}`.split("\n");
 	});
 	return process;
 }
-	
+
 Run = (process) => {
 	console.log(process.Directory);
-	process.proc = spawn(process.Command.command, process.Command.args, {cwd: process.Directory});
+	process.proc = spawn(process.Command.command, process.Command.args, { cwd: process.Directory });
 	process.Status = "Running";
 	process.out = "";
 	process.proc.stdout.on('data', (data) => {
@@ -357,13 +345,13 @@ Run = (process) => {
 	process.proc.on('close', (code) => {
 		console.log(`child process exited with code ${code}`);
 		process.Status = "Stopped";
-	}); 
+	});
 }
-	
+
 Stop = (process) => {
 	console.log(`STOPPING: ${process} with: ${process.killcommand}`);
 	if (process.killcommand && process.killcommand["command"] != "term") {
-		killproc = spawn(process.killcommand["command"], process.killcommand.args, {cwd: process.Directory});
+		killproc = spawn(process.killcommand["command"], process.killcommand.args, { cwd: process.Directory });
 		killproc.stdout.on('data', (data) => {
 			//console.log(`stdout: ${data}`);
 			console.log(`kill command: ${data}`);
@@ -376,16 +364,16 @@ Stop = (process) => {
 let statsInterval = setInterval(() => {
 	for (let i = 0; i < P.length; i++) {
 		if (P[i].proc)
-		pidusage(P[i].proc.pid, function (err, stats) {
-			if (!stats) return;
-			P[i].stats.cpu.push({x: new Date(), y: parseFloat(stats.cpu)});
-			P[i].stats.ram.push({x: new Date(), y: parseFloat(stats.memory/160000000)});
-			//P[i].stats.up.push({x: new Date(), y: parseFloat(0)});
-			//P[i].stats.down.push({x: new Date(), y: parseFloat(0)});
-		});
+			pidusage(P[i].proc.pid, function (err, stats) {
+				if (!stats) return;
+				P[i].stats.cpu.push({ x: new Date(), y: parseFloat(stats.cpu) });
+				P[i].stats.ram.push({ x: new Date(), y: parseFloat(stats.memory / 160000000) });
+				//P[i].stats.up.push({x: new Date(), y: parseFloat(0)});
+				//P[i].stats.down.push({x: new Date(), y: parseFloat(0)});
+			});
 		else {
-			P[i].stats.cpu.push({x: new Date(), y: parseFloat(0.0)});
-			P[i].stats.ram.push({x: new Date(), y: parseFloat(0.0)});
+			P[i].stats.cpu.push({ x: new Date(), y: parseFloat(0.0) });
+			P[i].stats.ram.push({ x: new Date(), y: parseFloat(0.0) });
 			//P[i].stats.up.push({x: new Date(), y: parseFloat(0.0)});
 			//P[i].stats.down.push({x: new Date(), y: parseFloat(0.0)});
 		}
@@ -398,22 +386,22 @@ let statsInterval = setInterval(() => {
 
 
 let P = [];
-Process("Assetto", 0, "../acServerManager", false, {command: './server-manager', args: []});
+Process("Assetto", 0, "../acServerManager", false, { command: './server-manager', args: [] });
 Process("QuoteBot", 1, "../QuoteBot/", true);
 Process("E2 Bot", 2, "../E2/", true);
-Process("x screen", 3, "../torcs/torcs-1.3.7", false, {command: "./xserver.sh", args: []}, {command: "killall", args: ["Xvfb"]});
-Process("xterm", 4, "../", false, {command: "xterm", args: ["-display", ":1", "-hold"]}, {command: "killall", args: ["xterm"]});
-Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", false, {command: "xterm", args: ["-display", ":1", "-hold", "-e", "./torcs"]});
-Process("King Of The North Server", 6, "../KotN/", false, {command: "java", args: ["-jar", "KotN_Server.jar"]});
-Process("MC hardcore", 7, "../mcServer/", false, {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper.jar", "--nogui"]})
-Process("Notities", 8, "../notities/", true, {command: "./init.sh", args: []});
+Process("x screen", 3, "../torcs/torcs-1.3.7", false, { command: "./xserver.sh", args: [] }, { command: "killall", args: ["Xvfb"] });
+Process("xterm", 4, "../", false, { command: "xterm", args: ["-display", ":1", "-hold"] }, { command: "killall", args: ["xterm"] });
+Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", false, { command: "xterm", args: ["-display", ":1", "-hold", "-e", "./torcs"] });
+Process("King Of The North Server", 6, "../KotN/", false, { command: "java", args: ["-jar", "KotN_Server.jar"] });
+Process("MC hardcore", 7, "../mcServer/", false, { command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper.jar", "--nogui"] })
+Process("Notities", 8, "../notities/", true, { command: "./init.sh", args: [] });
 Process("http", 9, "../vpsHttpserverTest/", true);
 Process("proxy", 10, "../klimPI-proxy/", true);
 Process("static website", 11, "../staticWebsite", true);
 
 function checkUserPermission(Id, token) {
 	let username = getUsernameByToken(token);
-	return UserPermitted[Id+""].includes(username);
+	return UserPermitted[Id + ""].includes(username);
 }
 
 function getUsernameByToken(token) {
@@ -439,9 +427,9 @@ let UserPermitted = {
 	"7": ["klimdanick", "jayden"],
 	"8": ["klimdanick", "fred", "tijmen"],
 	"9": ["klimdanick"],
-	"10":["klimdanick", "tijmen"],
-	"11":["klimdanick"]
+	"10": ["klimdanick", "tijmen"],
+	"11": ["klimdanick"]
 };
 
 
-setTimeout(() => {console.log(P);},1000);
+setTimeout(() => { console.log(P); }, 1000);
