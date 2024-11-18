@@ -39,9 +39,6 @@ const upload = multer({ storage: storage });
 function createHash(password) {
 	return crypto.createHash('sha256').update(password).digest('hex');
 }
-app.get("/iframe", function (req, res) {
-	res.send('<iframe src="https://www.strato.nl/apps/CustomerService?_gl=1*hkvd2s*_gcl_aw*R0NMLjE3MjY0MjY3NjYuQ2owS0NRandpNXEzQmhDaUFSSXNBSkNmdVptbVFZa01ZRFhXQ29ZdjAxZWNVS2ZiTmhFWFhBWjEtM2FQZlZTSF9QSldmTG1hUXpXaXYtSWFBalktRUFMd193Y0I.*_gcl_au*MjAwODIxODE1NS4xNzI1MzkyMTQ0*_ga*MTE2OTQxOTQwOC4xNzI1MzkyMTQ0*_ga_BRF0CQE7BF*MTczMDgxNjE0OC4xNy4xLjE3MzA4MTYxNTcuNTEuMC4w#/skl"></iframe>');
-})
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header(
@@ -96,8 +93,7 @@ app.use((req, res, next) => {
 	return res.status(401).redirect("/login")
 })
 app.get("/", function (req, res, next) {
-	if (req.hostname == "vps.klimdanick.nl") res.status(301).redirect("https://vps.klimdanick.nl/server")
-	if (req.hostname == "file.klimdanick.nl") res.sendFile(path.join(__dirname + '/public/file/index.html'));
+	res.status(301).redirect("https://vps.klimdanick.nl/admin/server")
 })
 app.get("/processLoader.js", (req, res, next) => {
 	let js = `window.onload = function() {`;
@@ -147,7 +143,7 @@ app.get("/login", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/login.html'));
 })
 app.post("/login", function (req, res, next) {
-	res.status(200).redirect("https://vps.klimdanick.nl/server")
+	res.status(200).redirect("https://vps.klimdanick.nl/admin/server")
 })
 app.get("/dashboard", function (req, res, next) {
 	res.sendFile(path.join(__dirname + '/public/dashboard.html'));
@@ -271,7 +267,7 @@ app.post("/upload", upload.single('file'), function (req, res, next) {
 	db["files"][hash] = { "name": filename, user, datetime, hash }
 	fs.writeFile("/root/files/db.json", JSON.stringify(db), (err) => { if (err) throw err; });
 
-	res.status(200).redirect("https://vps.klimdanick.nl/myFiles");
+	res.status(200).redirect("https://vps.klimdanick.nl/admin/myFiles");
 })
 
 app.get("/myFiles", function (req, res, next) {
