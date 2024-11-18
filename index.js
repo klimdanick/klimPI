@@ -17,7 +17,7 @@ const app = express();
 
 const crypto = require('crypto')
 
-const server = http.createServer(options, app);
+const server = http.createServer(app);
 const port = 8085;
 server.listen(port, () => {
 	console.log(`HTTPS server running on port ${port}`);
