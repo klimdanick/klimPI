@@ -102,8 +102,8 @@ h1 {
 .process-list {
 	position: absolute;
 	display: grid;
-	grid-template-columns: 25% 25% 25% 25%;
-	grid-template-rows: 50% 50%;
+	grid-template-columns: 20% 20% 20% 20% 20%;
+	grid-template-rows: 33% 33% 33%;
 	height : 80%;
 	bottom: 0;
 	width: 100%;

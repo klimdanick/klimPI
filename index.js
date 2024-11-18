@@ -30,8 +30,9 @@ try {
 const crypto = require('crypto')
 
 const server = https.createServer(options, app);
-server.listen(443, () => {
-  console.log('HTTPS server running on port 443');
+const port = 8085;
+server.listen(port, () => {
+  console.log(`HTTPS server running on port ${port}`);
 });
 
 const multer = require('multer');
@@ -50,7 +51,9 @@ const upload = multer({ storage: storage });
 function createHash(password) {
 	return crypto.createHash('sha256').update(password).digest('hex');
   }
-
+app.get("/iframe", function (req, res) {
+	res.send('<iframe src="https://www.strato.nl/apps/CustomerService?_gl=1*hkvd2s*_gcl_aw*R0NMLjE3MjY0MjY3NjYuQ2owS0NRandpNXEzQmhDaUFSSXNBSkNmdVptbVFZa01ZRFhXQ29ZdjAxZWNVS2ZiTmhFWFhBWjEtM2FQZlZTSF9QSldmTG1hUXpXaXYtSWFBalktRUFMd193Y0I.*_gcl_au*MjAwODIxODE1NS4xNzI1MzkyMTQ0*_ga*MTE2OTQxOTQwOC4xNzI1MzkyMTQ0*_ga_BRF0CQE7BF*MTczMDgxNjE0OC4xNy4xLjE3MzA4MTYxNTcuNTEuMC4w#/skl"></iframe>');
+})
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header(
@@ -101,6 +104,7 @@ app.use((req, res, next) => {
 	if (req.url == "/icon.png") return next();
 	if (req.url == "/taart") return next();
 	if (req.url.startsWith("/download/")) return next();
+	if (req.url.startsWith("/ELEGEN")) return next();
 	return res.status(401).redirect("/login")
 })
 app.get("/", function (req, res, next) {
@@ -120,6 +124,8 @@ app.get("/processLoader.js", (req, res, next) => {
 	if (checkUserPermission(7, req.cookies.token)) js += `MCpros(Process("MC hardcore", 7));`;
 	if (checkUserPermission(8, req.cookies.token)) js += `Process("Notities", 8);`;
 	if (checkUserPermission(9, req.cookies.token)) js += `Process("test http server", 9);`;
+	if (checkUserPermission(10,req.cookies.token)) js += `Process("proxy", 10);`;
+	if (checkUserPermission(11,req.cookies.token)) js += `Process("klimdanick.nl", 11);`
 
 	js += `graphUpdateInterval= setInterval(() => {
 		Processes.forEach((item, index)=>{
@@ -394,14 +400,16 @@ let statsInterval = setInterval(() => {
 let P = [];
 Process("Assetto", 0, "../acServerManager", false, {command: './server-manager', args: []});
 Process("QuoteBot", 1, "../QuoteBot/", true);
-Process("E2 Bot", 2, "../E2/", false);
+Process("E2 Bot", 2, "../E2/", true);
 Process("x screen", 3, "../torcs/torcs-1.3.7", false, {command: "./xserver.sh", args: []}, {command: "killall", args: ["Xvfb"]});
 Process("xterm", 4, "../", false, {command: "xterm", args: ["-display", ":1", "-hold"]}, {command: "killall", args: ["xterm"]});
 Process("torcs server", 5, "../torcs/torcs-1.3.7/BUILD/bin", false, {command: "xterm", args: ["-display", ":1", "-hold", "-e", "./torcs"]});
 Process("King Of The North Server", 6, "../KotN/", false, {command: "java", args: ["-jar", "KotN_Server.jar"]});
-Process("MC hardcore", 7, "../mcServer/", false, {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper-1.20.1-45.jar", "--nogui"]})
-Process("Notities", 8, "../notities/", false, {command: "./init.sh", args: []});
-Process("http", 9, "../vpsHttpserverTest/", false);
+Process("MC hardcore", 7, "../mcServer/", false, {command: "java", args: ["-Xms8G", "-Xmx8G", "-jar", "paper.jar", "--nogui"]})
+Process("Notities", 8, "../notities/", true, {command: "./init.sh", args: []});
+Process("http", 9, "../vpsHttpserverTest/", true);
+Process("proxy", 10, "../klimPI-proxy/", true);
+Process("static website", 11, "../staticWebsite", true);
 
 function checkUserPermission(Id, token) {
 	let username = getUsernameByToken(token);
@@ -430,7 +438,9 @@ let UserPermitted = {
 	"6": ["klimdanick"],
 	"7": ["klimdanick", "jayden"],
 	"8": ["klimdanick", "fred", "tijmen"],
-	"9": ["klimdanick"]
+	"9": ["klimdanick"],
+	"10":["klimdanick", "tijmen"],
+	"11":["klimdanick"]
 };
 
 
