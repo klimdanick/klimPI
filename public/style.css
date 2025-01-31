@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.MainMenu {
+    position:absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    margin: 0%;
+    border-radius: 0%;
+    font-size: 1.3em;
+    border-right: 5px solid var(--level0);
+}
+
+.card * {
+    margin: 0px !important;
+}
+
+.cardTabs {
+    height: 100%;
+    background-color: var(--level1);
+    margin: 0%;
+    border-radius: 10px 0px 0px 10px;
+    border-right: 2px solid var(--secondary);
+}
+
+.processCard {
+    height: 100%;
+    padding: 0%;
+    margin: 0%;
+    overflow: hidden;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.processCard .graph {
+    width: 100%;
+    height: 100%;
+}
+
+.processCard h3 {
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid var(--secondary);
+}
+
+.running {
+    background-color: #32DE8A !important;
+}
+
+.canvasjs-chart-credit {
+    display: none !important;
+}
