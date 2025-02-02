@@ -1,3 +1,10 @@
+:root {
+    --CURIOS_BLUE: #299ad0;
+    --TURMERIC_YELLOW: #d0b747;
+    --AQUA_GREEN: #05d993;
+    --DEBIAN_RED: #d70e48;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -14,6 +21,10 @@ body {
     border-right: 5px solid var(--level0);
 }
 
+.selected {
+    background-color: var(--DEBIAN_RED) !important;
+}
+
 .card * {
     margin: 0px !important;
 }
@@ -23,7 +34,7 @@ body {
     background-color: var(--level1);
     margin: 0%;
     border-radius: 10px 0px 0px 10px;
-    border-right: 2px solid var(--secondary);
+    border-right: 2px solid var(--DEBIAN_RED);
 }
 
 .processCard {
@@ -42,11 +53,11 @@ body {
 .processCard h3 {
     width: 100%;
     text-align: center;
-    border-bottom: 2px solid var(--secondary);
+    background-color: var(--DEBIAN_RED);
 }
 
 .running {
-    background-color: #32DE8A !important;
+    background-color: var(--AQUA_GREEN) !important;
 }
 
 .canvasjs-chart-credit {

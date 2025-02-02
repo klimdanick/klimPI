@@ -2,6 +2,14 @@ let layout;
 let menu;
 let processes = [];
 
+let CURIOS_BLUE = "#299ad0";
+let TURMERIC_YELLOW = "#d0b747";
+let AQUA_GREEN = "#05d993";
+let DEBIAN_RED = "#d70e48";
+
+// Create WebSocket connection.
+let socket;
+
 window.onload = () => {
     BuildPage();
 
@@ -12,6 +20,31 @@ window.onload = () => {
             layout.appendChild(processes[i]);
         }
     })
+
+    initSocket();
+}
+
+function initSocket() {
+    socket = new WebSocket("ws://localhost:443/data");
+
+    // Connection opened
+    socket.addEventListener("open", (event) => {
+    socket.send("Hello Server!");
+    });
+
+    // Listen for messages
+    socket.addEventListener("message", (event) => {
+        let data = JSON.parse(event.data);
+        let p;
+        for (let i = 0; i < processes.length && !p && i < 100; i++) {
+            if (processes[i] && processes[i].id == data.id) p = processes[i];
+        }
+        if (p) {
+            p.data[data.type].push({x: new Date(data.x), y: data.y});
+            while (p.data[data.type].length > 100) p.data[data.type].shift();
+            p.chart.render();
+        }
+    });
 }
 
 function BuildPage() {
@@ -54,11 +87,15 @@ function ProcessCard(p) {
     cardLayout.style.height = "12em";
     cardLayout.style.width = "300px";
     cardLayout.style.margin = "1em";
+    cardLayout.id = id;
     let card = new Card("250px");
     card.htmlEl.classList.add("processCard");
     let tabMenu = new TabMenu();
 
     card.appendChild(`<h3>${name}</h3>`);
+
+    cardLayout.data = [];
+    for (let i = 0; i < 4; i++) cardLayout.data.push([]);
 
     card.open = (e) => {
         while (card.htmlEl.children.length > 1) {
@@ -67,16 +104,31 @@ function ProcessCard(p) {
         card.htmlEl.appendChild(e);
         hljs.highlightAll();
         try {
-            let chart = new CanvasJS.Chart(`graph-${id}`, {
+            cardLayout.chart = new CanvasJS.Chart(`graph-${id}`, {
                 theme: "dark1", // "light1", "light2", "dark1", "dark2"
                 animationEnabled: false,
                 zoomEnabled: true,
                 data: [{
-                    type: "area",
-                    dataPoints: [{ x: 0, y: 10 }, { x: 10, y: 15 }, { x: 20, y: 5 }]
+                    type: "spline",
+                    dataPoints: cardLayout.data[0],
+                    color: DEBIAN_RED
+                }, {
+                    type: "spline",
+                    dataPoints: cardLayout.data[1],
+                    color: TURMERIC_YELLOW
+                }, {
+                    type: "spline",
+                    dataPoints: cardLayout.data[2],
+                    color: AQUA_GREEN
+                }, {
+                    type: "spline",
+                    dataPoints: cardLayout.data[3],
+                    color: CURIOS_BLUE
                 }]
             });
-            chart.render();
+
+            // console.log(chart);
+            cardLayout.chart.render();
         } catch { }
     }
 
@@ -86,7 +138,17 @@ function ProcessCard(p) {
     card.open(card.graphCanvas)
 
     card.logs = document.createElement("pre");
-    let codeString = window.onload.toString().replaceAll("  ", "");
+    let codeString = `target url: http://localhost:8085/assets/proxy.png
+request url: /assets/files.png, ::1, 2025-02-02T19:27:32.833Z
+target url: http://localhost:8085/assets/files.png
+request url: /elementaljs/src/assets/menu.png, ::1, 2025-02-02T19:27:32.836Z
+target url: http://localhost:80/src/assets/menu.png
+request url: /assets/processor.png, ::1, 2025-02-02T19:27:32.863Z
+target url: http://localhost:8085/assets/processor.png
+request url: /assets/settings.png, ::1, 2025-02-02T19:27:32.864Z
+target url: http://localhost:8085/assets/settings.png
+request url: /assets/play.png, ::1, 2025-02-02T19:27:32.865Z
+target url: http://localhost:8085/assets/play.png`;
     card.logs.innerHTML = `<code>${codeString}</code>`;
 
     let runButton, stopButton;

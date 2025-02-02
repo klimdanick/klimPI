@@ -1,9 +1,12 @@
 import fs from 'fs';
 
 export class Process {
-    constructor(id, name) {
+    constructor(id, name, port, location, command) {
         this.id = id;
         this.name = name;
+        this.port = port;
+        this.location = location;
+        this.command = command;
     }
 
     helloWorld() {
@@ -24,7 +27,8 @@ export const loadConfig = (file) => {
         processes = jsonData.processes;
 
         for (let i = 0; i < processes.length; i++) {
-            processes[i] = new Process(processes[i].id, processes[i].name);
+            let p = processes[i];
+            processes[i] = new Process(p.id, p.name, p.port, p.location, p.command);
         }
 
         console.log(processes);
