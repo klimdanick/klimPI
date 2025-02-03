@@ -25,7 +25,7 @@ window.onload = () => {
 }
 
 function initSocket() {
-    socket = new WebSocket("ws://localhost:1443/admin/data");
+    socket = new WebSocket("ws://vps.klimdanick.nl:1443/admin/data");
 
     // Connection opened
     socket.addEventListener("open", (event) => {
