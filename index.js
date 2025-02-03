@@ -14,7 +14,7 @@ for (let i = 2; i < process.argv.length; i++) {
 loadConfig("../processes.json");
 
 for (let i = 0; i < processes.length; i++) {
-
+  if (processes[i].autoStart) processes[i].start();
 }
 
 app.use(express.static('public'))
