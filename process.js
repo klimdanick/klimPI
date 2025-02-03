@@ -1,14 +1,46 @@
 import fs from 'fs';
+// import { spawn } from 'child-process'
 
 export class Process {
-    constructor(id, name, port, location, command, url) {
-        this.id = id;
-        this.name = name;
-        this.port = port;
-        this.location = location;
-        this.command = command;
-        this.url = url;
+    constructor(p) {
+        this.id = p.id || 0;
+        this.name = p.name || "New Process";
+        this.port = p.port || 1111;
+        this.location = p.location || "";
+        this.command = p.command || "echo started";
+        this.url = p.url || "";
+        this.viaProxy = p.viaProxy || false;
+        this.autoStart = p.autoStart || false;
+        this.running = false;
+        this.out = "";
     }
+
+    // toggle() {
+    //     if (this.running) this.stop();
+    //     else this.start();
+    // }
+
+    // start() {
+    //     this.proc = spawn(this.command, [], {cwd: this.location});
+    //     this.running = true;
+    //     this.proc.stdout.on('data', (data) => {
+	// 		this.out += data;
+	// 	});
+
+	// 	this.proc.stderr.on('data', (data) => {
+	// 		this.out += `[ERROR]: data\n`;
+	// 	});
+
+	// 	this.proc.on('close', (code) => {
+	// 	  this.out += `process exited with code ${code}\n`;
+	// 	  this.running = false;
+	// 	}); 
+    // }
+
+    // stop() {
+    //     this.out += `process terminated`;
+	// 	terminate(this.proc.pid, err => this.out += `[ERROR]: ${err}\n`);
+	// }
 }
 
 export let processes;
@@ -17,7 +49,11 @@ export const loadConfig = (file) => {
     processes = JSON.parse(fs.readFileSync(file))["processes"];
     for (let i = 0; i < processes.length; i++) {
         let p = processes[i];
-        processes[i] = new Process(p.id, p.name, p.port, p.location, p.command, p.url);
+        p.id = i;
+        console.log("p");
+        console.log(p);
+        processes[i] = new Process(p);
+        console.log("process");
         console.log(processes[i]);
     }
 }

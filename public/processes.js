@@ -84,7 +84,7 @@ function ProcessCard(p) {
     let id = p.id;
     let name = p.name;
     let cardLayout = new Layout("row");
-    cardLayout.style.height = "12em";
+    cardLayout.style.height = "15em";
     cardLayout.style.width = "300px";
     cardLayout.style.margin = "1em";
     cardLayout.id = id;
@@ -92,7 +92,7 @@ function ProcessCard(p) {
     card.htmlEl.classList.add("processCard");
     let tabMenu = new TabMenu();
 
-    card.appendChild(`<h3>${name}</h3>`);
+    card.appendChild(`<h2>${name}</h2>`);
 
     cardLayout.data = [];
     for (let i = 0; i < 4; i++) cardLayout.data.push([]);
@@ -151,18 +151,22 @@ request url: /assets/play.png, ::1, 2025-02-02T19:27:32.865Z
 target url: http://localhost:8085/assets/play.png`;
     card.logs.innerHTML = `<code>${codeString}</code>`;
 
-    let runButton, stopButton;
+    let runButton, restartButton;
 
     let tabs = [
         new TabMenuItem("/assets/processor.png", () => { card.open(card.graphCanvas) }),
         new TabMenuItem("/assets/files.png", () => { card.open(card.logs) }),
         new TabMenuItem("/assets/settings.png", () => { card.open() }),
+        restartButton = new TabMenuItem("/assets/processes.png", () => { }),
         runButton = new TabMenuItem("/assets/play.png", () => { }),
     ]
     runButton.htmlEl.onclick = () => {
         runButton.htmlEl.classList.toggle("running");
     };
-    runButton.style.backgroundColor = "var(--primary)";
+    restartButton.htmlEl.onclick = () => {
+        restartButton.htmlEl.children[0].classList.toggle("restarting");
+    };
+    runButton.style.backgroundColor = "var(--DEBIAN_RED)";
 
     tabMenu.appendChildren(tabs);
     tabMenu.htmlEl.classList.add("cardTabs");

@@ -10,6 +10,11 @@ body {
     padding: 0;
 }
 
+.menu, .menuHead {
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+}
+
 .MainMenu {
     position:absolute;
     left: 0;
@@ -50,7 +55,7 @@ body {
     height: 100%;
 }
 
-.processCard h3 {
+.processCard h2 {
     width: 100%;
     text-align: center;
     background-color: var(--DEBIAN_RED);
@@ -63,3 +68,22 @@ body {
 .canvasjs-chart-credit {
     display: none !important;
 }
+
+@keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+}
+
+.restarting {
+    animation: logo-spin infinite 2s linear;
+}
+  
+/* @media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+      animation: logo-spin infinite 20s linear;
+    }
+} */

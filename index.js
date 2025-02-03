@@ -11,13 +11,16 @@ for (let i = 2; i < process.argv.length; i++) {
   }
 }
 
-console.log(options);
+loadConfig("../processes.json");
+
+for (let i = 0; i < processes.length; i++) {
+
+}
 
 app.use(express.static('public'))
 
 app.get('/processes', (req, res) => {
-  console.log("p");
-  loadConfig("../processes.json");
+  //loadConfig("../processes.json");
   res.send(processes);
   console.log(processes);
 });

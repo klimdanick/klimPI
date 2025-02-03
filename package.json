@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nohup nodemon index.js > klimpi.log &",
+    "start": "nodemon index.js",
     "dev": "nodemon index.js"
   },
   "repository": {
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/klimdanick/klimPI#readme",
   "dependencies": {
+    "child-process": "^1.0.2",
     "express": "^4.21.2",
     "express-ws": "^5.0.2",
     "fs": "^0.0.1-security",
