@@ -21,6 +21,7 @@ export class Process {
     }
 
     start() {
+        try {
         let args = this.command.replace("${port}", this.port).split(" ");
         let command = args[0];
         args.shift();
@@ -40,6 +41,9 @@ export class Process {
 		  this.out += `process exited with code ${code}\n`;
 		  this.running = false;
 		}); 
+        } catch(err) {
+            console.error();
+        }
     }
 
     stop() {
