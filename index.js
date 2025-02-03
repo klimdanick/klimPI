@@ -25,14 +25,13 @@ app.get('/processes', (req, res) => {
   console.log(processes);
 });
 
-let y = [];
-for (let i = 0; i < 12; i++) y[i]=0;
+let y = 0;
 
 app.ws('/data', (ws, req) => {
   console.log("test");
   setInterval(() => {
-    for (let p = 0; p < 3; p++) for (let t = 0; t < 2; t++) {
-      let data = {id: p, type: t, x: new Date().toISOString(), y: y[p*4+t]+=Math.random()*2-1};
+    for (let p = 0; p < 3; p++) for (let t = 0; t < 4; t++) {
+      let data = {id: p, type: t, x: new Date().toISOString(), y: y};
       ws.send(JSON.stringify(data));
     }
   }, 200);
