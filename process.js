@@ -21,7 +21,7 @@ export class Process {
     }
 
     start() {
-        let args = this.command.split(" ");
+        let args = this.command.replace("${port}", this.port).split(" ");
         let command = args[0];
         args.shift();
         this.proc = spawn(command, args, {cwd: `../${this.location}`});
