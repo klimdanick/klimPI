@@ -13,7 +13,7 @@ let socket;
 window.onload = () => {
     BuildPage();
 
-    fetch("/processes").then(respose => respose.json()).then(data => {
+    fetch("/admin/processes").then(respose => respose.json()).then(data => {
         console.log(data);
         for (let i = 0; i < data.length; i++) {
             processes.push(ProcessCard(data[i]));
@@ -25,7 +25,7 @@ window.onload = () => {
 }
 
 function initSocket() {
-    socket = new WebSocket("ws://localhost:443/data");
+    socket = new WebSocket("ws://localhost:1443/admin/data");
 
     // Connection opened
     socket.addEventListener("open", (event) => {

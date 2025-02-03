@@ -18,19 +18,9 @@ app.use(express.static('public'))
 app.get('/processes', (req, res) => {
   console.log("p");
   loadConfig("../processes.json");
-  let resInt = setInterval(() => {
-    if (processes.length > 0) {
-      res.send(processes);
-      clearInterval(resInt);
-    }
-  }, 10);
-  setTimeout(() => {
-    try {
-      clearInterval(resInt);
-      res.send(processes);
-    } catch(err) {}
-  }, 5000);
-})
+  res.send(processes);
+  console.log(processes);
+});
 
 let y = [];
 for (let i = 0; i < 12; i++) y[i]=0;
