@@ -1,5 +1,5 @@
 import fs from 'fs';
-// import { spawn } from 'child-process'
+import { spawn } from 'child-process'
 
 export class Process {
     constructor(p) {
@@ -15,32 +15,33 @@ export class Process {
         this.out = "";
     }
 
-    // toggle() {
-    //     if (this.running) this.stop();
-    //     else this.start();
-    // }
+    toggle() {
+        if (this.running) this.stop();
+        else this.start();
+    }
 
-    // start() {
-    //     this.proc = spawn(this.command, [], {cwd: this.location});
-    //     this.running = true;
-    //     this.proc.stdout.on('data', (data) => {
-	// 		this.out += data;
-	// 	});
+    start() {
+        this.proc = spawn(this.command, [], {cwd: this.location});
+        this.running = true;
+        console.log(`started ${this.name}`);
+        this.proc.stdout.on('data', (data) => {
+			this.out += data;
+		});
 
-	// 	this.proc.stderr.on('data', (data) => {
-	// 		this.out += `[ERROR]: data\n`;
-	// 	});
+		this.proc.stderr.on('data', (data) => {
+			this.out += `[ERROR]: data\n`;
+		});
 
-	// 	this.proc.on('close', (code) => {
-	// 	  this.out += `process exited with code ${code}\n`;
-	// 	  this.running = false;
-	// 	}); 
-    // }
+		this.proc.on('close', (code) => {
+		  this.out += `process exited with code ${code}\n`;
+		  this.running = false;
+		}); 
+    }
 
-    // stop() {
-    //     this.out += `process terminated`;
-	// 	terminate(this.proc.pid, err => this.out += `[ERROR]: ${err}\n`);
-	// }
+    stop() {
+        this.out += `process terminated`;
+		terminate(this.proc.pid, err => this.out += `[ERROR]: ${err}\n`);
+	}
 }
 
 export let processes;
