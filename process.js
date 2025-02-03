@@ -6,7 +6,7 @@ export class Process {
         this.id = p.id || 0;
         this.name = p.name || "New Process";
         this.port = p.port || 1111;
-        this.location = p.location || "";
+        this.location = "../"+p.location || "../";
         this.command = p.command || "echo started";
         this.url = p.url || "";
         this.viaProxy = p.viaProxy || false;
@@ -24,7 +24,7 @@ export class Process {
         let args = this.command.replace("${port}", this.port).split(" ");
         let command = args[0];
         args.shift();
-        this.proc = spawn(command, args, {cwd: `../${this.location}`});
+        this.proc = spawn(command, args, {cwd: this.location});
         this.running = true;
         console.log(`started ${this.name}`);
         this.proc.stdout.on('data', (data) => {
