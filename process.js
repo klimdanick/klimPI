@@ -21,7 +21,10 @@ export class Process {
     }
 
     start() {
-        this.proc = spawn(this.command, [], {cwd: this.location});
+        let args = this.command.split(" ");
+        let command = args[0];
+        args.shift();
+        this.proc = spawn(command, args, {cwd: this.location});
         this.running = true;
         console.log(`started ${this.name}`);
         this.proc.stdout.on('data', (data) => {
