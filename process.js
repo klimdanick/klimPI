@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { spawn } from 'child-process'
+import { spawn } from 'child_process'
 
 export class Process {
     constructor(p) {
