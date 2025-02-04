@@ -168,6 +168,8 @@ target url: http://localhost:8085/assets/play.png`;
     };
     runButton.style.backgroundColor = "var(--DEBIAN_RED)";
 
+    if (p.running) runButton.htmlEl.classList.toggle("running");
+
     tabMenu.appendChildren(tabs);
     tabMenu.htmlEl.classList.add("cardTabs");
     setTimeout(() => {
