@@ -58,6 +58,11 @@ export const loadConfig = (file) => {
     processes = JSON.parse(fs.readFileSync(file))["processes"];
     for (let i = 0; i < processes.length; i++) {
         let p = processes[i];
+        if (p.location == "klimPI") {
+            processes.splice(i, 1);
+            i--;
+            continue;
+        }
         p.id = i;
         console.log("p");
         console.log(p);
