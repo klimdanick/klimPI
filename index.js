@@ -61,6 +61,7 @@ app.ws('/data', (ws, req) => {
         processes[i].out = "";
       }
       {
+        if (processes[i].proc)
         pidusage(processes[i].proc.pid, function (err, stats) {
           // if (err) console.error(err);
           if (stats) {
