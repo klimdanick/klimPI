@@ -35,13 +35,13 @@ export class Process {
         this.startTime = new Date();
         console.log(`started ${this.name}`);
         this.proc.stdout.on('data', (data) => {
-			this.out += data;
+			this.out += `${data}\n`;
             spawnSync("echo", data.toString().split(" ").concat([">>", `log.log`]), {cwd: this.location});
             console.log(data.toString());
 		});
 
 		this.proc.stderr.on('data', (data) => {
-			this.out += `[ERROR]: data\n`;
+			this.out += `[ERROR]: ${data}\n`;
 		});
 
 		this.proc.on('close', (code) => {
