@@ -191,13 +191,17 @@ function ProcessCard(p) {
     ]
     runButton.htmlEl.onclick = () => {
         //runButton.htmlEl.classList.toggle("running");
+
+        let command = "toggle";
+        if (name.includes("proxy") || name.includes("HttpServer")) command = "restart";
+
         fetch("/admin/command", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             method: "POST",
-            body: JSON.stringify({process: name, command: "toggle"})
+            body: JSON.stringify({process: name, command: command})
         })
     };
     restartButton.htmlEl.onclick = () => {
