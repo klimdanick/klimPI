@@ -119,10 +119,10 @@ function ProcessCard(p) {
     let name = p.name;
     let cardLayout = new Layout("row");
     cardLayout.style.height = "15em";
-    cardLayout.style.width = "500px";
+    cardLayout.style.width = "400px";
     cardLayout.style.margin = "1em";
     cardLayout.id = id;
-    let card = new Card("450px");
+    let card = new Card("350px");
     card.htmlEl.classList.add("processCard");
     let tabMenu = new TabMenu();
 
