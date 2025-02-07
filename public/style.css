@@ -34,6 +34,11 @@ body {
     margin: 0px !important;
 }
 
+.card pre {
+    overflow-y: scroll;
+    height: 100%;
+}
+
 .cardTabs {
     height: 100%;
     background-color: var(--level1);
