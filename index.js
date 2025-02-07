@@ -3,6 +3,7 @@ import expressWs from 'express-ws'
 import { Process, processes, loadConfig } from './process.js';
 const {app, wsRoute} = expressWs(express())
 let options = {"port": 8085};
+import pidusage from "pidusage";
 
 for (let i = 2; i < process.argv.length; i++) {
   if (process.argv[i].startsWith("--")) {
@@ -58,6 +59,17 @@ app.ws('/data', (ws, req) => {
         let data = {path: "log", data: {name: processes[i].name, log: processes[i].out}};
         ws.send(JSON.stringify(data));
         processes[i].out = "";
+      }
+      {
+        pidusage(processes[i].proc.pid, function (err, stats) {
+          if (stats) {
+            processes[i].stats = stats;
+            let data = {path: "recources", data: {name: processes[i].name, type: 0, x: new Date().toISOString, y: processes[i].stats.cpu}};
+            ws.send(JSON.stringify(data));
+            let data2 = {path: "recources", data: {name: processes[i].name, type: 1, x: new Date().toISOString, y: processes[i].stats.memory}};
+            ws.send(JSON.stringify(data2));
+          }
+        });
       }
     }
   }, 200);

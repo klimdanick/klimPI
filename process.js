@@ -1,6 +1,5 @@
 import fs from 'fs';
 import { spawn, spawnSync } from 'child_process'
-import terminate from "terminate"
 
 export class Process {
     constructor(p) {
