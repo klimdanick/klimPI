@@ -158,7 +158,12 @@ function ProcessCard(p) {
                     type: "spline",
                     dataPoints: cardLayout.data[3],
                     color: CURIOS_BLUE
-                }]
+                }],
+                axisX:{
+                    labelFormatter: function(){
+                        return " ";
+                    }
+                }
             });
 
             // console.log(chart);
