@@ -1,5 +1,6 @@
 import fs from 'fs';
-import { spawn } from 'child_process'
+import { spawn, spawnSync } from 'child_process'
+import terminate from "terminate"
 
 export class Process {
     constructor(p) {
@@ -13,6 +14,7 @@ export class Process {
         this.autoStart = p.autoStart || false;
         this.running = false;
         this.out = "";
+        this.statusChange = false;
     }
 
     toggle() {
@@ -21,16 +23,21 @@ export class Process {
     }
 
     start() {
+        console.log("starting " + this.name);
         try {
         let args = this.command.replace("${port}", this.port).split(" ");
         let command = args[0];
         args.shift();
-        console.log({location: this.location, command, args});
+        // console.log({location: this.location, command, args});
         this.proc = spawn(command, args, {cwd: this.location});
         this.running = true;
+        this.statusChange = true;
+        this.startTime = new Date();
         console.log(`started ${this.name}`);
         this.proc.stdout.on('data', (data) => {
 			this.out += data;
+            spawnSync("echo", data.toString().split(" ").concat([">>", `log.log`]), {cwd: this.location});
+            console.log(data.toString());
 		});
 
 		this.proc.stderr.on('data', (data) => {
@@ -47,8 +54,11 @@ export class Process {
     }
 
     stop() {
+        console.log("stopping " + this.name);
         this.out += `process terminated`;
-		terminate(this.proc.pid, err => this.out += `[ERROR]: ${err}\n`);
+		this.proc.kill('SIGINT');
+        this.running = false;
+        this.statusChange = true;
 	}
 }
 
@@ -64,10 +74,6 @@ export const loadConfig = (file) => {
             continue;
         }
         p.id = i;
-        console.log("p");
-        console.log(p);
         processes[i] = new Process(p);
-        console.log("process");
-        console.log(processes[i]);
     }
 }

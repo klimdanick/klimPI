@@ -25,7 +25,7 @@ window.onload = () => {
 }
 
 function initSocket() {
-    socket = new WebSocket("ws://vps.klimdanick.nl:1443/admin/data");
+    socket = new WebSocket(`ws://${window.location.host}${window.location.pathname}/data`);
 
     // Connection opened
     socket.addEventListener("open", (event) => {
@@ -35,16 +35,55 @@ function initSocket() {
     // Listen for messages
     socket.addEventListener("message", (event) => {
         let data = JSON.parse(event.data);
-        let p;
-        for (let i = 0; i < processes.length && !p && i < 100; i++) {
-            if (processes[i] && processes[i].id == data.id) p = processes[i];
-        }
-        if (p) {
-            p.data[data.type].push({x: new Date(data.x), y: data.y});
-            while (p.data[data.type].length > 100) p.data[data.type].shift();
-            p.chart.render();
-        }
+        console.log(event.data);
+        if (data.path == "recources") recourcesData(data);
+        if (data.path == "status") statusUpdate(data);
+        if (data.path == "log") logUpdate(data);
     });
+}
+
+function logUpdate(event) {
+    let data = event.data;
+    let p;
+    console.log(data);
+    for (let i = 0; i < processes.length && !p && i < 100; i++) {
+        if (processes[i] && processes[i].name == data.name) p = processes[i];
+    }
+    console.log(p);
+    if (p) {
+        p.card.logs.innerText+=data.log;
+    }
+}
+
+function statusUpdate(event) {
+    let data = event.data;
+    let p;
+    console.log(data);
+    for (let i = 0; i < processes.length && !p && i < 100; i++) {
+        if (processes[i] && processes[i].name == data.name) p = processes[i];
+    }
+    console.log(p);
+    if (p) {
+        if (data.running) {
+            p.htmlEl.children[0].children[3].children[0].classList.remove("restarting");
+            p.htmlEl.children[0].children[4].classList.add("running");
+        } else if (!data.running) {
+            p.htmlEl.children[0].children[4].classList.remove("running");
+        }
+    }
+}
+
+function recourcesData(event) {
+    let data = event.data;
+    let p;
+    for (let i = 0; i < processes.length && !p && i < 100; i++) {
+        if (processes[i] && processes[i].id == data.id) p = processes[i];
+    }
+    if (p) {
+        p.data[data.type].push({x: new Date(data.x), y: data.y});
+        while (p.data[data.type].length > 100) p.data[data.type].shift();
+        p.chart.render();
+    }
 }
 
 function BuildPage() {
@@ -138,17 +177,7 @@ function ProcessCard(p) {
     card.open(card.graphCanvas)
 
     card.logs = document.createElement("pre");
-    let codeString = `target url: http://localhost:8085/assets/proxy.png
-request url: /assets/files.png, ::1, 2025-02-02T19:27:32.833Z
-target url: http://localhost:8085/assets/files.png
-request url: /elementaljs/src/assets/menu.png, ::1, 2025-02-02T19:27:32.836Z
-target url: http://localhost:80/src/assets/menu.png
-request url: /assets/processor.png, ::1, 2025-02-02T19:27:32.863Z
-target url: http://localhost:8085/assets/processor.png
-request url: /assets/settings.png, ::1, 2025-02-02T19:27:32.864Z
-target url: http://localhost:8085/assets/settings.png
-request url: /assets/play.png, ::1, 2025-02-02T19:27:32.865Z
-target url: http://localhost:8085/assets/play.png`;
+    let codeString = "";
     card.logs.innerHTML = `<code>${codeString}</code>`;
 
     let runButton, restartButton;
@@ -165,6 +194,14 @@ target url: http://localhost:8085/assets/play.png`;
     };
     restartButton.htmlEl.onclick = () => {
         restartButton.htmlEl.children[0].classList.toggle("restarting");
+        fetch("/command", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({process: name, command: "restart"})
+        })
     };
     runButton.style.backgroundColor = "var(--DEBIAN_RED)";
 
@@ -178,5 +215,7 @@ target url: http://localhost:8085/assets/play.png`;
 
     cardLayout.appendChild(tabMenu);
     cardLayout.appendChild(card);
+    cardLayout.name = name;
+    cardLayout.card = card;
     return cardLayout;
 }

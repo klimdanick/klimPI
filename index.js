@@ -22,21 +22,47 @@ app.use(express.static('public'))
 app.get('/processes', (req, res) => {
   //loadConfig("../processes.json");
   res.send(processes);
-  console.log(processes);
+  // console.log(processes);
 });
 
-let y = 0;
+app.use(express.json());
+
+app.post('/command', (req, res) => {
+  console.log(req.body);
+
+  let p;
+  for (let i = 0; i < processes.length; i++) {
+    if (processes[i].name == req.body.process) p = processes[i];
+  }
+
+  if (!p) {res.send("x"); return;}
+  
+  p.stop();
+
+  setTimeout(() => {p.start()}, 5000);
+
+  res.send("x");
+});
+
+let y = 1;
 
 app.ws('/data', (ws, req) => {
-  console.log("test");
   setInterval(() => {
-    for (let p = 0; p < 3; p++) for (let t = 0; t < 4; t++) {
-      let data = {id: p, type: t, x: new Date().toISOString(), y: y};
-      ws.send(JSON.stringify(data));
+    for (let i = 0; i < processes.length; i++) {
+      if (processes[i].statusChange) {
+        let data = {path: "status", data: {name: processes[i].name, running: processes[i].running}};
+        ws.send(JSON.stringify(data));
+        processes[i].statusChange = false;
+      }
+      if (processes[i].out.length > 0) {
+        let data = {path: "log", data: {name: processes[i].name, log: processes[i].out}};
+        ws.send(JSON.stringify(data));
+        processes[i].out = "";
+      }
     }
   }, 200);
 })
 
 app.listen(options.port, () => {
-  console.log(`Example app listening ${options.port}`)
+  console.log(`KlimPI running on port ${options.port}`)
 })
