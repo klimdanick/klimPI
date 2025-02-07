@@ -62,6 +62,7 @@ app.ws('/data', (ws, req) => {
       }
       {
         pidusage(processes[i].proc.pid, function (err, stats) {
+          if (err) console.error(err);
           if (stats) {
             processes[i].stats = stats;
             let data = {path: "recources", data: {name: processes[i].name, type: 0, x: new Date().toISOString, y: processes[i].stats.cpu}};
