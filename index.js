@@ -38,11 +38,26 @@ app.post('/command', (req, res) => {
 
   if (!p) {res.send("x"); return;}
   
-  p.stop();
+  if (req.body.command == "restart") {
+    p.stop();
 
-  setTimeout(() => {p.start()}, 5000);
+    setTimeout(() => {p.start()}, 5000);
 
-  res.send("x");
+    res.send("x");
+    return;
+  }
+  if (req.body.command == "start") {
+    p.start();
+    res.send();
+  }
+  if (req.body.command == "stop") {
+    p.stop();
+    res.send();
+  }
+  if (req.body.command == "toggle") {
+    p.toggle();
+    res.send();     
+  }
 });
 
 let y = 1;

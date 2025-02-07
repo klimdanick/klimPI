@@ -185,7 +185,15 @@ function ProcessCard(p) {
         runButton = new TabMenuItem("/assets/play.png", () => { }),
     ]
     runButton.htmlEl.onclick = () => {
-        runButton.htmlEl.classList.toggle("running");
+        //runButton.htmlEl.classList.toggle("running");
+        fetch("/command", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({process: name, command: "toggle"})
+        })
     };
     restartButton.htmlEl.onclick = () => {
         restartButton.htmlEl.children[0].classList.toggle("restarting");
