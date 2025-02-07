@@ -67,7 +67,7 @@ app.ws('/data', (ws, req) => {
             processes[i].stats = stats;
             let data = {path: "recources", data: {name: processes[i].name, type: 0, x: new Date().toISOString(), y: processes[i].stats.cpu}};
             ws.send(JSON.stringify(data));
-            let data2 = {path: "recources", data: {name: processes[i].name, type: 1, x: new Date().toISOString(), y: processes[i].stats.memory}};
+            let data2 = {path: "recources", data: {name: processes[i].name, type: 1, x: new Date().toISOString(), y: processes[i].stats.memory / 160000000}};
             ws.send(JSON.stringify(data2));
           }
         });
