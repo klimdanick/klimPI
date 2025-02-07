@@ -39,6 +39,18 @@ body {
     height: 100%;
 }
 
+.card pre::-webkit-scrollbar-track {
+    display: none;
+}
+
+.card pre::-webkit-scrollbar-thumb {
+    background: var(--DEBIAN_RED);
+}
+
+.card pre::-webkit-scrollbar-thumb:hover {
+    filter: brightness(85%);
+}
+
 .cardTabs {
     height: 100%;
     background-color: var(--level1);
