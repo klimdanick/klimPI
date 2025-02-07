@@ -25,7 +25,7 @@ window.onload = () => {
 }
 
 function initSocket() {
-    socket = new WebSocket(`ws://${window.location.host}${window.location.pathname}/data`);
+    socket = new WebSocket(`wss://${window.location.host}${window.location.pathname}/data`);
 
     // Connection opened
     socket.addEventListener("open", (event) => {
