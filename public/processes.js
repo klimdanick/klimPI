@@ -162,7 +162,7 @@ function ProcessCard(p) {
             });
 
             // console.log(chart);
-            cardLayout.chart.render();
+            if (cardLayout.chart) cardLayout.chart.render();
         } catch { }
     }
 
