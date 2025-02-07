@@ -90,18 +90,18 @@ function BuildPage() {
     layout.appendChild(menu);
 
     let menuItems = [
-        new SimpleMenuItem("assets/processes.png", "processes", () => {
+        new SimpleMenuItem("admin/assets/processes.png", "processes", () => {
             while (layout.htmlEl.children.length > 1) {
                 layout.htmlEl.removeChild(layout.htmlEl.children[layout.htmlEl.children.length - 1])
             }
             for (let i = 0; i < processes.length; i++) layout.appendChild(processes[i]);
         }),
-        new SimpleMenuItem("assets/proxy.png", "proxy", () => {
+        new SimpleMenuItem("admin/assets/proxy.png", "proxy", () => {
             while (layout.htmlEl.children.length > 1) {
                 layout.htmlEl.removeChild(layout.htmlEl.children[layout.htmlEl.children.length - 1])
             }
         }),
-        new SimpleMenuItem("assets/files.png", "files", () => {
+        new SimpleMenuItem("admin/assets/files.png", "files", () => {
             while (layout.htmlEl.children.length > 1) {
                 layout.htmlEl.removeChild(layout.htmlEl.children[layout.htmlEl.children.length - 1])
             }
