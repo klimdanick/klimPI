@@ -77,7 +77,7 @@ function recourcesData(event) {
     let data = event.data;
     let p;
     for (let i = 0; i < processes.length && !p && i < 100; i++) {
-        if (processes[i] && processes[i].id == data.id) p = processes[i];
+        if (processes[i] && processes[i].name == data.name) p = processes[i];
     }
     if (p) {
         p.data[data.type].push({x: new Date(data.x), y: data.y});
