@@ -36,11 +36,12 @@ export class Process {
         this.proc.stdout.on('data', (data) => {
 			this.out += `${data}\n`;
             spawnSync("echo", data.toString().split(" ").concat([">>", `log.log`]), {cwd: this.location});
-            console.log(data.toString());
+            console.log("[" + this.name + "]: " + data.toString());
 		});
 
 		this.proc.stderr.on('data', (data) => {
-			this.out += `[ERROR]: ${data}\n`;
+			this.out += `[${this.name}][ERROR]: ${data.toString()}\n`;
+            console.log(`[${this.name}][ERROR]: ${data.toString()}\n`);
 		});
 
 		this.proc.on('close', (code) => {
