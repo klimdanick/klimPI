@@ -183,15 +183,15 @@ function ProcessCard(p) {
     let runButton, restartButton;
 
     let tabs = [
-        new TabMenuItem("/assets/processor.png", () => { card.open(card.graphCanvas) }),
-        new TabMenuItem("/assets/files.png", () => { card.open(card.logs) }),
-        new TabMenuItem("/assets/settings.png", () => { card.open() }),
-        restartButton = new TabMenuItem("/assets/processes.png", () => { }),
-        runButton = new TabMenuItem("/assets/play.png", () => { }),
+        new TabMenuItem("/admin/assets/processor.png", () => { card.open(card.graphCanvas) }),
+        new TabMenuItem("/admin/assets/files.png", () => { card.open(card.logs) }),
+        new TabMenuItem("/admin/assets/settings.png", () => { card.open() }),
+        restartButton = new TabMenuItem("/admin/assets/processes.png", () => { }),
+        runButton = new TabMenuItem("/admin/assets/play.png", () => { }),
     ]
     runButton.htmlEl.onclick = () => {
         //runButton.htmlEl.classList.toggle("running");
-        fetch("/command", {
+        fetch("/admin/command", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -202,7 +202,7 @@ function ProcessCard(p) {
     };
     restartButton.htmlEl.onclick = () => {
         restartButton.htmlEl.children[0].classList.toggle("restarting");
-        fetch("/command", {
+        fetch("/admin/command", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
