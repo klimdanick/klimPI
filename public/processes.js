@@ -35,7 +35,6 @@ function initSocket() {
     // Listen for messages
     socket.addEventListener("message", (event) => {
         let data = JSON.parse(event.data);
-        console.log(event.data);
         if (data.path == "recources") recourcesData(data);
         if (data.path == "status") statusUpdate(data);
         if (data.path == "log") logUpdate(data);
@@ -45,11 +44,9 @@ function initSocket() {
 function logUpdate(event) {
     let data = event.data;
     let p;
-    console.log(data);
     for (let i = 0; i < processes.length && !p && i < 100; i++) {
         if (processes[i] && processes[i].name == data.name) p = processes[i];
     }
-    console.log(p);
     if (p) {
         p.card.logs.innerText+=data.log;
     }
@@ -58,11 +55,9 @@ function logUpdate(event) {
 function statusUpdate(event) {
     let data = event.data;
     let p;
-    console.log(data);
     for (let i = 0; i < processes.length && !p && i < 100; i++) {
         if (processes[i] && processes[i].name == data.name) p = processes[i];
     }
-    console.log(p);
     if (p) {
         if (data.running) {
             p.htmlEl.children[0].children[3].children[0].classList.remove("restarting");
