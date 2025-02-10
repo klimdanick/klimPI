@@ -26,7 +26,7 @@ window.onload = () => {
         console.log(data);
         proxy = new Layout();
         for (let i = 0; i < data.length; i++) {
-            proxy.push(ProxyCard(data[i]));
+            proxy.appendChild(ProxyCard(data[i]));
         }
     })
     
