@@ -11,6 +11,7 @@ let proxy = [];
 
 const loadConfig = (file) => {
   processes = JSON.parse(fs.readFileSync(file))["processes"];
+  let proxyID = 0;
   for (let i = 0; i < processes.length; i++) {
     let p = processes[i];
     if (p.location == "klimPI") {
@@ -20,15 +21,16 @@ const loadConfig = (file) => {
     }
     p.id = i;
     processes[i] = new Process(p);
-    if (p.viaProxy) proxy[p.id] = new Proxy(p);
+    p.id = proxyID;
+    if (p.viaProxy) proxy[proxyID++] = new Proxy(p);
   }
   
   let proxy_ = JSON.parse(fs.readFileSync(file))["proxy"];
 
   for (let i = 0; i < proxy_.length; i++) {
     let p = proxy_[i];
-    p.id = i+processes.length;
-    proxy[p.id] = new Proxy(p);
+    p.id = proxyID;
+    proxy[proxyID++] = new Proxy(p);
   }
 }
 
