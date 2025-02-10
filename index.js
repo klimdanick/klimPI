@@ -25,9 +25,11 @@ for (let i = 0; i < processes.length; i++) {
 app.use(express.static('public'))
 
 app.get('/processes', (req, res) => {
-  //loadConfig("../processes.json");
   res.send(processes);
-  // console.log(processes);
+});
+
+app.get('/proxy', (req, res) => {
+  res.send(proxy);
 });
 
 app.use(express.json());
@@ -99,3 +101,26 @@ app.ws('/data', (ws, req) => {
 app.listen(options.port, () => {
   console.log(`KlimPI running on port ${options.port}`)
 })
+
+const loadConfig = (file) => {
+  processes = JSON.parse(fs.readFileSync(file))["processes"];
+  for (let i = 0; i < processes.length; i++) {
+    let p = processes[i];
+    if (p.location == "klimPI") {
+      processes.splice(i, 1);
+      i--;
+      continue;
+    }
+    p.id = i;
+    processes[i] = new Process(p);
+    if (p.viaProxy) proxy[p.id] = new Proxy(p);
+  }
+  
+  let proxy_ = JSON.parse(fs.readFileSync(file))["proxy"];
+
+  for (let i = 0; i < proxy_.length; i++) {
+    let p = proxy_[i];
+    p.id = i+processes.length;
+    proxy[p.id] = new Proxy(p);
+  }
+}

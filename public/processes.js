@@ -1,6 +1,7 @@
 let layout;
 let menu;
 let processes = [];
+let proxy;
 
 let CURIOS_BLUE = "#299ad0";
 let TURMERIC_YELLOW = "#d0b747";
@@ -20,6 +21,8 @@ window.onload = () => {
             layout.appendChild(processes[i]);
         }
     })
+
+    
 
     initSocket();
 }
@@ -100,6 +103,7 @@ function BuildPage() {
             while (layout.htmlEl.children.length > 1) {
                 layout.htmlEl.removeChild(layout.htmlEl.children[layout.htmlEl.children.length - 1])
             }
+            layout.appendChild(proxy);
         }),
         new SimpleMenuItem("admin/assets/files.png", "files", () => {
             while (layout.htmlEl.children.length > 1) {
