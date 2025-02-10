@@ -22,6 +22,13 @@ window.onload = () => {
         }
     })
 
+    fetch("/admin/proxy").then(respose => respose.json()).then(data => {
+        console.log(data);
+        proxy = new Layout();
+        for (let i = 0; i < data.length; i++) {
+            proxy.push(ProxyCard(data[i]));
+        }
+    })
     
 
     initSocket();
