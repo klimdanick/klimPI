@@ -5,5 +5,6 @@ export class Proxy {
         this.name = p.name || "New Proxy";
         this.port = p.port || 80;
         this.url = p.url || "/";
+        this.default = p.default;
     }
 }
