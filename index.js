@@ -1,6 +1,7 @@
 import express from 'express'
 import expressWs from 'express-ws'
-import { Process, processes, loadConfig } from './process.js';
+import { Process, processes } from './process.js';
+import { Proxy, proxy } from './proxy.js';
 const {app, wsRoute} = expressWs(express())
 let options = {"port": 8085};
 import pidusage from "pidusage";
