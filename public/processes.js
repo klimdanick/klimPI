@@ -28,6 +28,11 @@ window.onload = () => {
         data.sort((a, b) => a.port - b.port);
         for (let i = 0; i < data.length; i++) {
             proxy.appendChild(ProxyCard(data[i]));
+            if (data[i].default) {
+                data[i].url = "/";
+                data[i].name = "default";
+                proxy.appendChild(ProxyCard(data[i]));
+            }
         }
     })
     
