@@ -1,4 +1,3 @@
-import fs from 'fs';
 import { spawn, spawnSync } from 'child_process'
 
 export class Process {
