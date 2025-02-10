@@ -27,7 +27,7 @@ const loadConfig = (file) => {
   
   let proxy_ = JSON.parse(fs.readFileSync(file))["proxy"];
 
-  for (let i = 0; i < proxy_.length; i++) {
+  for (let i = 0; proxy_ && i < proxy_.length; i++) {
     let p = proxy_[i];
     p.id = proxyID;
     proxy[proxyID++] = new Proxy(p);
