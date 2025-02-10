@@ -6,6 +6,29 @@ const {app, wsRoute} = expressWs(express())
 let options = {"port": 8085};
 import pidusage from "pidusage";
 
+const loadConfig = (file) => {
+  processes = JSON.parse(fs.readFileSync(file))["processes"];
+  for (let i = 0; i < processes.length; i++) {
+    let p = processes[i];
+    if (p.location == "klimPI") {
+      processes.splice(i, 1);
+      i--;
+      continue;
+    }
+    p.id = i;
+    processes[i] = new Process(p);
+    if (p.viaProxy) proxy[p.id] = new Proxy(p);
+  }
+  
+  let proxy_ = JSON.parse(fs.readFileSync(file))["proxy"];
+
+  for (let i = 0; i < proxy_.length; i++) {
+    let p = proxy_[i];
+    p.id = i+processes.length;
+    proxy[p.id] = new Proxy(p);
+  }
+}
+
 for (let i = 2; i < process.argv.length; i++) {
   if (process.argv[i].startsWith("--")) {
     options[process.argv[i].substring(2)] = process.argv[i+1];
@@ -102,26 +125,3 @@ app.ws('/data', (ws, req) => {
 app.listen(options.port, () => {
   console.log(`KlimPI running on port ${options.port}`)
 })
-
-const loadConfig = (file) => {
-  processes = JSON.parse(fs.readFileSync(file))["processes"];
-  for (let i = 0; i < processes.length; i++) {
-    let p = processes[i];
-    if (p.location == "klimPI") {
-      processes.splice(i, 1);
-      i--;
-      continue;
-    }
-    p.id = i;
-    processes[i] = new Process(p);
-    if (p.viaProxy) proxy[p.id] = new Proxy(p);
-  }
-  
-  let proxy_ = JSON.parse(fs.readFileSync(file))["proxy"];
-
-  for (let i = 0; i < proxy_.length; i++) {
-    let p = proxy_[i];
-    p.id = i+processes.length;
-    proxy[p.id] = new Proxy(p);
-  }
-}
