@@ -25,6 +25,7 @@ window.onload = () => {
     fetch("/admin/proxy").then(respose => respose.json()).then(data => {
         console.log(data);
         proxy = new Layout();
+        data.sort((a, b) => a.port - b.port);
         for (let i = 0; i < data.length; i++) {
             proxy.appendChild(ProxyCard(data[i]));
         }
