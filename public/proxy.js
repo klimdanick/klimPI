@@ -3,7 +3,9 @@ function ProxyCard(p) {
     let card = new Card();
     card.appendChild(new Text(p.url));
     card.appendChild(new Text(p.name));
-    card.appendChild(new Element("<br><br>"));
+    card.appendChild(new Text(""));
+    card.appendChild(new Text(""));
+    card.appendChild(new Text(""));
     card.appendChild(new Text(p.port));
     cardLayout.appendChild(card);
     return cardLayout;
