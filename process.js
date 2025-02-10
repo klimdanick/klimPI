@@ -60,5 +60,3 @@ export class Process {
         this.statusChange = true;
 	}
 }
-
-export let processes;

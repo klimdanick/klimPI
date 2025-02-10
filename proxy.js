@@ -6,5 +6,3 @@ export class Proxy {
         this.url = p.url || "/";
     }
 }
-
-export let proxy;

@@ -1,11 +1,13 @@
 import express from 'express'
 import expressWs from 'express-ws'
-import { Process, processes } from './process.js';
-import { Proxy, proxy } from './proxy.js';
+import { Process } from './process.js';
+import { Proxy } from './proxy.js';
 const {app, wsRoute} = expressWs(express())
 let options = {"port": 8085};
 import pidusage from "pidusage";
 import fs from 'fs';
+let processes = [];
+let proxy = [];
 
 const loadConfig = (file) => {
   processes = JSON.parse(fs.readFileSync(file))["processes"];
