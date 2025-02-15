@@ -63,6 +63,10 @@ app.get('/proxy', (req, res) => {
 
 app.use(express.json());
 
+app.post('/webhook', (req, res) => {
+  console.log(req.body);
+})
+
 app.post('/command', (req, res) => {
   console.log(req.body);
 
