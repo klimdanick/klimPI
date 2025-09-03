@@ -126,7 +126,7 @@ function BuildPage() {
     ]
 
     menu.addHead(`<h2>KLIM<span style="color: #c40f43;"> π</span></h2>`);
-    menu.head.preload.src = "/elementaljs/src/assets/menu.png";
+    menu.head.preload.src = "/elementaljs/assets/menu.png";
     menu.appendChildren(menuItems);
     setTimeout(() => {menuItems[0].htmlEl.onclick();}, 10);
 }
