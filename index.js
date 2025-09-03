@@ -2,10 +2,14 @@ import express from 'express'
 import expressWs from 'express-ws'
 import { Process } from './process.js';
 import { Proxy } from './proxy.js';
+import { User, authorization, users } from './users.js';
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 const {app, wsRoute} = expressWs(express())
 let options = {"port": 8085};
 import pidusage from "pidusage";
 import fs from 'fs';
+import { request } from 'http';
 let processes = [];
 let proxy = [];
 
@@ -32,6 +36,15 @@ const loadConfig = (file) => {
     p.id = proxyID;
     proxy[proxyID++] = new Proxy(p);
   }
+
+  let users_ = JSON.parse(fs.readFileSync(file))["users"];
+
+  for (let i = 0; users_ && i < users_.length; i++) {
+    let u = users_[i];
+    u.id = i;
+    users[i] = new User(u);
+  }
+  console.log(users);
 }
 
 for (let i = 2; i < process.argv.length; i++) {
@@ -51,10 +64,17 @@ for (let i = 0; i < processes.length; i++) {
   }
 }
 
+app.use(express.json());
+app.use(cookieParser())
+app.use(authorization)
+
 app.use(express.static('public'))
 
 app.get('/processes', (req, res) => {
-  res.send(processes);
+  if (req.user.role == "admin")
+    res.send(processes);
+  else 
+    res.send([]);
 });
 
 app.get('/proxy', (req, res) => {
@@ -134,3 +154,4 @@ app.ws('/data', (ws, req) => {
 app.listen(options.port, () => {
   console.log(`KlimPI running on port ${options.port}`)
 })
+
