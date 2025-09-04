@@ -11,7 +11,9 @@ let DEBIAN_RED = "#d70e48";
 // Create WebSocket connection.
 let socket;
 
-window.onload = () => {
+let forbiddenToast = new Toast("You are not permitted to do this action!");
+
+OnElementalLoad = () => {
     BuildPage();
 
     fetch("/admin/processes").then(respose => respose.json()).then(data => {
@@ -210,7 +212,7 @@ function ProcessCard(p) {
         //runButton.htmlEl.classList.toggle("running");
 
         let command = "toggle";
-        if (name.includes("proxy") || name.includes("HttpServer")) command = "restart";
+        if (name.includes("proxy")) command = "restart";
 
         fetch("/admin/command", {
             headers: {
@@ -219,6 +221,10 @@ function ProcessCard(p) {
             },
             method: "POST",
             body: JSON.stringify({process: name, command: command})
+        }).then(res => {
+            if (res.status == 403) {
+                forbiddenToast.play();
+            }
         })
     };
     restartButton.htmlEl.onclick = () => {

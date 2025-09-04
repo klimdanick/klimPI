@@ -3,14 +3,41 @@
         <script src="/elementaljs/Elemental.js"></script>
         <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
         <link rel="stylesheet" href="admin/style.css">
+        <link rel="stylesheet" href="/elementaljs/styles/default.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/a11y-dark.css">
         <script>
             OnElementalLoad = () => {
-                layout = new Layout().setAsMain();
+                layout = new Layout("column").setAsMain();
+                layout.appendChild(`<input id="user" type="text" placeholder="username">`);
+                layout.appendChild(`<input id="pass" type="password" placeholder="password">`);
+                layout.appendChild(`<input id="submit" type="button" value="login" onclick="login()">`);
+            }
+
+            const login = () => {
+                let user = document.getElementById("user").value;
+                let pass = document.getElementById("pass").value;
+                console.log(document.cookie);
+                fetch(`/admin/login`, {
+                    method: 'POST',
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ "username": user, "password": pass })
+                }).then(res => {
+                    if (res.status == 200) {
+                        window.location.reload()
+                    }
+                })
             }
         </script>
+        <style>
+            input {
+                margin-bottom: 0.6em;
+            }
+        </style>
     </head>
     <body>
-        <h1>KlimPI login</h1>
+        <h1>KLIM<span style="color: #c40f43;"> π</span></h1>
     </body>
 </html>

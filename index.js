@@ -69,12 +69,12 @@ app.use(cookieParser())
 app.use(authorization)
 
 app.use(express.static('public'))
+app.post('/login', (req, res) => {
+  res.status(200).redirect("/admin")
+})
 
 app.get('/processes', (req, res) => {
-  if (req.user.role == "admin")
-    res.send(processes);
-  else 
-    res.send([]);
+  res.send(processes);
 });
 
 app.get('/proxy', (req, res) => {
@@ -88,6 +88,7 @@ app.post('/webhook', (req, res) => {
 })
 
 app.post('/command', (req, res) => {
+  if (req.user.role != "admin") return res.status(403).send();
   console.log(req.body);
 
   let p;

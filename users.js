@@ -7,8 +7,8 @@ export let users = [];
 export class User {
     constructor(u) {
         this.id = u.id || 0;
-        this.user = u.user || "guest_user";
-        this.pass = u.pass || "";
+        this.user = u.user || "guest";
+        this.pass = u.pass || createHash_("guest");
         this.role = u.role || "guest";
     }
 }
