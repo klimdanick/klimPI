@@ -3,11 +3,6 @@ let menu;
 let processes = [];
 let proxy;
 
-let CURIOS_BLUE = "#299ad0";
-let TURMERIC_YELLOW = "#d0b747";
-let AQUA_GREEN = "#05d993";
-let DEBIAN_RED = "#d70e48";
-
 // Create WebSocket connection.
 let socket;
 
@@ -113,24 +108,29 @@ function BuildPage() {
                 layout.htmlEl.removeChild(layout.htmlEl.children[layout.htmlEl.children.length - 1])
             }
             for (let i = 0; i < processes.length; i++) layout.appendChild(processes[i]);
+            window.localStorage.setItem("menuItemSelected", 0)
         }),
         new SimpleMenuItem("admin/assets/proxy.png", "proxy", () => {
             while (layout.htmlEl.children.length > 1) {
                 layout.htmlEl.removeChild(layout.htmlEl.children[layout.htmlEl.children.length - 1])
             }
             layout.appendChild(proxy);
+            window.localStorage.setItem("menuItemSelected", 1)
         }),
         new SimpleMenuItem("admin/assets/files.png", "files", () => {
             while (layout.htmlEl.children.length > 1) {
                 layout.htmlEl.removeChild(layout.htmlEl.children[layout.htmlEl.children.length - 1])
             }
+            window.localStorage.setItem("menuItemSelected", 2)
         }),
     ]
 
     menu.addHead(`<h2>KLIM<span style="color: #c40f43;"> π</span></h2>`);
     menu.head.preload.src = "/elementaljs/assets/menu.png";
     menu.appendChildren(menuItems);
-    setTimeout(() => {menuItems[0].htmlEl.onclick();}, 10);
+    let menuItemSelected;// = window.localStorage.getItem("menuItemSelected");
+    if (!menuItemSelected) menuItemSelected = 0;
+    setTimeout(() => {menu.select(menuItems[menuItemSelected]);}, 100) 
 }
 
 function ProcessCard(p) {
