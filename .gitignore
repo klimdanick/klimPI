@@ -7,6 +7,7 @@ nohup.out
 config.cfg
 ELEGEN
 ELEGEN/*
+certs/*
 certs/ca_bundle.crt
 certs/certificate.crt
 certs/private.key
