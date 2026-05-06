@@ -1,6 +1,7 @@
 {
     "processes": [],
     "proxy": [
-        {"name": "website", "port": "80", "url": "/"}
+        {"name": "adminPanel", "port": "8085", "url": "/admin"},
+        {"name": "website", "port": "8084", "url": "/"}
     ]
 }
