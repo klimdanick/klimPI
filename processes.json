@@ -1,0 +1,6 @@
+{
+    "processes": [],
+    "proxy": [
+        {"name": "website", "port": "80", "url": "/"}
+    ]
+}
