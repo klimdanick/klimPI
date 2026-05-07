@@ -1,10 +1,43 @@
 <h1>Authentication</h1>
 <p>Welcome to the authentication page.</p>
 <p>Please enter your credentials to access the admin panel.</p>
-<form action="/authAPI/login" method="post">
+<!-- form should post to /authAPI/login with username and password in a json body -->
+
+<form id="loginForm" method="POST" action="/authAPI/login" onsubmit="event.preventDefault(); login();">
     <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required><br><br>
+    <input type="text" id="username" name="username" required>
+    <br>
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br><br>
-    <input type="submit" value="Login">
+    <input type="password" id="password" name="password" required>
+    <br>
+    <button type="submit">Login</button>
 </form>
+
+<script>
+    async function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/authAPI/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Login successful:', data);
+                // Redirect to admin panel or show success message
+            } else {
+                console.error('Login failed:', response.statusText);
+                // Show error message to user
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            // Show error message to user
+        }
+    }
+</script>
