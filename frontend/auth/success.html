@@ -2,6 +2,9 @@
 <script>
     OnElementalLoad = () => {
 
+        const href = window.location.search.substring(1);
+        console.log(href);
+
         let layout = Layout.row({ attributes: { style: "height: 100%" } }).column({ attributes: { style: "padding: 2em" } });
         let title = new Header({ level: 1, attributes: { style: "font-size: 3em; font-weight: bold; display: flex; align-items: center; flex-direction: row; gap: 0.1em" } }).append(
             "KLIM ",
@@ -9,11 +12,22 @@
             ));
         let subtitle = new Header({ level: 3 }).append("Succesfully logged in!");
 
-
-
         layout.append(title, subtitle);
+        if (href == "popup") {
+            setTimeout(() => {
+                close()
+            }, 500)
+        }
+        else if (href) setTimeout(() => {
+            window.location = href;
+        }, 500)
+        else {
+            layout.append(new Button({ classes: ["danger"], onClick: () => close() }).append("close window"))
+        }
+
         body.append(layout.root());
         body.render();
+
     }
 </script>
 <style>

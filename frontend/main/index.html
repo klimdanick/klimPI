@@ -1,1 +1,19 @@
-<h1>test</h1>
+<script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
+<script>
+
+    let user = null;
+
+    fetch("/authAPI/user", {
+        method: "get"
+    }).then(res => res.json()).then(json => {
+        if (json.roles.includes("admin")) {
+            user = json;
+        }
+        else window.location = "http://localhost:443/auth/?"+window.location
+    })
+
+    OnElementalLoad = () => {
+        body.append(new Header({ level: 1 }).append("admin panel"))
+        body.render();
+    }
+</script>

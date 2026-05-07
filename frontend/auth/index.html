@@ -5,6 +5,8 @@
 
         if (!window.location.pathname.endsWith("/")) window.location = window.location + "/";
 
+        const href = window.location.search.substring(1);
+
         let layout = Layout.row({ attributes: { style: "height: 100%" } }).column({ attributes: { style: "padding: 2em" } });
         let title = new Header({ level: 1, attributes: { style: "font-size: 3em; font-weight: bold; display: flex; align-items: center; flex-direction: row; gap: 0.1em" } }).append(
             "KLIM ",
@@ -18,8 +20,13 @@
                 fetch("/authAPI/login", {
                     method: "POST",
                     body: JSON.stringify(Object.fromEntries(data)),
+                }).then(res => res.json()).then(json => {
+                    console.log(json);
+                    if (json.success) window.location.replace("success.html?"+href);
+                    else {
+                        new Toast({message: "wrong username or password", duration: 1000, type: FEEDBACK_TYPES.error}).show()
+                    }
                 })
-                window.location.replace("success.html");
             },
         }).append(
             new TextInput({

@@ -1,0 +1,53 @@
+<script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
+<script>
+    let openedWindow = null;
+
+    let user = null;
+
+    function popitup(url, windowName) {
+        const newwindow = window.open(
+            url,
+            windowName,
+            'height=500,width=400'
+        );
+
+        if (window.focus) {
+            newwindow.focus();
+        }
+
+        return newwindow;
+    }
+
+    OnElementalLoad = () => {
+
+        fetch("/authAPI/user", {
+            method: "get"
+        }).then(res => res.json()).then(json => {
+            if (json.roles.includes("admin")) {
+                user = json;
+                loadPage();
+            }
+            else setTimeout(requestLogin, 500);
+        })
+    }
+
+    let requestLogin = () => {
+        openedWindow = popitup("http://localhost:443/auth/?popup", "login");
+
+        // Watch for popup closing
+        const timer = setInterval(() => {
+            if (!openedWindow || openedWindow.closed) {
+                clearInterval(timer);
+                window.location.reload()
+
+                // Do whatever you need here
+                // e.g. refresh page, check auth status, etc.
+            }
+        }, 500);
+    }
+
+    const loadPage = () => {
+        body.append(new Header({ level: 1 }).append("test"))
+        body.render();
+    }
+</script>
