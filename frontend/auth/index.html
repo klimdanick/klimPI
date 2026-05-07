@@ -1,6 +1,9 @@
 <script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
 <script>
+
     OnElementalLoad = () => {
+
+        if (!window.location.pathname.endsWith("/")) window.location = window.location + "/";
 
         let layout = Layout.row({ attributes: { style: "height: 100%" } }).column({ attributes: { style: "padding: 2em" } });
         let title = new Header({ level: 1, attributes: { style: "font-size: 3em; font-weight: bold; display: flex; align-items: center; flex-direction: row; gap: 0.1em" } }).append(
@@ -16,6 +19,7 @@
                     method: "POST",
                     body: JSON.stringify(Object.fromEntries(data)),
                 })
+                window.location.replace("success.html");
             },
         }).append(
             new TextInput({

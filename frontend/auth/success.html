@@ -1,0 +1,33 @@
+<script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
+<script>
+    OnElementalLoad = () => {
+
+        let layout = Layout.row({ attributes: { style: "height: 100%" } }).column({ attributes: { style: "padding: 2em" } });
+        let title = new Header({ level: 1, attributes: { style: "font-size: 3em; font-weight: bold; display: flex; align-items: center; flex-direction: row; gap: 0.1em" } }).append(
+            "KLIM ",
+            new Icon({ src: "pi-logo.svg", attributes: { style: "width: 100%" } }
+            ));
+        let subtitle = new Header({ level: 3 }).append("Succesfully logged in!");
+
+
+
+        layout.append(title, subtitle);
+        body.append(layout.root());
+        body.render();
+    }
+</script>
+<style>
+    h1,
+    h3 {
+        margin: 0;
+    }
+
+    h3 {
+        font-size: 0.9em;
+    }
+
+    form {
+        --level: keep;
+        font-size: 1.5em;
+    }
+</style>
