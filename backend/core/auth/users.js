@@ -113,14 +113,25 @@ const loadUsers = () => {
   }
 }
 
+export const getUser = (req, res, next) => {
+    const userHeader = req.headers['x-user'];
+
+    if (userHeader) {
+        try {
+            req.user = JSON.parse(userHeader);
+        } catch (err) {
+            console.error("Invalid x-user header");
+        }
+    }
+
+    next();
+}
+
 export const startAuth = (port = 8087) => {
   loadUsers();
   saveUsers(); // Ensure users.json is created if it doesn't exist
   let app = express();
-  // app.use(express.json());
-  // app.use(express.urlencoded({ extended: true }));
-  // app.use(cookieParser());
-  // app.use(authorization);
+  app.use(getUser);
   app.post("/register", registration);
   app.post("/login", (req, res) => {
     if (req.user && req.user.user !== "guest") {

@@ -94,6 +94,10 @@ const requestHandler = async (req, res) => {
         // console.log(`Proxying to: ${proxyTarget}${req.url}`);
         console.log(`${req.method} ${target} ${req.url} -> ${proxyTarget} [${req.user.user}]`);
 
+        if (req.user) {
+            req.headers['x-user'] = JSON.stringify(req.user);
+        }
+
         proxy.web(req, res, {
             target: proxyTarget
         });

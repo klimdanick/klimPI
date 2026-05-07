@@ -1,43 +1,55 @@
-<h1>Authentication</h1>
-<p>Welcome to the authentication page.</p>
-<p>Please enter your credentials to access the admin panel.</p>
-<!-- form should post to /authAPI/login with username and password in a json body -->
-
-<form id="loginForm" method="POST" action="/authAPI/login" onsubmit="event.preventDefault(); login();">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <button type="submit">Login</button>
-</form>
-
+<script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
 <script>
-    async function login() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+    OnElementalLoad = () => {
 
-        try {
-            const response = await fetch('/authAPI/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            });
+        let layout = Layout.row({ attributes: { style: "height: 100%" } }).column({ attributes: { style: "padding: 2em" } });
+        let title = new Header({ level: 1, attributes: { style: "font-size: 3em; font-weight: bold; display: flex; align-items: center; flex-direction: row; gap: 0.1em" } }).append(
+            "KLIM ",
+            new Icon({ src: "pi-logo.svg", attributes: { style: "width: 100%" } }
+            ));
+        let subtitle = new Header({ level: 3 }).append("The API behind klimdanick.nl");
+        let submitButton = new Button({ type: "submit" }).append("Login");
+        let registerLink = new Button().append("register");
+        let form = new Form({
+            id: "form1", onSubmit: (data) => {
+                fetch("/authAPI/login", {
+                    method: "POST",
+                    body: JSON.stringify(Object.fromEntries(data)),
+                })
+            },
+        }).append(
+            new TextInput({
+                id: "username",
+                name: "username",
+                placeholder: "Username"
+            }),
+            new PasswordInput({
+                id: "password",
+                name: "password",
+                placeholder: "Password"
+            }),
+            Layout.row({attributes: {style: "--level: keep; gap: 2em; font-size: 0.7em;"}}).append(registerLink, submitButton)
+        );
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Login successful:', data);
-                // Redirect to admin panel or show success message
-            } else {
-                console.error('Login failed:', response.statusText);
-                // Show error message to user
-            }
-        } catch (error) {
-            console.error('Error during login:', error);
-            // Show error message to user
-        }
+
+
+        layout.append(title, subtitle, form);
+        body.append(layout.root());
+        body.render();
     }
 </script>
+<style>
+    h1,
+    h3 {
+        margin: 0;
+    }
+
+    h3 {
+        font-size: 0.9em;
+    }
+
+    form {
+        --level: keep;
+        font-size: 1.5em;
+    }
+</style>
