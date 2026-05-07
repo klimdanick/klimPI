@@ -37,7 +37,7 @@ export const authorization = (req, res, next) => {
     if (user) {
       let token = createHash_(Math.floor(Math.random() * Number.MAX_VALUE) + "");
       user.token = token;
-      res.cookie('token', token, { maxAge: 900000000, httpOnly: false })
+      res.cookie('token', token, { maxAge: 900000000, httpOnly: false, path: '/'})
       req.user = user;
       console.log("User logged in:", username);
       return next();

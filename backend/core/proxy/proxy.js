@@ -191,6 +191,10 @@ const addExpressHelpers = (req, res) => {
             cookie += "; HttpOnly";
         }
 
+        if (options.path) {
+            cookie += `; Path=${options.path}`;
+        }
+
         res.setHeader("Set-Cookie", cookie);
     };
 };
