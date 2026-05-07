@@ -92,7 +92,7 @@ const requestHandler = async (req, res) => {
         }
 
         // console.log(`Proxying to: ${proxyTarget}${req.url}`);
-        console.log(`${req.method} ${req.url} -> ${proxyTarget} [${req.user.user}]`);
+        console.log(`${req.method} ${target} ${req.url} -> ${proxyTarget} [${req.user.user}]`);
 
         proxy.web(req, res, {
             target: proxyTarget
