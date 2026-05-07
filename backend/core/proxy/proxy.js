@@ -1,6 +1,8 @@
+import http from 'http';
 import https from 'https';
 import httpProxy from 'http-proxy';
 import fs from 'fs';
+import { authorization } from '../auth/users.js';
 const args = { port: 443 };
 
 for (let i = 2; i < process.argv.length; i++) {
@@ -10,17 +12,21 @@ for (let i = 2; i < process.argv.length; i++) {
     }
 }
 
-let options;
+let options = null;
 try {
     options = {
         key: fs.readFileSync('/etc/letsencrypt/live/vps.klimdanick.nl-0002/privkey.pem'),
         cert: fs.readFileSync('/etc/letsencrypt/live/vps.klimdanick.nl-0002/fullchain.pem')
     };
 } catch (err) {
-    options = {
-        key: fs.readFileSync('certs/privkey.pem'),
-        cert: fs.readFileSync('certs/fullchain.pem')
-    };
+    try {
+        options = {
+            key: fs.readFileSync('/etc/letsencrypt/live/vps.klimdanick.nl/privkey.pem'),
+            cert: fs.readFileSync('/etc/letsencrypt/live/vps.klimdanick.nl/fullchain.pem')
+        };
+    } catch (err) {
+        console.warn("Could not load production certificates, falling back to local certs.");
+    }
 }
 
 const proxy = httpProxy.createProxyServer({ ws: true });
@@ -55,30 +61,48 @@ const loadTargetMap = () => {
     return targetMap;
 };
 
-// HTTPS Server with Reverse Proxy
-const server = https.createServer(options, (req, res) => {
-    console.log(`Request: ${req.url} from ${req.socket.remoteAddress}`);
+// HTTPS Server with Reverse Proxy, should also support http if options are not provided
+const requestHandler = async (req, res) => {
 
-    let targetMap = loadTargetMap();
-    const target = Object.keys(targetMap).find((prefix) => req.url.startsWith(prefix));
-    let splitIndex = target ? target.length : 0;
-    if (target && target.endsWith("/")) splitIndex -= 1;
-    const proxyTarget = target ? targetMap[target] : defaultTarget;
+    addExpressHelpers(req, res);
 
-    if (splitIndex >= 0) req.url = req.url.slice(splitIndex);
+    req.body = await parseBody(req);
 
-    console.log(`Proxying to: ${proxyTarget}${req.url}`);
+    authorization(req, res, () => {
 
-    try {
-        proxy.web(req, res, { target: proxyTarget }, (err) => {
-            console.error('Proxy error:', err);
-            res.writeHead(502);
-            res.end('Bad Gateway');
+        // your proxy logic here
+        // console.log(`Request: ${req.url} from ${req.socket.remoteAddress}`);
+
+        let targetMap = loadTargetMap();
+
+        const target = Object.keys(targetMap).find((prefix) =>
+            req.url.startsWith(prefix)
+        );
+
+        let splitIndex = target ? target.length : 0;
+
+        if (target && target.endsWith("/")) {
+            splitIndex -= 1;
+        }
+
+        const proxyTarget = target ? targetMap[target] : defaultTarget;
+
+        if (splitIndex >= 0) {
+            req.url = req.url.slice(splitIndex);
+        }
+
+        // console.log(`Proxying to: ${proxyTarget}${req.url}`);
+        console.log(`${req.method} ${req.url} -> ${proxyTarget} [${req.user.user}]`);
+
+        proxy.web(req, res, {
+            target: proxyTarget
         });
-    } catch (err) {
-        console.error('Proxy error:', err);
-    }
-});
+    });
+};
+
+const server = options
+    ? https.createServer(options, requestHandler)
+    : http.createServer(requestHandler);
 
 // WebSocket Support for Socket.IO
 server.on('upgrade', (req, socket, head) => {
@@ -118,6 +142,55 @@ proxy.on('error', (err, req, res) => {
 
 export const startProxy = (port = 443) => {
     server.listen(args.port, () => {
-        console.log(`Reverse proxy | ${args.port}`);
+        console.log(`revproxy \t| ${args.port} \t| ${options ? 'HTTPS' : 'HTTP'}`);
     });
 }
+
+const parseCookies = (cookieHeader = "") => {
+    const cookies = {};
+
+    cookieHeader.split(";").forEach(cookie => {
+        const parts = cookie.split("=");
+        if (parts.length >= 2) {
+            cookies[parts[0].trim()] = decodeURIComponent(parts.slice(1).join("="));
+        }
+    });
+
+    return cookies;
+};
+
+const parseBody = async (req) => {
+    return new Promise((resolve) => {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk.toString();
+        });
+
+        req.on("end", () => {
+            try {
+                resolve(JSON.parse(body || "{}"));
+            } catch {
+                resolve({});
+            }
+        });
+    });
+};
+
+const addExpressHelpers = (req, res) => {
+    req.cookies = parseCookies(req.headers.cookie);
+
+    res.cookie = (name, value, options = {}) => {
+        let cookie = `${name}=${encodeURIComponent(value)}`;
+
+        if (options.maxAge) {
+            cookie += `; Max-Age=${Math.floor(options.maxAge / 1000)}`;
+        }
+
+        if (options.httpOnly) {
+            cookie += "; HttpOnly";
+        }
+
+        res.setHeader("Set-Cookie", cookie);
+    };
+};

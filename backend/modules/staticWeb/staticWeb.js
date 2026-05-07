@@ -11,7 +11,7 @@ export class staticWeb {
 
 
     start() {
-        console.log(`staticWeb | ${this.port} | ${this.location}`);
+        console.log(`staticWeb \t| ${this.port} \t| ${this.location}`);
         this.server.listen(this.port);
     }
 }

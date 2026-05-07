@@ -8,3 +8,4 @@ config.cfg
 ELEGEN
 ELEGEN/*
 */certs/*
+users.json
