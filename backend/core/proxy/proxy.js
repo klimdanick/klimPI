@@ -92,7 +92,7 @@ const requestHandler = async (req, res) => {
         }
 
         // console.log(`Proxying to: ${proxyTarget}${req.url}`);
-        if (!target === "/elementaljs")
+        if (target != "/elementaljs")
         console.log(`${req.method} ${target} ${req.url} -> ${proxyTarget} [${req.user.user}]`);
 
         if (req.user) {
