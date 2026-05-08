@@ -3,8 +3,6 @@
 
     OnElementalLoad = () => {
 
-        if (!window.location.pathname.endsWith("/")) window.location = window.location + "/";
-
         const href = window.location.search.substring(1);
 
         let layout = Layout.row({ attributes: { style: "height: 100%" } }).column({ attributes: { style: "padding: 2em" } });
@@ -13,11 +11,10 @@
             new Icon({ src: "pi-logo.svg", attributes: { style: "width: 100%" } }
             ));
         let subtitle = new Header({ level: 3 }).append("The API behind klimdanick.nl");
-        let submitButton = new Button({ type: "submit" }).append("Login");
-        let registerLink = new Button({onClick: () => window.location = window.location+"register.html?"+(href ? href : "")}).append("register");
+        let submitButton = new Button({ type: "submit" }).append("Register");
         let form = new Form({
             id: "form1", onSubmit: (data) => {
-                fetch("/authAPI/login", {
+                fetch("/authAPI/register", {
                     method: "POST",
                     body: JSON.stringify(Object.fromEntries(data)),
                 }).then(res => res.json()).then(json => {
@@ -39,7 +36,7 @@
                 name: "password",
                 placeholder: "Password"
             }),
-            Layout.row({attributes: {style: "--level: keep; gap: 2em; font-size: 0.7em;"}}).append(registerLink, submitButton)
+            Layout.row({attributes: {style: "--level: keep; gap: 2em; font-size: 0.7em;"}}).append(submitButton)
         );
 
 

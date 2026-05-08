@@ -2,6 +2,7 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { createHash } from "crypto";
 import express from "express";
+import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
 import fs from "fs";
 
@@ -61,7 +62,9 @@ const registerUser = (username, password, roles = ["user"]) => {
 }
 
 export const registration = (req, res) => {
-  let { username, password } = req.body;
+  console.log(req.body);
+  let username = req.body?.username;
+  let password = req.body?.password;
   if (!username || !password) {
     return res.status(400).json({ success: false, message: "Username and password are required" });
   }
@@ -132,6 +135,7 @@ export const startAuth = (port = 8087) => {
   saveUsers(); // Ensure users.json is created if it doesn't exist
   let app = express();
   app.use(getUser);
+  app.use(bodyParser.json())
   app.post("/register", registration);
   app.post("/login", (req, res) => {
     if (req.user && req.user.user !== "guest") {
