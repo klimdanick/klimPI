@@ -3,6 +3,7 @@ import https from 'https';
 import httpProxy from 'http-proxy';
 import fs from 'fs';
 import { authorization } from '../auth/users.js';
+
 const args = { port: 443 };
 
 for (let i = 2; i < process.argv.length; i++) {
@@ -64,6 +65,17 @@ const loadTargetMap = () => {
 // HTTPS Server with Reverse Proxy, should also support http if options are not provided
 const requestHandler = async (req, res) => {
 
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+
     addExpressHelpers(req, res);
 
     req.body = await parseBody(req);
@@ -93,7 +105,7 @@ const requestHandler = async (req, res) => {
 
         // console.log(`Proxying to: ${proxyTarget}${req.url}`);
         if (target != "/elementaljs")
-        console.log(`${req.method} ${target} ${req.url} -> ${proxyTarget} [${req.user.user}]`);
+            console.log(`${req.method} ${target} ${req.url} -> ${proxyTarget} [${req.user.user}]`);
 
         if (req.user) {
             req.headers['x-user'] = JSON.stringify(req.user);
@@ -146,8 +158,9 @@ proxy.on('error', (err, req, res) => {
 // Start Server
 
 export const startProxy = (port = 443) => {
-    server.listen(args.port, () => {
-        console.log(`revproxy \t| ${args.port} \t| ${options ? 'HTTPS' : 'HTTP'}`);
+    if (!options) port = 80;
+    server.listen(port, () => {
+        console.log(`revproxy \t| ${port} \t| ${options ? 'HTTPS' : 'HTTP'}`);
     });
 }
 
