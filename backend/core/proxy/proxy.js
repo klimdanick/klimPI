@@ -16,14 +16,14 @@ for (let i = 2; i < process.argv.length; i++) {
 let options = null;
 try {
     options = {
-        key: fs.readFileSync('/etc/letsencrypt/live/vps.klimdanick.nl-0002/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/vps.klimdanick.nl-0002/fullchain.pem')
+        key: fs.readFileSync('/etc/letsencrypt/live/klimdanick.nl/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/klimdanick.nl/fullchain.pem')
     };
 } catch (err) {
     try {
         options = {
-            key: fs.readFileSync('/etc/letsencrypt/live/vps.klimdanick.nl/privkey.pem'),
-            cert: fs.readFileSync('/etc/letsencrypt/live/vps.klimdanick.nl/fullchain.pem')
+            key: fs.readFileSync('./certs/privkey.pem'),
+            cert: fs.readFileSync('./certs/fullchain.pem')
         };
     } catch (err) {
         console.warn("Could not load production certificates, falling back to local certs.");
