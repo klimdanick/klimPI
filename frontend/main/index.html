@@ -1,19 +1,124 @@
 <script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
+<script src="dashboard.js"></script>
 <script>
+
+    if (!window.location.pathname.endsWith("/")) window.location = window.location + "/";
 
     let user = null;
 
     fetch("/authAPI/user", {
         method: "get"
     }).then(res => res.json()).then(json => {
-        if (json.roles.includes("admin")) {
-            user = json;
+        if (json.roles.includes("guest")) {
+            window.location = "https://dev.klimdanick.nl/auth/?" + window.location
         }
-        else window.location = "https://dev.klimdanick.nl/auth/?"+window.location
+        else user = json;
     })
 
+    let layout, mainMenu;
+
     OnElementalLoad = () => {
-        body.append(new Header({ level: 1 }).append("admin panel"))
+
+        layout = Layout.row({ id: "mainLayout" });
+        let title = new Header({ level: 1, attributes: { style: "font-size: 1.2em; font-weight: bold; display: flex; align-items: center; flex-direction: row; gap: 0.1em" } }).append(
+            "KLIM ",
+            new Icon({ src: "pi-logo.svg", attributes: { style: "width: 100%" } }
+            ));
+        mainMenu = new Menu().append(
+            new Element({tag: "div", attributes: {style: "display: flex; justify-content: center;"}}).append(title),
+            new MenuItem({ label: "notes", icon: new Icon({ src: getEjsAsset("messages"), action: () => loadPage() }) }),
+            new MenuItem({ label: "files", icon: new Icon({ src: getEjsAsset("file") }), action: () => loadPage() }),
+        )
+
+        if (hasAccess("view_dashboard")) mainMenu.append(new MenuItem({ label: "dashboard", icon: new Icon({ src: "dashboard.svg" }), action: () => loadPage(createDashboard()) }))
+        if (hasAccess("view_processes")) mainMenu.append(new MenuItem({ label: "processes", icon: new Icon({ src: "process.svg" }), action: () => loadPage() }))
+        if (hasAccess("view_proxy")) mainMenu.append(new MenuItem({ label: "proxy", icon: new Icon({ src: "proxy.svg" }), action: () => loadPage() }))
+        if (hasAccess("view_users")) mainMenu.append(new MenuItem({ label: "users", icon: new Icon({ src: "users.svg" }), action: () => loadPage() }))
+
+        
+
+        mainMenu.id = "mainMenu"
+
+        layout.append(mainMenu)
+
+        body.append(layout)
         body.render();
     }
+
+    const loadPage = (page) => {
+        layout.clear();
+        layout.append(mainMenu);
+        if (page) layout.append(page);
+        body.render();
+    }
+
+    const levels = {
+        Admin: 0
+    }
+
+    const permissions = {
+        admin: [
+            "view_dashboard",
+            "view_processes",
+            "restart_processes",
+            "start_processes",
+            "stop_processes",
+            "edit_processes",
+            "view_proxy",
+            "edit_proxy",
+            "view_users",
+            "edit_users",
+        ],
+        operator: [
+            "view_dashboard",
+            "view_processes",
+            "restart_processes",
+            "start_processes",
+            "view_proxy",
+        ],
+        guest: []
+    }
+
+    const hasAccess = (permission, user_ = user) => {
+        let ret = false
+        user_.roles.forEach(role => {
+            if (permissions[role]?.includes(permission)) ret = true;
+        });
+        return ret;
+    }
 </script>
+<style>
+    svg {
+        width: 1em;
+    }
+
+    #mainLayout {
+        width: 100%;
+        height: 100%;
+        justify-content: flex-start;
+        padding: 0;
+    }
+
+    #mainMenu {
+        font-size: 1.5em;
+        height: 100%;
+        width: 200px;
+    }
+
+    .mainContent {
+        width: 100%;
+        height: 100%;
+        --level: keep;
+    }
+</style>
+
+<!-- 
+
+    notes
+    files
+    dashboard
+    processes
+    proxy
+    users
+
+-->
