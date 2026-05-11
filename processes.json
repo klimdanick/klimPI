@@ -2,6 +2,7 @@
     "processes": [],
     "proxy": [
         {"name": "authAPI", "port": "8087", "url": "/authAPI"},
+        {"name": "mainAPI", "port": "8089", "url": "/API"},
         {"name": "auth", "port": "8086", "url": "/auth"},
         {"name": "adminPanel", "port": "8085", "url": "/admin"},
         {"name": "website", "port": "8084", "url": "/"}
