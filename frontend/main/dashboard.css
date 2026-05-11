@@ -1,0 +1,101 @@
+#net_down {
+    background: transparent !important;
+    
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+
+#net_up {
+    --level: increment;
+    /* background: transparent !important; */
+
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+
+#cpu {
+    --level: increment;
+
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+
+}
+
+#ram {
+    background: transparent !important;
+
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+
+.lineGraph {
+    border-radius: var(--radius-md);
+}
+
+#mem {
+    width: 30em;
+    height: 1.5em;
+
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 2;
+}
+
+#cpu_y, #net_y {
+    position: relative;
+    left: 0;
+    top: -15px;
+
+    height: 300px;
+    width: 580px;
+    background: transparent;
+    color: gray;
+
+    line-height: 30px;
+}
+
+#cpu_y, #cpu_x {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+
+#net_y, #net_x {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+
+#cpu_x, #net_x {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    position: relative;
+    left: 35px;
+    top: 140px;
+
+    height: 1em;
+    width: 580px;
+    background: transparent;
+    color: gray;
+
+    line-height: 30px;
+}
+
+#dashboard {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    padding: 3em;
+    justify-items: center;
+}

@@ -1,5 +1,6 @@
 <script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
 <script src="dashboard.js"></script>
+<link rel="stylesheet" href="dashboard.css">
 <script>
 
     if (!window.location.pathname.endsWith("/")) window.location = window.location + "/";
@@ -43,6 +44,8 @@
 
         body.append(layout)
         body.render();
+
+        loadPage(createDashboard())
     }
 
     const loadPage = (page) => {
