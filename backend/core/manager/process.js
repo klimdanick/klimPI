@@ -98,7 +98,7 @@ export class VPS {
 
         arr.push(point);
 
-        while (arr.length > 20 || (arr[0].x - Date.now()) / 1000 < -20) {
+        while (arr.length > 20 || (arr[0].x - Date.now()) / 1000 < -25) {
             arr.shift();
         }
 
