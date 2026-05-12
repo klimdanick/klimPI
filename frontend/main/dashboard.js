@@ -2,6 +2,8 @@ let dashboard, cpu, ram, net_up, net_down;
 
 let values = { cpu: 60, ram: 20, up: 10, down: 5 }
 
+let data;
+
 let i = 1;
 
 const ws = new WebSocket("ws://localhost/API");
@@ -75,28 +77,27 @@ const createDashboard = () => {
     net_x.append(...(arr.map((x) => new Element({ tag: "pre" }).append(x))))
 
     ws.onmessage = (event) => {
-        const data = JSON.parse(event.data).data;
-
-        const now = Date.now();
-        const getDeltaT = (t) => (t - now) / 1000
-
-        const mapFunc = p => { return { x: getDeltaT(p.x), y: p.y } }
-
-        data.cpu = data.cpu.map(mapFunc)
-        data.ram = data.ram.map(mapFunc)
-        data.up = data.up.map(mapFunc)
-        data.down = data.down.map(mapFunc)
-
-        console.log(data);
-
-        cpu.points = data.cpu;
-        ram.points = data.ram;
-        net_up.points = data.up;
-        net_down.points = data.down;
-        mem.value = data.mem.y;
-
-        mem.render();
+        data = JSON.parse(event.data).data;
     };
 
+    setInterval(() => updateData(), 200)
+
     return dashboard.append(cpu, ram, mem, net_up, net_down, cpu_y, net_y, cpu_x, net_x);
+}
+
+const updateData = () => {
+    if (!data) return;
+
+    const now = Date.now();
+    const getDeltaT = (t) => (t - now) / 1000
+
+    const mapFunc = p => { return { x: getDeltaT(p.x), y: p.y } }
+
+    cpu.points = data.cpu.map(mapFunc)
+    ram.points = data.ram.map(mapFunc)
+    net_up.points = data.up.map(mapFunc)
+    net_down.points = data.down.map(mapFunc)
+    mem.value = data.mem.y;
+
+    mem.render();
 }
