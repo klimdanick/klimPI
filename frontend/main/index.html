@@ -1,6 +1,8 @@
 <script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
 <script src="dashboard.js"></script>
 <link rel="stylesheet" href="dashboard.css">
+<script src="processes.js"></script>
+<link rel="stylesheet" href="processes.css">
 <script>
 
     if (!window.location.pathname.endsWith("/")) window.location = window.location + "/";
@@ -32,7 +34,7 @@
         )
 
         if (hasAccess("view_dashboard")) mainMenu.append(new MenuItem({ label: "dashboard", icon: new Icon({ src: "dashboard.svg" }), action: () => loadPage(createDashboard()) }))
-        if (hasAccess("view_processes")) mainMenu.append(new MenuItem({ label: "processes", icon: new Icon({ src: "process.svg" }), action: () => loadPage() }))
+        if (hasAccess("view_processes")) mainMenu.append(new MenuItem({ label: "processes", icon: new Icon({ src: "process.svg" }), action: () => loadPage(createProcesses()) }))
         if (hasAccess("view_proxy")) mainMenu.append(new MenuItem({ label: "proxy", icon: new Icon({ src: "proxy.svg" }), action: () => loadPage() }))
         if (hasAccess("view_users")) mainMenu.append(new MenuItem({ label: "users", icon: new Icon({ src: "users.svg" }), action: () => loadPage() }))
 
