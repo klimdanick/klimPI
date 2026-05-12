@@ -121,28 +121,65 @@ const server = options
     ? https.createServer(options, requestHandler)
     : http.createServer(requestHandler);
 
-// WebSocket Support for Socket.IO
-server.on('upgrade', (req, socket, head) => {
-    console.log(`WebSocket Upgrade: ${req.url}`);
-
-    let targetMap = loadTargetMap();
-    const target = Object.keys(targetMap).find((prefix) => req.url.startsWith(prefix));
-    let splitIndex = target ? target.length : 0;
-    if (target && target.endsWith("/")) splitIndex -= 1;
-    const proxyTarget = target ? targetMap[target] : defaultTarget;
-
-    if (splitIndex >= 0) req.url = req.url.slice(splitIndex);
-
-    console.log(`Proxying WebSocket to: ${proxyTarget}${req.url}`);
-
+server.on('upgrade', async (req, socket, head) => {
     try {
+        console.log(`WebSocket Upgrade: ${req.url}`);
+
+        // add cookie parser
+        req.cookies = parseCookies(req.headers.cookie);
+
+        // fake minimal res object for authorization()
+        const res = {
+            writeHead: () => {},
+            end: () => {}
+        };
+
+        // run auth middleware
+        await new Promise((resolve) => {
+            authorization(req, res, resolve);
+        });
+
+        let targetMap = loadTargetMap();
+
+        const target = Object.keys(targetMap).find(prefix =>
+            req.url.startsWith(prefix)
+        );
+
+        let splitIndex = target ? target.length : 0;
+
+        if (target && target.endsWith("/")) {
+            splitIndex -= 1;
+        }
+
+        const proxyTarget =
+            target
+                ? targetMap[target]
+                : defaultTarget;
+
+        // rewrite path
+        if (splitIndex > 0) {
+            req.url = req.url.slice(splitIndex);
+        }
+
+        // pass user info to backend
+        if (req.user) {
+            req.headers['x-user'] =
+                JSON.stringify(req.user);
+        }
+
+        console.log(
+            `WS ${target} ${req.url} -> ${proxyTarget}`
+        );
+
         proxy.ws(req, socket, head, {
             target: proxyTarget,
             changeOrigin: true,
             ws: true
         });
+
     } catch (err) {
-        console.error('WebSocket Proxy Error:', err);
+        console.error('WebSocket Upgrade Error:', err);
+        socket.destroy();
     }
 });
 
