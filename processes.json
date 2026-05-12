@@ -1,6 +1,7 @@
 {
     "processes": [],
     "proxy": [
+	{"name": "elementaljs", "port": "8088", "url": "/elementaljs"},
         {"name": "authAPI", "port": "8087", "url": "/authAPI"},
         {"name": "mainAPI", "port": "8089", "url": "/API"},
         {"name": "auth", "port": "8086", "url": "/auth"},

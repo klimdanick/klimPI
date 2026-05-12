@@ -6,7 +6,7 @@ let data;
 
 let i = 1;
 
-const ws = new WebSocket("ws://localhost/API");
+const ws = new WebSocket("wss://dev.klimdanick.nl/API");
 
 const createDashboard = () => {
     if (dashboard) return dashboard;

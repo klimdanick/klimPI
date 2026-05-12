@@ -48,6 +48,9 @@ export class VPS {
             arr.push(point);
         }
 
+	this.updateDisk();
+
+
         setInterval(() => {
             this.updateDisk()
         }, 30000)
