@@ -39,16 +39,19 @@ export class VPS {
 
         let now = Date.now();
 
-        for (let i = -20; i <= 0; i+=4) {
+        for (let i = -20; i <= 0; i += 4) {
             const point = {
-                x: now + i*1000,
+                x: now + i * 1000,
                 y: 0
             };
 
-            arr.push(point);
+            this.cpu.push(point);
+            this.ram.push(point);
+            this.up.push(point);
+            this.down.push(point);
         }
 
-	this.updateDisk();
+        this.updateDisk();
 
 
         setInterval(() => {
