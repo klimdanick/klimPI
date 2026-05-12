@@ -77,6 +77,16 @@ const createDashboard = () => {
     ws.onmessage = (event) => {
         const data = JSON.parse(event.data).data;
 
+        const now = Date.now();
+        const getDeltaT = (t) => (t - now) / 1000
+
+        const mapFunc = p => { return { x: getDeltaT(p.x), y: p.y } }
+
+        data.cpu = data.cpu.map(mapFunc)
+        data.ram = data.ram.map(mapFunc)
+        data.up = data.up.map(mapFunc)
+        data.down = data.down.map(mapFunc)
+
         console.log(data);
 
         cpu.points = data.cpu;

@@ -37,18 +37,57 @@ export class VPS {
         this.down = [];
         this.mem = [];
 
-        // for (let i = 0; i < 20; i++) {
-        //     const p = {
-        //         x: Date.now() - i * 1000,
-        //         y: 0
-        //     };
+        setInterval(() => {
+            this.updateDisk()
+        }, 30000)
 
-        //     this.cpu.push({ ...p });
-        //     this.ram.push({ ...p });
-        //     this.up.push({ ...p });
-        //     this.down.push({ ...p });
-        //     this.mem.push({ ...p });
-        // }
+        setInterval(() => {
+            this.updateData()
+        }, 4000)
+    }
+
+    async updateDisk() {
+        try {
+            const fs = await si.fsSize()
+
+            this.push(
+                this.mem,
+                fs[0]
+                    ? (fs[0].used / fs[0].size) * 100
+                    : 0
+            )
+
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    async updateData() {
+        const [load, mem, net] = await Promise.all([
+            si.currentLoad(),
+            si.mem(),
+            si.networkStats()
+        ])
+
+
+        this.push(
+            this.cpu,
+            load.currentLoad
+        )
+
+        this.push(
+            this.ram,
+            (mem.used / mem.total) * 100
+        )
+
+        this.push(
+            this.up,
+            net[0]?.tx_sec || 0
+        )
+        this.push(
+            this.down,
+            net[0]?.rx_sec || 0
+        )
     }
 
     push(arr, value) {
@@ -59,7 +98,7 @@ export class VPS {
 
         arr.push(point);
 
-        while (arr.length > 5) {
+        while (arr.length > 20 || (arr[0].x - Date.now()) / 1000 < -20) {
             arr.shift();
         }
 
@@ -67,51 +106,15 @@ export class VPS {
     }
 
     async update() {
-        si.currentLoad().then(load => {
-            this.push(
-                this.cpu,
-                load.currentLoad
-            )
-        });
-
-        si.mem().then(mem => {
-            this.push(
-                this.ram,
-                (mem.used / mem.total) * 100
-            )
-        });
-
-        si.networkStats().then(net => {
-            this.push(
-                this.up,
-                net[0]?.tx_sec || 0
-            )
-            this.push(
-                this.down,
-                net[0]?.rx_sec || 0
-            )
-        });
-
-        si.fsSize().then(fs => {
-            this.push(
-                this.mem,
-                fs[0]
-                    ? (fs[0].used / fs[0].size) * 100
-                    : 0
-            )
-        });
-
-        const now = new Date();
-        const getDeltaT = (t) => (t - now) / 1000
 
         const data = {
-            cpu: this.cpu.map(p => { return { x: getDeltaT(p.x), y: p.y } }),
+            cpu: this.cpu,
 
-            ram: this.ram.map(p => { return { x: getDeltaT(p.x), y: p.y } }),
+            ram: this.ram,
 
-            up: this.up.map(p => { return { x: getDeltaT(p.x), y: p.y } }),
+            up: this.up,
 
-            down: this.down.map(p => { return { x: getDeltaT(p.x), y: p.y } }),
+            down: this.down,
 
             mem: this.mem.at(-1),
         };
@@ -171,5 +174,5 @@ export const startAPI = (port = 8089) => {
         } catch (err) {
             console.error(err);
         }
-    }, 4000);
+    }, 1000);
 };
