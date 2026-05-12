@@ -37,6 +37,17 @@ export class VPS {
         this.down = [];
         this.mem = [];
 
+        let now = Date.now();
+
+        for (let i = -20; i <= 0; i+=4) {
+            const point = {
+                x: now + i*1000,
+                y: 0
+            };
+
+            arr.push(point);
+        }
+
         setInterval(() => {
             this.updateDisk()
         }, 30000)
@@ -44,6 +55,7 @@ export class VPS {
         setInterval(() => {
             this.updateData()
         }, 4000)
+
     }
 
     async updateDisk() {
