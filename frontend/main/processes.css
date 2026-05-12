@@ -1,0 +1,42 @@
+#processes {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    padding: 3em;
+    justify-items: center;
+}
+
+.process {
+    --level: increment;
+}
+
+.process .row, .process .row .column {
+    --level: keep;
+}
+
+.process .row * {
+    --level: increment;
+}
+
+.process.running .startButton {
+    background-color: var(--AQUA_GREEN);
+}
+
+.process.stopped .stopButton {
+    background-color: var(--DEBIAN_RED);
+}
+
+.process.restarting .restartButton {
+    background-color: var(--TURMERIC_YELLOW);
+}
+
+.process .startButton {
+    border: 2px solid var(--AQUA_GREEN);
+}
+
+.process .stopButton {
+    border: 2px solid var(--DEBIAN_RED);
+}
+
+.process .restartButton {
+    border: 2px solid var(--TURMERIC_YELLOW);
+}
