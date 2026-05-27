@@ -9,3 +9,5 @@ ELEGEN
 ELEGEN/*
 */certs/*
 users.json
+backend/modules/files/files/*
+backend/modules/files/data/notes/*

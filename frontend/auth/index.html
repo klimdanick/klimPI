@@ -1,4 +1,4 @@
-<script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
+<script src="https://klimdanick.nl/elementaljs/src/Elemental.js"></script>
 <script>
 
     OnElementalLoad = () => {
@@ -14,17 +14,21 @@
             ));
         let subtitle = new Header({ level: 3 }).append("The API behind klimdanick.nl");
         let submitButton = new Button({ type: "submit" }).append("Login");
-        let registerLink = new Button({onClick: () => window.location = window.location+"register.html?"+(href ? href : "")}).append("register");
+        let registerLink = new Button({ onClick: () => window.location = window.location + "register.html?" + (href ? href : "") }).append("register");
         let form = new Form({
             id: "form1", onSubmit: (data) => {
                 fetch("/authAPI/login", {
                     method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
                     body: JSON.stringify(Object.fromEntries(data)),
                 }).then(res => res.json()).then(json => {
                     console.log(json);
-                    if (json.success) window.location.replace("success.html?"+href);
+                    if (json.success) window.location.replace("success.html?" + href);
                     else {
-                        new Toast({message: "wrong username or password", duration: 1000, type: FEEDBACK_TYPES.error}).show()
+                        new Toast({ message: "wrong username or password", duration: 1000, type: FEEDBACK_TYPES.error }).show()
                     }
                 })
             },
@@ -39,7 +43,7 @@
                 name: "password",
                 placeholder: "Password"
             }),
-            Layout.row({attributes: {style: "--level: keep; gap: 2em; font-size: 0.7em;"}}).append(registerLink, submitButton)
+            Layout.row({ attributes: { style: "--level: keep; gap: 2em; font-size: 0.7em;" } }).append(registerLink, submitButton)
         );
 
 

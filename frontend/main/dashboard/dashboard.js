@@ -6,7 +6,7 @@ let data;
 
 let i = 1;
 
-const ws = new WebSocket("wss://dev.klimdanick.nl/API");
+const ws = new WebSocket("wss://klimdanick.nl/API");
 
 const createDashboard = () => {
     if (dashboard) return dashboard;
@@ -77,7 +77,9 @@ const createDashboard = () => {
     net_x.append(...(arr.map((x) => new Element({ tag: "pre" }).append(x))))
 
     ws.onmessage = (event) => {
-        data = JSON.parse(event.data).data;
+        data = JSON.parse(event.data);
+        processData = data.processes
+        data = data.data
     };
 
     setInterval(() => updateData(), 200)
@@ -86,6 +88,7 @@ const createDashboard = () => {
 }
 
 const updateData = () => {
+    updateProcesses();
     if (!data) return;
 
     const now = Date.now();

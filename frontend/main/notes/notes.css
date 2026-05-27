@@ -1,0 +1,150 @@
+#notes {
+    width: 100%;
+    height: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+}
+
+#mainContainer {
+    width: 100%;
+    height: 100%;
+}
+
+#sideBar {
+    height: 100%;
+    width: 15vw;
+    justify-content: flex-start;
+    --level: increment;
+    border-left: 2px solid var(--level5);
+}
+
+#sideBar * {
+    width: 100%;
+}
+
+.submenu {
+    /* height: 100%; */
+    width: 100%;
+}
+
+.note {
+    /* --text-primary: var(--DEBIAN_RED) */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.note > .menu-button {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.note > svg {
+    opacity: 0;
+    position: absolute;
+    right: 5px;
+    top: 0.75em;
+}
+
+.note:hover > svg {
+    opacity: 1;
+}
+
+.dir > svg {
+    opacity: 0;
+    position: absolute;
+    right: 5px;
+    top: 0.75em;
+    --text-primary: white;
+}
+
+.dir:hover > svg {
+    opacity: 1;
+}
+
+.dir > svg:hover {
+    --text-primary: var(--DEBIAN_RED)
+}
+
+.dir > button > svg {
+    --text-primary: var(--DEBIAN_RED)
+}
+
+#note {
+    --level: keep;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+#note #title, #note #content {
+    background: transparent;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#note #md {
+    position: absolute;
+    top: calc(3em*1.2);
+    right: 0;
+    background: transparent;
+}
+
+#note #md span {
+    background-color: var(--level5);
+}
+
+#note #md input:checked+span {
+    background-color: var(--DEBIAN_RED);
+}
+
+#note #title {
+    width: calc(100% - 50px);
+    font-size: 3em;
+    height: 1.2em;
+    padding-left: 0;
+    border-bottom: 2px dashed var(--DEBIAN_RED);
+    border-radius: 0;
+}
+
+#note #content {
+    width: 100% !important;
+    font-size: 1.2em;
+    resize: none;
+    position: relative;
+    padding-left: 5px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: auto;
+    display: block;
+}
+
+#note textarea#content {
+    height: 100%;
+}
+
+#note #content hr {
+    border: none;
+    border-bottom: 1px dashed var(--DEBIAN_RED);
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.create_button {
+    --level: null !important;
+    background-color: #299ad0;
+    --hover-color: #32bcff !important;
+}
+
+.create_button:hover {
+    background-color: var(--hover-color);
+}

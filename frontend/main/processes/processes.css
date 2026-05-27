@@ -40,3 +40,11 @@
 .process .restartButton {
     border: 2px solid var(--TURMERIC_YELLOW);
 }
+
+.process .bar-graph .bar:nth-child(4n+1) {
+    background: var(--DEBIAN_RED);
+}
+
+.process .bar-graph .bar:nth-child(4n+2) {
+    background: var(--TURMERIC_YELLOW);
+}

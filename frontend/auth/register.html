@@ -1,4 +1,4 @@
-<script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
+<script src="https://klimdanick.nl/elementaljs/src/Elemental.js"></script>
 <script>
 
     OnElementalLoad = () => {
@@ -16,6 +16,10 @@
             id: "form1", onSubmit: (data) => {
                 fetch("/authAPI/register", {
                     method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
                     body: JSON.stringify(Object.fromEntries(data)),
                 }).then(res => res.json()).then(json => {
                     console.log(json);

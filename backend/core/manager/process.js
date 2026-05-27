@@ -1,16 +1,34 @@
-import express from "express";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import { WebSocketServer } from "ws";
-
-import { getUser } from "../auth/users.js";
-
+import { spawn } from "node:child_process";
+import fs from "node:fs";
+import { runInThisContext } from "node:vm";
 import os from "os";
-import si from "systeminformation";
 
 export class Process {
-    constructor(p) {
+    constructor({
+        name,
+        command,
+        args = [],
+        cwd = process.cwd(),
+        logFile = `/home/ubuntu/logs/${name}.log`,
+        statsInterval = 2000
+    }) {
+        this.name = name;
+        this.command = command;
+        this.args = args;
+        this.cwd = cwd;
 
+        this.logFile = logFile;
+        this.statsInterval = statsInterval;
+
+        this.process = null;
+        this.running = false;
+
+        this.cpu = 0;
+        this.ram = 0;
+
+        this._statsTimer = null;
+
+        processes.push(this)
     }
 
     toggle() {
@@ -19,178 +37,168 @@ export class Process {
     }
 
     start() {
-        console.log("starting " + this.name);
+        if (this.running) return;
+
+        console.log(`starting ${this.name}`);
+
+        this.process = spawn(this.command, this.args, {
+            cwd: this.cwd,
+            detached: false,
+            // shell: true
+        });
+
+        this.process.on("error", (err) => {
+            console.error(err);
+
+            this.running = false;
+
+            this.log(`[PROCESS ERROR] ${err.stack}`);
+        });
+
+        this.process.on("spawn", () => {
+            this.running = true;
+            this.log("Process started");
+        });
+
+        // stdout
+        this.process.stdout.on("data", (data) => {
+            this.log(`[STDOUT] ${data.toString().trim()}`);
+        });
+
+        // stderr
+        this.process.stderr.on("data", (data) => {
+            this.log(`[STDERR] ${data.toString().trim()}`);
+        });
+
+        // exit
+        this.process.on("close", (code) => {
+            this.log(`Process exited with code ${code}`);
+
+            this.running = false;
+
+            if (this._statsTimer) {
+                clearInterval(this._statsTimer);
+                this._statsTimer = null;
+            }
+        });
+
+        // start monitoring
+        this._startMonitoring();
     }
 
     stop() {
-        console.log("stopping " + this.name);
-    }
-}
+        if (!this.running || !this.process) return;
 
-export class VPS {
-    constructor(onUpdate = null) {
-        this.onUpdate = onUpdate;
+        console.log(`stopping ${this.name}`);
 
-        this.cpu = [];
-        this.ram = [];
-        this.up = [];
-        this.down = [];
-        this.mem = [];
+        this.process.kill("SIGTERM");
 
-        let now = Date.now();
+        this.running = false;
 
-        for (let i = -20; i <= 0; i += 4) {
-            const point = {
-                x: now + i * 1000,
-                y: 0
-            };
-
-            this.cpu.push(point);
-            this.ram.push(point);
-            this.up.push(point);
-            this.down.push(point);
+        if (this._statsTimer) {
+            clearInterval(this._statsTimer);
+            this._statsTimer = null;
         }
 
-        this.updateDisk();
-
-
-        setInterval(() => {
-            this.updateDisk()
-        }, 30000)
-
-        setInterval(() => {
-            this.updateData()
-        }, 4000)
-
+        this.cpu = 0;
+        this.ram = 0;
     }
 
-    async updateDisk() {
-        try {
-            const fs = await si.fsSize()
+    async _startMonitoring() {
+        this._statsTimer = setInterval(async () => {
+            try {
+                const usage = await this.getUsage();
 
-            this.push(
-                this.mem,
-                fs[0]
-                    ? (fs[0].used / fs[0].size) * 100
-                    : 0
-            )
+                this.cpu = usage.cpu;
+                this.ram = usage.ram;
 
-        } catch (err) {
-            console.error(err)
-        }
-    }
-
-    async updateData() {
-        const [load, mem, net] = await Promise.all([
-            si.currentLoad(),
-            si.mem(),
-            si.networkStats()
-        ])
-
-
-        this.push(
-            this.cpu,
-            load.currentLoad
-        )
-
-        this.push(
-            this.ram,
-            (mem.used / mem.total) * 100
-        )
-
-        this.push(
-            this.up,
-            net[0]?.tx_sec || 0
-        )
-        this.push(
-            this.down,
-            net[0]?.rx_sec || 0
-        )
-    }
-
-    push(arr, value) {
-        const point = {
-            x: Date.now(),
-            y: value
-        };
-
-        arr.push(point);
-
-        while (arr.length > 20 || (arr[0].x - Date.now()) / 1000 < -25) {
-            arr.shift();
-        }
-
-        return point;
-    }
-
-    async update() {
-
-        const data = {
-            cpu: this.cpu,
-
-            ram: this.ram,
-
-            up: this.up,
-
-            down: this.down,
-
-            mem: this.mem.at(-1),
-        };
-
-        // send websocket update
-        if (this.onUpdate) {
-            this.onUpdate(data);
-        }
-    }
-}
-
-export const startAPI = (port = 8089) => {
-    const app = express();
-
-    app.use(getUser);
-    app.use(bodyParser.json());
-    app.use(cookieParser());
-
-    const server = app.listen(port, () => {
-        console.log(`mainAPI \t| ${port} \t|`);
-    });
-
-    // websocket server
-    const wss = new WebSocketServer({ server });
-
-    const clients = new Set();
-
-    wss.on("connection", (ws) => {
-        console.log("ws connected");
-
-        clients.add(ws);
-
-        ws.on("close", () => {
-            clients.delete(ws);
-            console.log("ws disconnected");
-        });
-    });
-
-    const broadcast = (data) => {
-        const json = JSON.stringify({
-            type: "vps",
-            data
-        });
-
-        for (const client of clients) {
-            if (client.readyState === 1) {
-                client.send(json);
+                // this.log(
+                //     `[USAGE] CPU: ${this.cpu}% | RAM: ${this.ram} MB`
+                // );
+            } catch (err) {
+                this.log(`[MONITOR ERROR] ${err.message}`);
             }
-        }
-    };
+        }, this.statsInterval);
+    }
 
-    const vps = new VPS(broadcast);
-
-    setInterval(async () => {
-        try {
-            await vps.update();
-        } catch (err) {
-            console.error(err);
+    async getUsage() {
+        if (!this.process?.pid) {
+            return {
+                cpu: 0,
+                ram: 0
+            };
         }
-    }, 1000);
-};
+
+        // Linux VPS (recommended)
+        return new Promise((resolve, reject) => {
+            const pid = this.process.pid;
+
+            const ps = spawn("ps", [
+                "-p",
+                pid,
+                "-o",
+                "%cpu,rss"
+            ]);
+
+            let output = "";
+
+            ps.stdout.on("data", (data) => {
+                output += data.toString();
+            });
+
+            ps.on("close", () => {
+                try {
+                    const lines = output.trim().split("\n");
+
+                    if (lines.length < 2) {
+                        return resolve({
+                            cpu: 0,
+                            ram: 0
+                        });
+                    }
+
+                    const [cpu, rss] = lines[1]
+                        .trim()
+                        .split(/\s+/);
+
+                    resolve({
+                        cpu: parseFloat(cpu),
+                        ram: Math.round(parseInt(rss, 10) / 1024) // KB -> MB
+                    });
+                } catch (err) {
+                    reject(err);
+                }
+            });
+
+            ps.on("error", reject);
+        });
+    }
+
+    log(message) {
+        const line = `[${new Date().toISOString()}] [${this.name}] ${message}\n`;
+
+        // console.log(this.logFile);
+        fs.appendFileSync(this.logFile, line);
+
+        // console.log(line.trim());
+    }
+}
+
+export class klimPIProc extends Process {
+    constructor() {
+        super({
+            name: "klimPI",
+            command: "",
+            args: [],
+        });
+
+        this.process = process;
+        this.running = true;
+        this._startMonitoring();
+    }
+
+    start() {}
+    stop() {}
+}
+
+export const processes = []

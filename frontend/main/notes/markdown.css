@@ -1,0 +1,96 @@
+#note #content * {
+    font-size: 1em;
+    line-height: 1.2em;
+    margin: 0;
+}
+
+#note #content h1 {
+    font-weight: bold;
+    font-size: 1.6em;
+    line-height: 1.1em;
+}
+
+#note #content h2 {
+    font-weight: bold;
+    font-size: 1.3em;
+    line-height: 1.1em;
+}
+
+#note #content h3 {
+    font-weight: bold;
+    font-size: 1.1em;
+    line-height: 1.1em;
+}
+
+#note #content b {
+    font-weight: bold;
+    font-size: 1em;
+}
+
+#note #content i {
+    font-style: italic;
+    font-size: 1em;
+}
+
+#note #content b i {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1em;
+}
+
+#note #content del {
+    font-size: 1em;
+}
+
+#note #content pre {
+    background-color: var(--level0);
+    padding: 3px;
+    border-radius: 3px;
+    width: min-content;
+}
+
+#note #content pre code {
+    font-family: monospace;
+    background-color: var(--level0);
+    line-height: 1.3em;
+}
+
+#note #content code {
+    font-family: monospace;
+    background-color: var(--level0);
+    padding: 3px;
+    border-radius: 3px;
+}
+
+#note #content a {
+    color: var(--DEBIAN_RED);
+    font-size: 1em;
+}
+
+#note #content hr {
+    border-color: var(--DEBIAN_RED);
+    border-width: 2px;
+}
+
+#note #content img {
+    max-width: 90%;
+    height: auto;
+}
+
+#note #content .task-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-left: 0;
+}
+
+#note #content .task-list li {
+    display: inline-block;
+}
+
+#note #content .task-list li input[type="checkbox"] {
+  accent-color: var(--DEBIAN_RED); /* modern browsers */
+  width: 0.8em;
+  height: 0.8em;
+  margin-right: 0.5em;
+}

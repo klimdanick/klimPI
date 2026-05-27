@@ -2,7 +2,7 @@ import http from 'http';
 import https from 'https';
 import httpProxy from 'http-proxy';
 import fs from 'fs';
-import { authorization } from '../auth/users.js';
+import { proxyAuthentication } from '../auth/users.js';
 
 const args = { port: 443 };
 
@@ -42,6 +42,8 @@ const loadTargetMap = () => {
         let processes = data["processes"] || [];
         let proxyData = data["proxy"] || [];
 
+        proxyData.sort((a, b) => b.url.length - a.url.length);
+
         for (let i = 1; i < processes.length; i++) {
             let p = processes[i];
             if (!p.viaProxy) continue;
@@ -78,9 +80,7 @@ const requestHandler = async (req, res) => {
 
     addExpressHelpers(req, res);
 
-    req.body = await parseBody(req);
-
-    authorization(req, res, () => {
+    proxyAuthentication(req, res, () => {
 
         // your proxy logic here
         // console.log(`Request: ${req.url} from ${req.socket.remoteAddress}`);
@@ -136,7 +136,7 @@ server.on('upgrade', async (req, socket, head) => {
 
         // run auth middleware
         await new Promise((resolve) => {
-            authorization(req, res, resolve);
+            proxyAuthentication(req, res, resolve);
         });
 
         let targetMap = loadTargetMap();
@@ -214,24 +214,6 @@ const parseCookies = (cookieHeader = "") => {
     return cookies;
 };
 
-const parseBody = async (req) => {
-    return new Promise((resolve) => {
-        let body = "";
-
-        req.on("data", chunk => {
-            body += chunk.toString();
-        });
-
-        req.on("end", () => {
-            try {
-                resolve(JSON.parse(body || "{}"));
-            } catch {
-                resolve({});
-            }
-        });
-    });
-};
-
 const addExpressHelpers = (req, res) => {
     req.cookies = parseCookies(req.headers.cookie);
 
@@ -253,3 +235,53 @@ const addExpressHelpers = (req, res) => {
         res.setHeader("Set-Cookie", cookie);
     };
 };
+
+export const addProxyEntry = (name, url, port, isDefault = false) => {
+    let data;
+    try {
+        data = JSON.parse(fs.readFileSync("../processes.json"));
+    } catch (err) {
+        console.error("Error reading processes.json:", err);
+        return;
+    }
+
+    if (!data.proxy) data.proxy = [];
+
+    if (isDefault) {
+        data.proxy.forEach(entry => entry.default = false);
+    }
+
+    if (data.proxy.some(entry => entry.name === name)) {
+        data.proxy = data.proxy.filter(entry => entry.name !== name);
+    }
+
+    data.proxy.push({ name, url, port, default: isDefault });
+
+    try {
+        fs.writeFileSync("../processes.json", JSON.stringify(data, null, 2));
+        console.log(`Added proxy entry: ${name} -> ${url} (${port})${isDefault ? " [default]" : ""}`);
+    } catch (err) {
+        console.error("Error writing to processes.json:", err);
+    }
+}
+
+export const removeProxyEntry = (name) => {
+    let data;
+    try {
+        data = JSON.parse(fs.readFileSync("../processes.json"));
+    } catch (err) {
+        console.error("Error reading processes.json:", err);
+        return;
+    }
+
+    if (!data.proxy) data.proxy = [];
+
+    data.proxy = data.proxy.filter(entry => entry.name !== name);
+
+    try {
+        fs.writeFileSync("../processes.json", JSON.stringify(data, null, 2));
+        console.log(`Removed proxy entry: ${name}`);
+    } catch (err) {
+        console.error("Error writing to processes.json:", err);
+    }
+}

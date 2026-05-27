@@ -1,8 +1,14 @@
-<script src="https://dev.klimdanick.nl/elementaljs/src/Elemental.js"></script>
-<script src="dashboard.js"></script>
-<link rel="stylesheet" href="dashboard.css">
-<script src="processes.js"></script>
-<link rel="stylesheet" href="processes.css">
+<script src="https://klimdanick.nl/elementaljs/src/Elemental.js"></script>
+<script src="dashboard/dashboard.js"></script>
+<link rel="stylesheet" href="dashboard/dashboard.css">
+<script src="processes/processes.js"></script>
+<script src="files/files.js"></script>
+<script src="proxy/proxy.js"></script>
+<script src="notes/notes.js"></script>
+<link rel="stylesheet" href="processes/processes.css">
+<link rel="stylesheet" href="proxy/proxy.css">
+<link rel="stylesheet" href="notes/notes.css">
+<link rel="stylesheet" href="notes/markdown.css">
 <script>
 
     if (!window.location.pathname.endsWith("/")) window.location = window.location + "/";
@@ -13,7 +19,7 @@
         method: "get"
     }).then(res => res.json()).then(json => {
         if (json.roles.includes("guest")) {
-            window.location = "https://dev.klimdanick.nl/auth/?" + window.location
+            window.location = "https://klimdanick.nl/auth/?" + window.location
         }
         else user = json;
     })
@@ -25,20 +31,19 @@
         layout = Layout.row({ id: "mainLayout" });
         let title = new Header({ level: 1, attributes: { style: "font-size: 1.2em; font-weight: bold; display: flex; align-items: center; flex-direction: row; gap: 0.1em" } }).append(
             "KLIM ",
-            new Icon({ src: "pi-logo.svg", attributes: { style: "width: 100%" } }
+            new Icon({ src: "assets/pi-logo.svg", attributes: { style: "width: 100%" } }
             ));
         mainMenu = new Menu().append(
             new Element({tag: "div", attributes: {style: "display: flex; justify-content: center;"}}).append(title),
-            new MenuItem({ label: "notes", icon: new Icon({ src: getEjsAsset("messages"), action: () => loadPage() }) }),
-            new MenuItem({ label: "files", icon: new Icon({ src: getEjsAsset("file") }), action: () => loadPage() }),
+            new MenuItem({ label: "notes", icon: new Icon({ src: getEjsAsset("messages") }), action: () => loadPage(createNotesDisplay()) }),
+            new MenuItem({ label: "files", icon: new Icon({ src: getEjsAsset("file") }), action: () => loadPage(createFileList()) }),
         )
 
-        if (hasAccess("view_dashboard")) mainMenu.append(new MenuItem({ label: "dashboard", icon: new Icon({ src: "dashboard.svg" }), action: () => loadPage(createDashboard()) }))
-        if (hasAccess("view_processes")) mainMenu.append(new MenuItem({ label: "processes", icon: new Icon({ src: "process.svg" }), action: () => loadPage(createProcesses()) }))
-        if (hasAccess("view_proxy")) mainMenu.append(new MenuItem({ label: "proxy", icon: new Icon({ src: "proxy.svg" }), action: () => loadPage() }))
-        if (hasAccess("view_users")) mainMenu.append(new MenuItem({ label: "users", icon: new Icon({ src: "users.svg" }), action: () => loadPage() }))
+        if (hasAccess("view_dashboard")) mainMenu.append(new MenuItem({ label: "dashboard", icon: new Icon({ src: "assets/dashboard.svg" }), action: () => loadPage(createDashboard()) }))
+        if (hasAccess("view_processes")) mainMenu.append(new MenuItem({ label: "processes", icon: new Icon({ src: "assets/process.svg" }), action: () => loadPage(createProcesses()) }))
+        if (hasAccess("view_proxy")) mainMenu.append(new MenuItem({ label: "proxy", icon: new Icon({ src: "assets/proxy.svg" }), action: () => loadPage(createProxy()) }))
+        if (hasAccess("view_users")) mainMenu.append(new MenuItem({ label: "users", icon: new Icon({ src: "assets/users.svg" }), action: () => loadPage() }))
 
-        
 
         mainMenu.id = "mainMenu"
 
@@ -47,7 +52,14 @@
         body.append(layout)
         body.render();
 
-        loadPage(createProcesses())
+        if (hasAccess("view_dashboard")) loadPage(createDashboard())
+        else loadPage(createNotesDisplay());
+
+        createFileList()
+        createProcesses()
+        createDashboard()
+        createProxy()
+        createNotesDisplay()
     }
 
     const loadPage = (page) => {
@@ -102,6 +114,7 @@
         height: 100%;
         justify-content: flex-start;
         padding: 0;
+        gap: 0;
     }
 
     #mainMenu {
