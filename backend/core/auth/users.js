@@ -116,6 +116,9 @@ export const registration = (req, res) => {
   }
   let result = registerUser(username, password);
   if (result.success) {
+    const token = generateToken();
+    result.user.token = token;
+    res.cookie('token', token, { maxAge: 900000000, httpOnly: false, path: '/' })
     res.json({ success: true, user: result.user });
   } else {
     res.status(400).json({ success: false, message: result.message });
@@ -231,7 +234,7 @@ const permissions = {
     "view_proxy",
   ],
   guest: [
-    
+
   ]
 }
 

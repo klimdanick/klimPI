@@ -1,67 +1,78 @@
-<script src="https://klimdanick.nl/elementaljs/src/Elemental.js"></script>
-<script>
+<html>
 
-    OnElementalLoad = () => {
+<head>
+    <title>Klimdanick.nl - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://klimdanick.nl/elementaljs/src/Elemental.js"></script>
+    <script>
 
-        const href = window.location.search.substring(1);
+        OnElementalLoad = () => {
 
-        let layout = Layout.row({ attributes: { style: "height: 100%" } }).column({ attributes: { style: "padding: 2em" } });
-        let title = new Header({ level: 1, attributes: { style: "font-size: 3em; font-weight: bold; display: flex; align-items: center; flex-direction: row; gap: 0.1em" } }).append(
-            "KLIM ",
-            new Icon({ src: "pi-logo.svg", attributes: { style: "width: 100%" } }
-            ));
-        let subtitle = new Header({ level: 3 }).append("The API behind klimdanick.nl");
-        let submitButton = new Button({ type: "submit" }).append("Register");
-        let form = new Form({
-            id: "form1", onSubmit: (data) => {
-                fetch("/authAPI/register", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    credentials: "include",
-                    body: JSON.stringify(Object.fromEntries(data)),
-                }).then(res => res.json()).then(json => {
-                    console.log(json);
-                    if (json.success) window.location.replace("success.html?"+href);
-                    else {
-                        new Toast({message: "wrong username or password", duration: 1000, type: FEEDBACK_TYPES.error}).show()
-                    }
-                })
-            },
-        }).append(
-            new TextInput({
-                id: "username",
-                name: "username",
-                placeholder: "Username"
-            }),
-            new PasswordInput({
-                id: "password",
-                name: "password",
-                placeholder: "Password"
-            }),
-            Layout.row({attributes: {style: "--level: keep; gap: 2em; font-size: 0.7em;"}}).append(submitButton)
-        );
+            const href = window.location.search.substring(1);
+
+            let layout = Layout.row({ attributes: { style: "height: 100%" } }).column({ attributes: { style: "padding: 2em" } });
+            let title = new Header({ level: 1, attributes: { style: "font-size: 3em; font-weight: bold; display: flex; align-items: center; flex-direction: row; gap: 0.1em" } }).append(
+                "KLIM ",
+                new Icon({ src: "pi-logo.svg", attributes: { style: "width: 100%" } }
+                ));
+            let subtitle = new Header({ level: 3 }).append("The API behind klimdanick.nl");
+            let submitButton = new Button({ type: "submit" }).append("Register");
+            let form = new Form({
+                id: "form1", onSubmit: (data) => {
+                    fetch("/authAPI/register", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        credentials: "include",
+                        body: JSON.stringify(Object.fromEntries(data)),
+                    }).then(res => res.json()).then(json => {
+                        console.log(json);
+                        if (json.success) window.location.replace("success.html?" + href);
+                        else {
+                            new Toast({ message: "wrong username or password", duration: 1000, type: FEEDBACK_TYPES.error }).show()
+                        }
+                    })
+                },
+            }).append(
+                new TextInput({
+                    id: "username",
+                    name: "username",
+                    placeholder: "Username"
+                }),
+                new PasswordInput({
+                    id: "password",
+                    name: "password",
+                    placeholder: "Password"
+                }),
+                Layout.row({ attributes: { style: "--level: keep; gap: 2em; font-size: 0.7em;" } }).append(submitButton)
+            );
 
 
 
-        layout.append(title, subtitle, form);
-        body.append(layout.root());
-        body.render();
-    }
-</script>
-<style>
-    h1,
-    h3 {
-        margin: 0;
-    }
+            layout.append(title, subtitle, form);
+            body.append(layout.root());
+            body.render();
+        }
+    </script>
+    <style>
+        h1,
+        h3 {
+            margin: 0;
+        }
 
-    h3 {
-        font-size: 0.9em;
-    }
+        h3 {
+            font-size: 0.9em;
+        }
 
-    form {
-        --level: keep;
-        font-size: 1.5em;
-    }
-</style>
+        form {
+            --level: keep;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+
+<body>
+</body>
+
+</html>

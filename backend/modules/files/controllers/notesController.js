@@ -3,17 +3,18 @@ import { notes, saveNotes } from "../data/notes.js"
 import Note from "../models/noteModel.js"
 
 export const getNotes = (req, res) => {
-  if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
-    return res.status(403).json({ message: "Access denied" })
-  else
+  console.log(notes);
+  // if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
+    // return res.status(403).json({ message: "Access denied" })
+  // else
     res.json(notes)
 }
 
 export const getNoteById = (req, res) => {
-  if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
-    return res.status(403).json({ message: "Access denied" })
+  // if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
+    // return res.status(403).json({ message: "Access denied" })
 
-  const note = notes.find(n => n.path + n.title == req.params.id.replace(".", "/"))
+  const note = notes.find(n => n.path + n.title == req.user.user + "/" + req.params.id.replace(".", "/"))
 
   if (!note) {
     return res.status(404).json({ message: "Note not found" })
@@ -23,8 +24,8 @@ export const getNoteById = (req, res) => {
 }
 
 export const getNotesStruct = (req, res) => {
-  if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
-    return res.status(403).json({ message: "Access denied" })
+  // if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
+    // return res.status(403).json({ message: "Access denied" })
   let struct = []
   notes.forEach(note => {
     if (!note.path) return struct.push(note.title);
@@ -43,12 +44,19 @@ export const getNotesStruct = (req, res) => {
     }
     lastDir.push(note.title);
   })
-  res.json(struct)
+  for (let i = 0; i < struct.length; i++) {
+    if (struct[i].dir && struct[i].dir == req.user.user) {
+      struct = struct[i].content;
+      return res.json(struct)
+    }
+  }
+
+  res.json([])
 }
 
 export const createNote = (req, res) => {
-  if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
-    return res.status(403).json({ message: "Access denied" })
+  // if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
+    // return res.status(403).json({ message: "Access denied" })
 
   const { title, content, path } = req.body
 
@@ -58,7 +66,7 @@ export const createNote = (req, res) => {
     return res.status(400).json({ message: "Title and content are required" })
   }
 
-  const newNote = new Note(uuidv4(), title, content, path)
+  const newNote = new Note(uuidv4(), title, content, req.user.user + "/" + path)
 
   notes.push(newNote)
 
@@ -68,10 +76,10 @@ export const createNote = (req, res) => {
 }
 
 export const updateNote = (req, res) => {
-  if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
-    return res.status(403).json({ message: "Access denied" })
+  // if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
+    // return res.status(403).json({ message: "Access denied" })
 
-  const note = notes.find(n => n.path + n.title == req.params.id.replace(".", "/"))
+  const note = notes.find(n => n.path + n.title == req.user.user + "/" + req.params.id.replace(".", "/"))
 
   if (!note) {
     return res.status(404).json({ message: "Note not found" })
@@ -88,10 +96,10 @@ export const updateNote = (req, res) => {
 }
 
 export const deleteNote = (req, res) => {
-  if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
-    return res.status(403).json({ message: "Access denied" })
+  // if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
+    // return res.status(403).json({ message: "Access denied" })
 
-  const index = notes.findIndex(n => n.path + n.title == req.params.id.replace(".", "/"))
+  const index = notes.findIndex(n => n.path + n.title == req.user.user + "/" + req.params.id.replace(".", "/"))
 
   if (index === -1) {
     return res.status(402).json({ message: "Note not found" })
