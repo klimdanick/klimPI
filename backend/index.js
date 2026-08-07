@@ -58,7 +58,7 @@ elementalJSv1.start();
 
 // minecraft.start();
 // assetto.start();
-quotebot.start();
-Athleticks.start();
+// quotebot.start();
+// Athleticks.start();
 
 // console.log(processes.map(p => p.name));

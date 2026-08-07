@@ -188,7 +188,7 @@ export const startAuth = (port = 8087) => {
   app.post('/logout', (req, res) => {
     res.setHeader(
       "Set-Cookie",
-      `session=; HttpOnly; Path=/; SameSite=Strict`
+      `token=; HttpOnly; Path=/; SameSite=Strict`
     );
     res.sendStatus(200);
   });
@@ -203,6 +203,9 @@ export const startAuth = (port = 8087) => {
   });
   app.get("/user", (req, res) => {
     res.send(req.user);
+  });
+  app.get("/users", (req, res) => {
+    res.send(users.map(user => {return {id: user.id, user: user.user, roles: user.roles}}));
   });
   app.listen(port, () => {
     console.log(`authAPI \t| ${port} \t|`);

@@ -32,8 +32,14 @@
       "url": "/"
     },
     {
+      "name": "AthleticksDev",
+      "url": "/athleticksDev",
+      "port": "9090",
+      "default": false
+    },
+    {
       "name": "Athleticks",
-      "url": "/Athleticks",
+      "url": "/athleticks",
       "port": "8090",
       "default": false
     },

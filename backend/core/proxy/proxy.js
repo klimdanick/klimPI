@@ -39,22 +39,13 @@ const loadTargetMap = () => {
     let targetMap = {};
     try {
         let data = JSON.parse(fs.readFileSync("../processes.json"));
-        let processes = data["processes"] || [];
         let proxyData = data["proxy"] || [];
 
         proxyData.sort((a, b) => b.url.length - a.url.length);
 
-        for (let i = 1; i < processes.length; i++) {
-            let p = processes[i];
-            if (!p.viaProxy) continue;
-            let target = `http://localhost:${p.port}`;
-            targetMap[p.url] = target;
-            if (p.default) defaultTarget = target;
-        }
-
         for (let i = 0; i < proxyData.length; i++) {
             let p = proxyData[i];
-            let target = `http://localhost:${p.port}`;
+            let target = p.port;
             targetMap[p.url] = target;
             if (p.default) defaultTarget = target;
         }
@@ -88,7 +79,7 @@ const requestHandler = async (req, res) => {
         let targetMap = loadTargetMap();
 
         const target = Object.keys(targetMap).find((prefix) =>
-            req.url.startsWith(prefix)
+            req.url.toLowerCase().startsWith(prefix.toLowerCase())
         );
 
         let splitIndex = target ? target.length : 0;
@@ -97,7 +88,13 @@ const requestHandler = async (req, res) => {
             splitIndex -= 1;
         }
 
-        const proxyTarget = target ? targetMap[target] : defaultTarget;
+        let proxyTargetPort = target ? targetMap[target] : defaultTarget;
+        
+        if (req.headers.host.toLowerCase().startsWith("dev")) proxyTargetPort = "" + (parseInt(proxyTargetPort) + 1000);
+        
+        // console.log(proxyTargetPort);
+        
+        const proxyTarget = `http://localhost:${proxyTargetPort}`
 
         if (splitIndex >= 0) {
             req.url = req.url.slice(splitIndex);
@@ -172,7 +169,7 @@ server.on('upgrade', async (req, socket, head) => {
         );
 
         proxy.ws(req, socket, head, {
-            target: proxyTarget,
+            target: `http://localhost:${proxyTarget}`,
             changeOrigin: true,
             ws: true
         });

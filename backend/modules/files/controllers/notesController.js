@@ -3,7 +3,7 @@ import { notes, saveNotes } from "../data/notes.js"
 import Note from "../models/noteModel.js"
 
 export const getNotes = (req, res) => {
-  console.log(notes);
+  // console.log(notes);
   // if (!(req.user.user == "Danick" || req.user.user == "klimdanick"))
     // return res.status(403).json({ message: "Access denied" })
   // else
@@ -62,7 +62,7 @@ export const createNote = (req, res) => {
 
 
   if (!title) {
-    console.log(title, content, path);
+    // console.log(title, content, path);
     return res.status(400).json({ message: "Title and content are required" })
   }
 

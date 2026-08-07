@@ -3,10 +3,12 @@
 <link rel="stylesheet" href="dashboard/dashboard.css">
 <script src="processes/processes.js"></script>
 <script src="files/files.js"></script>
+<script src="users/users.js"></script>
 <script src="proxy/proxy.js"></script>
 <script src="notes/notes.js"></script>
 <link rel="stylesheet" href="processes/processes.css">
 <link rel="stylesheet" href="proxy/proxy.css">
+<link rel="stylesheet" href="users/users.css">
 <link rel="stylesheet" href="notes/notes.css">
 <link rel="stylesheet" href="notes/markdown.css">
 <script>
@@ -42,7 +44,7 @@
         if (hasAccess("view_dashboard")) mainMenu.append(new MenuItem({ label: "dashboard", icon: new Icon({ src: "assets/dashboard.svg" }), action: () => loadPage(createDashboard()) }))
         if (hasAccess("view_processes")) mainMenu.append(new MenuItem({ label: "processes", icon: new Icon({ src: "assets/process.svg" }), action: () => loadPage(createProcesses()) }))
         if (hasAccess("view_proxy")) mainMenu.append(new MenuItem({ label: "proxy", icon: new Icon({ src: "assets/proxy.svg" }), action: () => loadPage(createProxy()) }))
-        if (hasAccess("view_users")) mainMenu.append(new MenuItem({ label: "users", icon: new Icon({ src: "assets/users.svg" }), action: () => loadPage() }))
+        if (hasAccess("view_users")) mainMenu.append(new MenuItem({ label: "users", icon: new Icon({ src: "assets/users.svg" }), action: () => loadPage(createUsers()) }))
 
 
         mainMenu.id = "mainMenu"

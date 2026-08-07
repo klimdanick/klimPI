@@ -178,9 +178,9 @@ export class Process {
         const line = `[${new Date().toISOString()}] [${this.name}] ${message}\n`;
 
         // console.log(this.logFile);
-        fs.appendFileSync(this.logFile, line);
+        // fs.appendFileSync(this.logFile, line);
 
-        // console.log(line.trim());
+        console.log(this.name + "|> " + line.trim());
     }
 }
 
