@@ -23,6 +23,7 @@ export class VPS {
         this.up = [];
         this.down = [];
         this.mem = [];
+        this.collectingData = false;
 
         let now = Date.now();
 
@@ -46,7 +47,7 @@ export class VPS {
         }, 30000)
 
         setInterval(() => {
-            this.updateData()
+            void this.collectData();
         }, 500)
 
     }
@@ -93,6 +94,25 @@ export class VPS {
             this.down,
             net[0]?.rx_sec || 0
         )
+    }
+
+    async collectData() {
+        // Do not start another expensive systeminformation collection before the
+        // previous one has finished. Under load these calls can otherwise pile
+        // up and exhaust the event loop/process resources.
+        if (this.collectingData) return;
+
+        this.collectingData = true;
+        try {
+            await this.updateData();
+        } catch (err) {
+            // This timer is not awaited by Node. Catch here so a temporary
+            // systeminformation failure cannot become an unhandled rejection
+            // and terminate the process that owns proxy, auth, and API.
+            console.error("VPS telemetry update failed:", err);
+        } finally {
+            this.collectingData = false;
+        }
     }
 
     push(arr, value) {

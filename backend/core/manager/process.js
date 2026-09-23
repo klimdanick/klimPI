@@ -175,12 +175,12 @@ export class Process {
     }
 
     log(message) {
-        const line = `[${new Date().toISOString()}] [${this.name}] ${message}\n`;
+        const line = `[${new Date().toISOString()}]\t[${this.name}]\t${message}\n`;
 
         // console.log(this.logFile);
         // fs.appendFileSync(this.logFile, line);
 
-        console.log(this.name + "|> " + line.trim());
+        console.log(line.trim());
     }
 }
 

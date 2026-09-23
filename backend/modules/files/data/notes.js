@@ -53,7 +53,7 @@ const loadNotes = () => {
                 loadNotesFromDir(filePath, path.join(currentPath, file))
             } else if (stat.isFile() && path.extname(file) === ".json") {
                 const noteData = JSON.parse(fs.readFileSync(filePath, "utf-8"))
-                console.log(currentPath);
+                // console.log(currentPath);
                 const note = new Note(noteData.id, noteData.title, noteData.content, currentPath.length > 0 ? currentPath + "/" : "")
                 notes.push(note)
             }

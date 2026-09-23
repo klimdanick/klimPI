@@ -20,7 +20,7 @@ export class staticWeb extends Process {
         if (this.running) return;
 
         this.running = true;
-        this.log(`staticWeb \t| ${this.port} \t| ${this.location}`);
+        this.log(`${this.port}\t| ${this.location}`);
         this.server.listen(this.port);
     }
 

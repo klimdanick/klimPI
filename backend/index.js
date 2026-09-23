@@ -5,6 +5,17 @@ import { startAPI } from "./core/manager/vps.js"
 import { klimPIProc, Process, processes } from "./core/manager/process.js"
 import { startFilesServer } from "./modules/files/server.js"
 
+// All public services below run in this one Node process. Keep unexpected
+// promise failures visible instead of allowing them to disappear without a
+// useful application log entry.
+process.on("unhandledRejection", (reason) => {
+    console.error("Unhandled promise rejection:", reason);
+});
+
+process.on("uncaughtExceptionMonitor", (err, origin) => {
+    console.error(`Uncaught exception (${origin}):`, err);
+});
+
 const website = new staticWeb(8084, "../../website", "website");
 const adminPanel = new staticWeb(8085, "../frontend/main", "adminPanel");
 const authPanel = new staticWeb(8086, "../frontend/auth", "authPanel");
@@ -39,9 +50,9 @@ const quotebot = new Process({
 
 const Athleticks = new Process({
     name: "Athleticks",
-    command: "./run.sh",
-    args: ["8090"],
-    cwd: "/home/ubuntu/Athleticks"
+    command: "npm",
+    args: ["start", "--", "--port", "8090"],
+    cwd: "/home/ubuntu/Athletick"
 })
 
 console.log("Running klimPI");
@@ -54,7 +65,7 @@ website.start();
 adminPanel.start();
 authPanel.start();
 elementalJS.start();
-elementalJSv1.start();
+//elementalJSv1.start();
 
 // minecraft.start();
 // assetto.start();

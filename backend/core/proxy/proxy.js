@@ -101,8 +101,8 @@ const requestHandler = async (req, res) => {
         }
 
         // console.log(`Proxying to: ${proxyTarget}${req.url}`);
-        if (target != "/elementaljs")
-            console.log(`${req.method} ${target} ${req.url} -> ${proxyTarget} [${req.user.user}]`);
+        // if (target != "/elementaljs")
+        //	console.log(`${req.method} ${target} ${req.url} -> ${proxyTarget} [${req.user.user}]`);
 
         if (req.user) {
             req.headers['x-user'] = JSON.stringify(req.user);
@@ -164,9 +164,11 @@ server.on('upgrade', async (req, socket, head) => {
                 JSON.stringify(req.user);
         }
 
+/*
         console.log(
             `WS ${target} ${req.url} -> ${proxyTarget}`
         );
+*/
 
         proxy.ws(req, socket, head, {
             target: `http://localhost:${proxyTarget}`,
@@ -182,7 +184,7 @@ server.on('upgrade', async (req, socket, head) => {
 
 // Error Handling
 proxy.on('error', (err, req, res) => {
-    console.error('Proxy error:', err);
+    console.error('Proxy error:', err, req);
     if (res && !res.headersSent) {
         res.writeHead(502);
         res.end('Bad Gateway');
